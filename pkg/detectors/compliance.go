@@ -431,6 +431,50 @@ var CompliancePatterns = []PatternDef{
 		Regex:       `(?i)(?:safety_checker|safety_filter|content_filter|guardrails?)\s*[:=]\s*(?:None|null|false|False|FALSE|disabled?|off)`,
 		Description: "Dangerous model config — safety checker/filter disabled removes content safety guardrails",
 	},
+
+	// --- Patterns synced from Platform v4.7.0 for detection parity ---
+	{
+		Name:        "dangerous_command_rm_rf",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:os\.system|subprocess\.(?:call|run|Popen)|exec\(|system\().*(?:rm\s+-rf|del\s+/[fqs]|format\s+|mkfs|dd\s+if=)`,
+		Description: "Dangerous system command execution (rm -rf, format, mkfs)",
+	},
+	{
+		Name:        "excessive_agency_privilege_escalation",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:role\s*=\s*admin|update_role\s+.*role\s*=\s*admin|grant\s+(?:me\s+)?admin\s+access)`,
+		Description: "Excessive agency: privilege escalation to admin role",
+	},
+	{
+		Name:        "prompt_injection_non_english",
+		Severity:    SeverityCritical,
+		Regex:       `(?:忽略|覆盖|绕过|禁用|無視|覆蓋|繞過).{0,20}(?:指令|系统|提示|配置|規則|規定)`,
+		Description: "Non-English prompt injection (CJK: ignore...instructions/system)",
+	},
+	{
+		Name:        "supply_chain_dangerous_tool_exec",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:executes?\s+(?:arbitrary|any|all)\s+(?:shell\s+)?(?:command|code|script|program))|(?:arbitrary\s+code\s+execution)`,
+		Description: "Dangerous tool description: arbitrary command/code execution",
+	},
+	{
+		Name:        "supply_chain_eval_user_input",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:eval|exec|Function)\s*\(\s*(?:input|user|request|query|param|data|args?|raw|untrusted)\b`,
+		Description: "Dangerous function: eval/exec with user input",
+	},
+	{
+		Name:        "training_data_injection",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:add\s+(?:this\s+)?to\s+(?:the\s+)?training\s+(?:set|data|corpus|dataset))`,
+		Description: "Training data injection: instruction to add content to training set",
+	},
+	{
+		Name:        "unbounded_consumption_excessive_gen",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)(?:generate|write|produce)\s+(?:a\s+)?\d{5,}\s+word`,
+		Description: "Unbounded consumption: excessive token generation request",
+	},
 }
 
 // CompiledCompliancePatterns holds pre-compiled compliance regex patterns.

@@ -154,4 +154,18 @@ var RAGPatterns = []PatternDef{
 		Regex:       `(?i)\\u00(?:69|49)(?:6e|4e)(?:67|47)(?:6f|4f)(?:72|52)(?:65|45)(?:20|2f)(?:61|41)(?:6c|4c)(?:6c|4c)`,
 		Description: "RAG smuggling: prompt injection encoded as unicode escapes",
 	},
+
+	// --- Patterns synced from Platform v4.7.0 for detection parity ---
+	{
+		Name:        "rag_poison_embed_document",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:embed\s+(?:this|the\s+following)\s+(?:document|text|content)\s+(?:in|into)\s+(?:the\s+)?(?:knowledge\s+base|vector\s+store|embedding))`,
+		Description: "RAG poisoning: instruction to embed content in knowledge base",
+	},
+	{
+		Name:        "rag_retrieval_context_override",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:\[(?:CONTEXT\s+FROM\s+RAG|RETRIEVED\s+CONTEXT)\]).*(?:override|approved?\s+without|without\s+verification|security\s+policy|all\s+requests)`,
+		Description: "RAG retrieval manipulation: injected context with override instructions",
+	},
 }
