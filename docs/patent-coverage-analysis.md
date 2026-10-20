@@ -13,7 +13,8 @@
 | 64/153,575 | Sep 12, 2026 | Compliance Mapping — mapping AI detections to 31+ compliance framework controls |
 | 64/153,576 | Sep 12, 2026 | Three-Layer Detection Pipeline — regex then ATLAS/compliance then CharCNN-BiLSTM |
 | 64/153,577 | Sep 12, 2026 | Response Scanning — scanning AI model outputs for PII, secrets, hallucinations, toxicity |
-| 64/174,824 | Oct 12, 2026 | **THIS APPLICATION** — Static Analysis of AI Training Artifacts for Security Threats |
+| 64/174,824 | Oct 12, 2026 | Static Analysis of AI Training Artifacts for Security Threats |
+| (pending) | Oct 20, 2026 | **Federated Detection Gap Analysis and Self-Improving AI Security Posture Assessment** |
 
 ## Scanner (6th Application) — Novel Aspects
 
