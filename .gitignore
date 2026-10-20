@@ -8,6 +8,8 @@
 *.exe
 *.dll
 *.so
+# Exception: ONNX Runtime shared libraries (third-party, MIT-licensed, needed for CGO builds)
+!lib/*/libonnxruntime.so
 *.dylib
 
 # Build output
