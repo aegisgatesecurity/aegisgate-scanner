@@ -1,6 +1,6 @@
 module github.com/aegisgatesecurity/aegisgate-scanner
 
-go 1.27.2
+go 1.27.3
 
 // External dependencies:
 //   pkg/contracts — canonical event/pattern schema (type definitions only,
