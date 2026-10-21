@@ -85,7 +85,7 @@ jobs:
         run: |
           cosign sign-blob --yes --bundle aegisgate-scanner-${{ matrix.suffix }}.bundle aegisgate-scanner-${{ matrix.suffix }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scanner-lite-${{ matrix.suffix }}
           path: |
@@ -144,7 +144,7 @@ jobs:
         run: |
           cosign sign-blob --yes --bundle aegisgate-scanner-${{ matrix.suffix }}.bundle aegisgate-scanner-${{ matrix.suffix }}
       - name: Upload artifacts
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: scanner-ml-${{ matrix.suffix }}
           path: |
@@ -180,7 +180,7 @@ jobs:
           upload-artifact: false
           upload-release-assets: false
       - name: Upload SBOMs
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v7
         with:
           name: sbom-files
           path: |
@@ -233,7 +233,7 @@ jobs:
             type=raw,value=latest,enable={{is_default_branch}}
       - name: Build and push (multi-arch)
         id: docker_build
-        uses: docker/build-push-action@v6
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: ./Dockerfile
@@ -350,12 +350,12 @@ jobs:
     steps:
       - uses: actions/checkout@v7
       - name: Download binary artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: release/
           pattern: scanner-*
       - name: Download SBOM artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v8
         with:
           path: release/
           name: sbom-files
