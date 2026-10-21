@@ -5,6 +5,24 @@ All notable changes to AegisGate Scanner will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.1] - 2026-10-21 - ML Model v15b Update
+
+> **v0.4.1** updates Scanner to the v15b ML model (256-char Latin-1) and restores MaxSeqLen=256 across all normalizers.
+
+### ML Model v15b
+- Updated `ExpectedModelHash` in `internal/ml/detector.go` to v15b SHA-256: `99187453bedb2b8caf21500d2344f2bbe34272c0b3fd4c610c431378dc2f4fe7`
+- Restored `MaxSeqLen = 256` and `VocabSize = 256` (Latin-1) in `internal/ml/normalizer.go`
+- Updated ONNX model file `models/threat_cnn_bilstm.onnx` to v15b
+- Test expectations updated from 128→256
+
+### Model Version History
+- v13 (previous): 256-char, 68K examples
+- v14 (reverted): 128-char ASCII experiment — never shipped
+- v15 (failed): 256-char retrain on v14 corpus — failed Lens evasion suite
+- v15b (final): 256-char Latin-1 retrain on v13 corpus (70,572 examples) — all CI passes
+
+---
+
 ## [0.4.0] - 2026-10-14 - Moat Deepening: RAG Patterns, Prompt Leakage Detection, Pattern Pull, Platform Forward
 
 > **v0.4.0** extends Scanner's detection coverage with 33 new patterns (268→301), adds a pattern pull client for syncing canonical patterns from Platform, and introduces a platform forwarding module for sending scan results to Platform's telemetry receiver. All new features are air-gap compatible — pattern pull and platform forward are opt-in, outbound, config-driven, and fully disabled when `platform_url` is empty.

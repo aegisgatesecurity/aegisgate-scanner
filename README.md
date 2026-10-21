@@ -11,7 +11,7 @@
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go)](https://golang.org/)
-[![Version](https://img.shields.io/badge/Version-0.4.0-blue.svg)](#changelog)
+[![Version](https://img.shields.io/badge/Version-0.4.1-blue.svg)](#changelog)
 [![Coverage](https://img.shields.io/badge/Coverage-90%25+-brightgreen.svg)](#testing)
 [![CI](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml)
 [![E2E](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml)
@@ -139,7 +139,7 @@ docker run --rm -v $(pwd):/github/workspace aegisgate-scanner:lite scan /github/
     sarif_file: aegisgate-report.sarif
 ```
 
-> **Pin for reproducibility:** use `@v0.4.0` instead of `@v0` to lock to a specific release.
+> **Pin for reproducibility:** use `@v0.4.1` instead of `@v0` to lock to a specific release.
 
 ## Detection Categories
 
