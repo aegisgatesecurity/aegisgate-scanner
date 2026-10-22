@@ -9,6 +9,9 @@
 
 322 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
 
+[![GitHub stars](https://img.shields.io/github/stars/aegisgatesecurity/aegisgate-scanner?style=flat&logo=github&label=Star&color=FFD700&labelColor=181717&logoColor=FFD700)](https://github.com/aegisgatesecurity/aegisgate-scanner)
+**Found AegisGate Scanner useful? [Star the repo](https://github.com/aegisgatesecurity/aegisgate-scanner) ⭐ and [tell a colleague](https://x.com/intent/tweet?text=Scanning%20AI%20artifacts%20for%20prompt%20injection%2C%20PII%2C%20and%20secrets%20with%20AegisGate%20Scanner%20%E2%80%94%20antivirus%20for%20AI%3A%20https%3A%2F%2Fgithub.com%2Faegisgatesecurity%2Faegisgate-scanner) — it helps other devs discover AI security tooling.**
+
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go)](https://golang.org/)
 [![Version](https://img.shields.io/badge/Version-0.4.1-blue.svg)](#changelog)
@@ -25,7 +28,7 @@
 
 [Quick Start](#quick-start) · [Detection](#detection-categories) · [Output Formats](#output-formats) · [GitHub Action](#github-action) · [Docker](#docker) · [Testing](#testing) · [Releases](https://github.com/aegisgatesecurity/aegisgate-scanner/releases)
 
-[![GitHub stars](https://img.shields.io/github/stars/aegisgatesecurity/aegisgate-scanner?style=social)](https://github.com/aegisgatesecurity/aegisgate-scanner) — **If AegisGate Scanner helps you secure your AI artifacts, please consider ⭐ starring this repo. It helps others discover it.**
+
 
 </div>
 
