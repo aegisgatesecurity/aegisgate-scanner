@@ -5,6 +5,21 @@ All notable changes to AegisGate Scanner will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.2] - 2026-10-22 - ARTEX / LiteLLM Threat Intelligence Patterns
+
+> **v0.4.2** adds 13 new regex detection patterns for the ARTEX autonomous pentesting framework and LiteLLM supply chain compromise, based on Black October 2026 threat intelligence. Superset parity with Rampart v0.9.2 (335 → 348 patterns).
+
+### ARTEX / LiteLLM Detection Patterns (13 new)
+
+**ARTEX traffic signatures (8):** artex_tool_reference, artex_model_deepseek, artex_model_glm, artex_model_grok, artex_mcp_external, artex_compat_gateway_probe, artex_multi_agent_attack, artex_repo_reference
+
+**LiteLLM supply chain indicators (5):** litellm_init_pth, litellm_ssrf_metadata, litellm_admin_abuse, litellm_cred_exfil, litellm_rat_deploy
+
+- Pattern count: 335 → 348 (SUPERSET of Rampart)
+- Detection parity check: 14/14 PASS
+
+---
+
 ## [0.4.1] - 2026-10-21 - ML Model v15b Update
 
 > **v0.4.1** updates Scanner to the v15b ML model (256-char Latin-1) and restores MaxSeqLen=256 across all normalizers.

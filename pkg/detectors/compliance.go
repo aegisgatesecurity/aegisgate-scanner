@@ -475,6 +475,85 @@ var CompliancePatterns = []PatternDef{
 		Regex:       `(?i)(?:generate|write|produce)\s+(?:a\s+)?\d{5,}\s+word`,
 		Description: "Unbounded consumption: excessive token generation request",
 	},
+	// --- ARTEX / LiteLLM Threat Intel Patterns (Black October 2026) ---
+	{
+		Name:        "artex_tool_reference",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:artex|autumn[-_]?27)\b`,
+		Description: "ARTEX AI autonomous pentesting tool reference",
+	},
+	{
+		Name:        "artex_model_deepseek",
+		Severity:    SeverityLow,
+		Regex:       `(?i)"?model"?\s*[:=]\s*["']?(?:deepseek|deepseek-v[23]|deepseek-coder|deepseek-r[12]|deepseek-chat)["']?`,
+		Description: "DeepSeek model reference in API config (ARTEX indicator)",
+	},
+	{
+		Name:        "artex_model_glm",
+		Severity:    SeverityLow,
+		Regex:       `(?i)"?model"?\s*[:=]\s*["']?(?:glm|glm-4(?:-plus|-v)?|chatglm(?:-6b)?)["']?`,
+		Description: "GLM (Zhipu) model reference in API config (ARTEX indicator)",
+	},
+	{
+		Name:        "artex_model_grok",
+		Severity:    SeverityLow,
+		Regex:       `(?i)"?model"?\s*[:=]\s*["']?(?:grok(?:-1|-2|-beta)?|xai-grok)["']?`,
+		Description: "Grok model reference in API config (ARTEX indicator)",
+	},
+	{
+		Name:        "artex_mcp_external",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)(?:mcp[_-]?(?:url|endpoint|server)|streamable[_-]?http)\s*["']?\s*[:=]\s*["']?https?://\S+`,
+		Description: "MCP connection to external HTTP(S) server (ARTEX indicator)",
+	},
+	{
+		Name:        "artex_compat_gateway_probe",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)/v1/(?:chat/completions|models|engines).{0,50}(?:deepseek|glm|grok|qwen|yi-)`,
+		Description: "OpenAI-compatible API probe with non-standard model (ARTEX indicator)",
+	},
+	{
+		Name:        "artex_multi_agent_attack",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:multi.?agent|orchestrat|agent.?coordinat|agent.?handoff|cross.?session).{0,80}(?:recon|exploit|attack|pentest|vulnerability|credential|lateral|password.?spray)`,
+		Description: "Multi-agent AI orchestration with attack context (ARTEX behavioral indicator)",
+	},
+	{
+		Name:        "artex_repo_reference",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)(?:autumn[-_]?27|artex).{0,80}(?:github|gitlab|gitee|clone|fork|repo)|(?:github|gitlab|gitee|clone|fork).{0,80}(?:autumn[-_]?27|artex)`,
+		Description: "ARTEX repository clone/fork reference",
+	},
+	{
+		Name:        "litellm_init_pth",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)litellm_init\.pth`,
+		Description: "LiteLLM credential stealer file (litellm_init.pth) — supply chain compromise indicator",
+	},
+	{
+		Name:        "litellm_ssrf_metadata",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)litellm.{0,100}(?:169\.254\.169\.254|metadata\.google\.internal|metadata\.azure\.com)`,
+		Description: "LiteLLM SSRF targeting cloud metadata endpoints",
+	},
+	{
+		Name:        "litellm_admin_abuse",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)litellm.{0,50}(?:/admin/|/manage/|master.?key|admin.?key|root.?password|privilege.?escalat)`,
+		Description: "LiteLLM admin endpoint abuse (privilege escalation)",
+	},
+	{
+		Name:        "litellm_cred_exfil",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)litellm.{0,80}(?:exfiltrat|steal|upload|send|post|transmit|webhook).{0,50}(?:api.?key|token|password|secret|credential|\.env|\.pem)`,
+		Description: "Credential exfiltration via LiteLLM proxy",
+	},
+	{
+		Name:        "litellm_rat_deploy",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)litellm.{0,80}(?:reverse.?shell|backdoor|trojan|c2.?server|payload.?download|implant|rat\.\w)`,
+		Description: "RAT/malware deployment via LiteLLM supply chain",
+	},
 }
 
 // CompiledCompliancePatterns holds pre-compiled compliance regex patterns.
