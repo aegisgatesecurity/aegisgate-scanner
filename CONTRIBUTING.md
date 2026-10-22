@@ -136,6 +136,10 @@ All PRs require review. Reviewers check for:
 - Performance impact
 - Security (no path traversal, no injection in patterns)
 
+## Code of Conduct
+
+This project and everyone participating in it is governed by the [CODE_OF_CONDUCT.md](CODE_OF_CONDUCT.md). By participating, you are expected to uphold this code. Please report unacceptable behavior to [conduct@aegisgatesecurity.io](mailto:conduct@aegisgatesecurity.io).
+
 ## License
 
 By contributing, you agree that your contributions are licensed under
