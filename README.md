@@ -25,6 +25,7 @@
 [![Patterns](https://img.shields.io/badge/Patterns-322-9cf.svg)](#detection-categories)
 [![Formats](https://img.shields.io/badge/Output-8_Formats-orange.svg)](#output-formats)
 [![Patent Pending](https://img.shields.io/badge/IP-Patent_Pending-8B5CF6?logo=uspto)](#ip-notice)
+[![Published Research](https://img.shields.io/badge/Research-SSRN_Published-003399?logo=elsevier)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7652138)
 
 [Quick Start](#quick-start) · [Detection](#detection-categories) · [Output Formats](#output-formats) · [GitHub Action](#github-action) · [Docker](#docker) · [Testing](#testing) · [Releases](https://github.com/aegisgatesecurity/aegisgate-scanner/releases)
 
