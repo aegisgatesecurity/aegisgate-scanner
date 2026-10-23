@@ -37,7 +37,7 @@
 
 ---
 
-> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 290 canonical detection patterns, MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
+> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 303 canonical detection patterns, MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
 >
 > **🔐 AegisGate Rampart** — Using AI coding tools (Copilot, Cursor, local LLMs)? [AegisGate Rampart](https://github.com/aegisgatesecurity/aegisgate-rampart) is a free local proxy that intercepts secrets and sensitive data before they leave your machine. [Explore Rampart →](https://github.com/aegisgatesecurity/aegisgate-rampart)
 >
@@ -173,7 +173,7 @@ Scanner can pull canonical detection patterns from AegisGate Platform's telemetr
 aegisgate-scanner --platform-url https://platform.example.com scan ./docs/
 ```
 
-When `--platform-url` is not set (default), Scanner uses its built-in 348 patterns with zero network calls. When set, Scanner pulls canonical patterns with ETag caching and merges them with local patterns. Air-gap compatible — fully functional offline.
+When `--platform-url` is not set (default), Scanner uses its built-in 353 patterns with zero network calls. When set, Scanner pulls canonical patterns with ETag caching and merges them with local patterns. Air-gap compatible — fully functional offline.
 
 ## Platform Forward (Optional)
 
@@ -414,7 +414,7 @@ go test -fuzz=FuzzScanArtifact -fuzztime=30s ./pkg/scanner/
 ```
 aegisgate-scanner/
 ├── cmd/aegisgate-scanner/   # CLI entrypoint
-├── pkg/detectors/            # Detection engine + 348 patterns
+├── pkg/detectors/            # Detection engine + 353 patterns
 ├── internal/ml/              # CharCNN-BiLSTM ML threat detector
 ├── pkg/api/                  # Public API/SDK
 ├── pkg/artifacts/            # File walker, archive extraction
