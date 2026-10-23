@@ -36,6 +36,7 @@ const (
 	CategoryRAG               Category = "rag"
 	CategoryPromptLeakage     Category = "prompt-leakage"
 	CategoryPathTraversal     Category = "path-traversal"
+	CategoryAgentPoisoning    Category = "agent-poisoning"
 )
 
 // Match represents a single regex detection match.

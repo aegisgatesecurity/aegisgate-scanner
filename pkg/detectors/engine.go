@@ -372,6 +372,8 @@ func getMergedCategory(category string) *mergedCategory {
 		patterns = CompiledRAGPatterns
 	case "prompt-leakage":
 		patterns = CompiledPromptLeakagePatterns
+	case "agent-poisoning":
+		patterns = CompiledAgentPoisoningPatterns
 	default:
 		return nil
 	}
@@ -519,6 +521,7 @@ func detectAllByLines(text string, lang Language) []Match {
 	allPatterns = append(allPatterns, CompiledOTProtocolPatterns...)
 	allPatterns = append(allPatterns, CompiledRAGPatterns...)
 	allPatterns = append(allPatterns, CompiledPromptLeakagePatterns...)
+	allPatterns = append(allPatterns, CompiledAgentPoisoningPatterns...)
 	allPatterns = append(allPatterns, customSnapshot...)
 
 	// Apply language filtering once.
@@ -752,6 +755,9 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledPromptLeakagePatterns, "prompt-leakage", lang)
 		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledAgentPoisoningPatterns, "agent-poisoning", lang)
+		},
 	}
 	if len(customSnapshot) > 0 {
 		scanners = append(scanners, func() []Match {
@@ -812,6 +818,7 @@ func DetectAllWithResults(text string) ([]Match, []DetectionResult) {
 		{CompiledRAGPatterns, CategoryRAG},
 		{CompiledPromptLeakagePatterns, CategoryPromptLeakage},
 		{CompiledPathTraversalPatterns, CategoryPathTraversal},
+		{CompiledAgentPoisoningPatterns, CategoryAgentPoisoning},
 	}
 
 	results := make([]DetectionResult, len(categories))
@@ -986,6 +993,7 @@ func AllPatternDefs() []PatternDef {
 		OTProtocolPatterns,
 		RAGPatterns,
 		PromptLeakageResponsePatterns,
+		AgentPoisoningPatterns,
 	)
 }
 
