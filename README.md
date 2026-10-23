@@ -7,14 +7,14 @@
 
 *Static analysis that detects prompt injection, PII, secrets, dangerous code, and compliance violations in RAG documents, training data, model configs, and agent skills — before they reach production.*
 
-348 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
+353 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
 
 [![GitHub stars](https://img.shields.io/github/stars/aegisgatesecurity/aegisgate-scanner?style=flat&logo=github&label=Star&color=FFD700&labelColor=181717&logoColor=FFD700)](https://github.com/aegisgatesecurity/aegisgate-scanner)
 **Found AegisGate Scanner useful? [Star the repo](https://github.com/aegisgatesecurity/aegisgate-scanner) ⭐ and [tell a colleague](https://x.com/intent/tweet?text=Scanning%20AI%20artifacts%20for%20prompt%20injection%2C%20PII%2C%20and%20secrets%20with%20AegisGate%20Scanner%20%E2%80%94%20antivirus%20for%20AI%3A%20https%3A%2F%2Fgithub.com%2Faegisgatesecurity%2Faegisgate-scanner) — it helps other devs discover AI security tooling.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go)](https://golang.org/)
-[![Version](https://img.shields.io/badge/Version-0.4.2-blue.svg)](#changelog)
+[![Version](https://img.shields.io/badge/Version-0.4.3-blue.svg)](#changelog)
 [![Coverage](https://img.shields.io/badge/Coverage-90%25+-brightgreen.svg)](#testing)
 [![CI](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml)
 [![E2E](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml)
@@ -22,7 +22,7 @@
 [![Fuzzed](https://img.shields.io/badge/Fuzzed-✅-purple.svg)](#testing)
 [![Race Detector](https://img.shields.io/badge/Race_Detector-✅-success.svg)](#testing)
 [![Docker](https://img.shields.io/badge/Docker-ML_+_Lite-blue.svg)](#docker)
-[![Patterns](https://img.shields.io/badge/Patterns-348-9cf.svg)](#detection-categories)
+[![Patterns](https://img.shields.io/badge/Patterns-353-9cf.svg)](#detection-categories)
 [![Formats](https://img.shields.io/badge/Output-8_Formats-orange.svg)](#output-formats)
 [![Patent Pending](https://img.shields.io/badge/IP-Patent_Pending-8B5CF6?logo=uspto)](#ip-notice)
 [![Published Research](https://img.shields.io/badge/Research-SSRN_Published-003399?logo=elsevier)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7652138)
@@ -37,7 +37,7 @@
 
 ---
 
-> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 297 canonical detection patterns, MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
+> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 290 canonical detection patterns, MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
 >
 > **🔐 AegisGate Rampart** — Using AI coding tools (Copilot, Cursor, local LLMs)? [AegisGate Rampart](https://github.com/aegisgatesecurity/aegisgate-rampart) is a free local proxy that intercepts secrets and sensitive data before they leave your machine. [Explore Rampart →](https://github.com/aegisgatesecurity/aegisgate-rampart)
 >

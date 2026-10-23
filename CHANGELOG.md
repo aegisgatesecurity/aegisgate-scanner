@@ -5,6 +5,33 @@ All notable changes to AegisGate Scanner will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.4.3] - 2026-10-23 - Agent Instruction Poisoning Detection + pii_phone FP Fix
+
+> **v0.4.3** adds 5 new regex detection patterns for agent instruction poisoning attacks (Warden Stealer IOCs) and fixes pii_phone false positives on API key digit sequences. Pattern count: 348 → 353.
+
+### Agent Instruction Poisoning Detection (5 new patterns)
+
+New `agent-poisoning` category detecting malware that poisons AI agent instruction files (CLAUDE.md, AGENTS.md, .codex/config.toml):
+
+- **agent_poisoning_anthropic_redirect** (HIGH): ANTHROPIC_BASE_URL redirected to attacker server
+- **agent_poisoning_install_instruction** (HIGH): npm/pip install commands embedded in agent instruction context
+- **agent_poisoning_codex_config** (MEDIUM): .codex/config.toml references (OpenAI Codex config manipulation)
+- **agent_poisoning_env_exfil** (MEDIUM): Environment variable exfiltration instructions
+- **agent_poisoning_function_color** (LOW): function-color npm package IOC (Warden Stealer)
+
+Verified against Warden Stealer test artifacts: 5 findings across CLAUDE.md and AGENTS.md, 0 false positives on clean text.
+
+### pii_phone False Positive Fix
+
+- `pii_phone` regex in `pii_us_core.go`: Added `\b` word boundaries to prevent matching digit sequences embedded in API keys
+- `pii_phone_intl_loose` regex in `pii_us_extended.go`: Added `\b` word boundaries
+- Both fixes verified: legitimate phone numbers still match (8/8 test cases pass), API keys no longer trigger phone detection
+
+- Pattern count: 348 → 353
+- New category count: 12 → 13 (agent-poisoning added)
+
+---
+
 ## [0.4.2] - 2026-10-22 - ARTEX / LiteLLM Threat Intelligence Patterns
 
 > **v0.4.2** adds 13 new regex detection patterns for the ARTEX autonomous pentesting framework and LiteLLM supply chain compromise, based on Black October 2026 threat intelligence. Superset parity with Rampart v0.9.2 (335 → 348 patterns).
