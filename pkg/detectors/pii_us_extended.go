@@ -28,9 +28,11 @@ var PIIUSExtendedPatterns = []PatternDef{
 		Description: "International email (CJK/Hangul/Kana support)",
 	},
 	{
-		Name:        "pii_phone_intl_loose",
-		Severity:    SeverityMedium,
-		Regex:       `\+?\d[\d\s\-()]{6,12}\d`,
+		Name:     "pii_phone_intl_loose",
+		Severity: SeverityMedium,
+		// \b at start and end prevents matching digit sequences embedded in
+		// longer alphanumeric strings (e.g., API keys, hashes, base64 tokens).
+		Regex:       `\b\+?\d[\d\s\-()]{6,12}\d\b`,
 		Description: "International phone number (loose: digits with separators)",
 	},
 	{

@@ -28,9 +28,13 @@ var PIIUSCorePatterns = []PatternDef{
 		Description: "Email address",
 	},
 	{
-		Name:        "pii_phone",
-		Severity:    SeverityMedium,
-		Regex:       `(?:\+?\d{1,3}[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}`,
+		Name:     "pii_phone",
+		Severity: SeverityMedium,
+		// \b after optional country code prevents matching digit sequences embedded
+		// in longer alphanumeric strings (e.g., API keys like sk-proj-abcdef1234567890abcdef).
+		// \b at end ensures the phone number isn't followed by more word characters.
+		// Trade-off: +1XXXXXXXXXX (no separator after country code) won't match — uncommon format.
+		Regex:       `(?:\+?\d{1,3}[-.\s]?)?\b\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b`,
 		Description: "US phone number (10 digits with optional +1 prefix)",
 	},
 	{
