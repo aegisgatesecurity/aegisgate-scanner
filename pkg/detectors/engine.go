@@ -701,6 +701,25 @@ func detectAllByLines(text string, lang Language) []Match {
 // concurrently for performance (up to 10x speedup on multi-core machines).
 // For smaller content, categories are scanned sequentially to avoid
 // goroutine overhead.
+// TotalCompiledPatterns returns the total number of compiled regex patterns
+// across all detector categories. Use this for dynamic runtime reporting
+// instead of hardcoded counts.
+func TotalCompiledPatterns() int {
+	return len(CompiledSecretPatterns) +
+		len(CompiledXSSPatterns) +
+		len(CompiledPIIUSCorePatterns) +
+		len(CompiledPIIUSExtendedPatterns) +
+		len(CompiledPIIFinancialPatterns) +
+		len(CompiledPIIInternationalPatterns) +
+		len(CompiledCompliancePatterns) +
+		len(CompiledDangerousFunctionPatterns) +
+		len(CompiledOTProtocolPatterns) +
+		len(CompiledRAGPatterns) +
+		len(CompiledPromptLeakagePatterns) +
+		len(CompiledPathTraversalPatterns) +
+		len(CompiledAgentPoisoningPatterns)
+}
+
 func DetectAll(text string) []Match {
 	return DetectAllWithLanguage(text, LangAny)
 }
@@ -713,7 +732,7 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 	}
 
 	// For large text, use line-by-line scanning with keyword pre-filtering.
-	// All 268 patterns are single-line (no (?s) dotall, no \n), so this is
+	// All patterns are single-line (no (?s) dotall, no \n), so this is
 	// a lossless optimization that dramatically reduces regex calls.
 	if len(text) >= lineScanThreshold {
 		return detectAllByLines(text, lang)
@@ -757,6 +776,9 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		},
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledAgentPoisoningPatterns, "agent-poisoning", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledPathTraversalPatterns, "path-traversal", lang)
 		},
 	}
 	if len(customSnapshot) > 0 {

@@ -931,13 +931,11 @@ func runDoctor(args []string) int {
 	fmt.Printf("  compliance:          %d\n", len(detectors.CompliancePatterns))
 	fmt.Printf("  xss:                 %d\n", len(detectors.XSSPatterns))
 	fmt.Printf("  ot-protocols:        %d\n", len(detectors.OTProtocolPatterns))
-
-	totalPatterns := len(detectors.SecretsPatterns) + len(detectors.PIIUSCorePatterns) +
-		len(detectors.PIIUSExtendedPatterns) + len(detectors.PIIFinancialPatterns) +
-		len(detectors.PIIInternationalPatterns) + len(detectors.DangerousFunctionPatterns) +
-		len(detectors.CompliancePatterns) + len(detectors.XSSPatterns) +
-		len(detectors.OTProtocolPatterns)
-	fmt.Printf("  total:               %d\n", totalPatterns)
+	fmt.Printf("  rag:                 %d\n", len(detectors.RAGPatterns))
+	fmt.Printf("  prompt-leakage:      %d\n", len(detectors.PromptLeakageResponsePatterns))
+	fmt.Printf("  path-traversal:      %d\n", len(detectors.PathTraversalPatterns))
+	fmt.Printf("  agent-poisoning:     %d\n", len(detectors.AgentPoisoningPatterns))
+	fmt.Printf("  total:               %d\n", detectors.TotalCompiledPatterns())
 	fmt.Println()
 
 	// 5. Verdict
