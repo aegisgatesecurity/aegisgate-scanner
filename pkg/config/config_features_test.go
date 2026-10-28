@@ -242,7 +242,7 @@ disable_rules:
   - pii_ssn
 `
 	configPath := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(configPath, []byte(yamlContent), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(yamlContent), 0600); err != nil {
 		t.Fatalf("write config file: %v", err)
 	}
 
@@ -305,7 +305,7 @@ respect_gitignore: false
 fail_on_severity: critical
 `
 	configPath := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(configPath, []byte(yamlContent), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(yamlContent), 0600); err != nil {
 		t.Fatalf("write config file: %v", err)
 	}
 
@@ -334,7 +334,7 @@ func TestConfig_YAML_InlineDisableRules(t *testing.T) {
 	yamlContent := `disable_rules: [xss_script_tag, pii_ssn]
 `
 	configPath := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(configPath, []byte(yamlContent), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(yamlContent), 0600); err != nil {
 		t.Fatalf("write config file: %v", err)
 	}
 

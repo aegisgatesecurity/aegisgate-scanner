@@ -38,7 +38,7 @@ func TestRelPath_DifferentRoot(t *testing.T) {
 func TestGetInode_RegularFile(t *testing.T) {
 	dir := t.TempDir()
 	filePath := filepath.Join(dir, "testfile.txt")
-	os.WriteFile(filePath, []byte("content"), 0644)
+	os.WriteFile(filePath, []byte("content"), 0600)
 
 	info, _ := os.Stat(filePath)
 	inode, ok := getInode(info)

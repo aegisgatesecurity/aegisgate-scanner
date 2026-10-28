@@ -319,7 +319,7 @@ func TestExtractZip_CorruptData(t *testing.T) {
 	corruptOffset := 45 // well within the compressed data region
 	data[corruptOffset] ^= 0xFF
 
-	if err := os.WriteFile(zipPath, data, 0644); err != nil {
+	if err := os.WriteFile(zipPath, data, 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 

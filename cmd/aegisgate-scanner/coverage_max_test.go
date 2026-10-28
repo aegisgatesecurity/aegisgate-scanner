@@ -20,7 +20,7 @@ import (
 func TestRunScan_InvalidConfigYAML(t *testing.T) {
 	dir := t.TempDir()
 	// Config with invalid min_severity (triggers validation error)
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte("min_severity: super-critical\n"), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte("min_severity: super-critical\n"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -51,9 +51,9 @@ func TestRunScan_CustomRuleInvalidRegex(t *testing.T) {
     category: test
     description: bad pattern
 `
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 	// Create a file to scan
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("some content"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("some content"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -84,8 +84,8 @@ func TestRunScan_VerboseCustomRules(t *testing.T) {
     description: test custom rule
 enable_ml: false
 `
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("TESTTOKEN12345"), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("TESTTOKEN12345"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -109,8 +109,8 @@ enable_ml: false
 func TestRunScan_NoArtifactsFound(t *testing.T) {
 	dir := t.TempDir()
 	// No supported files — use extensions not in supported list
-	os.WriteFile(filepath.Join(dir, "data.xyz"), []byte("some data"), 0644)
-	os.WriteFile(filepath.Join(dir, "readme.bin"), []byte("binary"), 0644)
+	os.WriteFile(filepath.Join(dir, "data.xyz"), []byte("some data"), 0600)
+	os.WriteFile(filepath.Join(dir, "readme.bin"), []byte("binary"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -136,11 +136,11 @@ func TestRunScan_NoArtifactsFound(t *testing.T) {
 
 func TestRunScan_MLModelLoadFailure_ExplicitPath(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0600)
 	configContent := `enable_ml: true
 model_path: "/nonexistent/model.onnx"
 `
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -165,11 +165,11 @@ model_path: "/nonexistent/model.onnx"
 func TestRunScan_MLModelLoadFailure_DefaultPath(t *testing.T) {
 	// Run from a temp dir where there's no default model
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0600)
 	configContent := `enable_ml: true
 model_path: ""
 `
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	origDir, _ := os.Getwd()
 	defer os.Chdir(origDir)
@@ -197,7 +197,7 @@ func TestRunScan_ProgressIndicator(t *testing.T) {
 	dir := t.TempDir()
 	// Create 15 files to trigger progress (>10 threshold)
 	for i := 0; i < 15; i++ {
-		os.WriteFile(filepath.Join(dir, "file_"+string(rune('a'+i))+".txt"), []byte("clean"), 0644)
+		os.WriteFile(filepath.Join(dir, "file_"+string(rune('a'+i))+".txt"), []byte("clean"), 0600)
 	}
 
 	origStderr := os.Stderr
@@ -221,7 +221,7 @@ func TestRunScan_ProgressIndicator(t *testing.T) {
 
 func TestRunScan_GenerateBaselineSaveFailure(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	// Try to save baseline to a nonexistent directory
 	origStderr := os.Stderr
@@ -246,7 +246,7 @@ func TestRunScan_GenerateBaselineSaveFailure(t *testing.T) {
 
 func TestRunScan_GenerateBaselineSuccess(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	baselinePath := filepath.Join(dir, "..", "baseline.json")
 	absBaseline, _ := filepath.Abs(baselinePath)
@@ -277,12 +277,12 @@ func TestRunScan_GenerateBaselineSuccess(t *testing.T) {
 
 func TestRunScan_BaselineLoadError(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0600)
 
 	// Create a corrupted baseline file
 	baselinePath := filepath.Join(dir, "..", "bad_baseline.json")
 	absBaseline, _ := filepath.Abs(baselinePath)
-	os.WriteFile(absBaseline, []byte("not json{"), 0644)
+	os.WriteFile(absBaseline, []byte("not json{"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -306,7 +306,7 @@ func TestRunScan_BaselineLoadError(t *testing.T) {
 
 func TestRunScan_BaselineSuppressionVerbose(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	// First, generate a baseline
 	baselinePath := filepath.Join(dir, "..", "baseline_test.json")
@@ -337,7 +337,7 @@ func TestRunScan_BaselineSuppressionVerbose(t *testing.T) {
 
 func TestRunScan_OutputResultsError_UnknownFormat(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -362,7 +362,7 @@ func TestRunScan_OutputResultsError_UnknownFormat(t *testing.T) {
 
 func TestRunScan_SarifOutputToFile(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	outFile := filepath.Join(dir, "..", "results.sarif")
 	absOut, _ := filepath.Abs(outFile)
@@ -384,7 +384,7 @@ func TestRunScan_SarifOutputToFile(t *testing.T) {
 
 func TestRunScan_JsonOutputToFile(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	outFile := filepath.Join(dir, "..", "results.json")
 	absOut, _ := filepath.Abs(outFile)
@@ -406,7 +406,7 @@ func TestRunScan_JsonOutputToFile(t *testing.T) {
 
 func TestRunScan_TextOutputToFile(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	outFile := filepath.Join(dir, "..", "results.txt")
 	absOut, _ := filepath.Abs(outFile)
@@ -428,7 +428,7 @@ func TestRunScan_TextOutputToFile(t *testing.T) {
 
 func TestRunScan_SarifOutputToStdout(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	origStdout := os.Stdout
 	r, w, _ := os.Pipe()
@@ -453,7 +453,7 @@ func TestRunScan_SarifOutputToStdout(t *testing.T) {
 func TestRunScan_FailOnCritical_OnlyMediumFound(t *testing.T) {
 	dir := t.TempDir()
 	// Content that triggers medium severity (localhost URL)
-	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0600)
 
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
 		"--fail-on", "critical"})
@@ -466,7 +466,7 @@ func TestRunScan_FailOnCritical_OnlyMediumFound(t *testing.T) {
 
 func TestRunScan_FailOnLow_AnyFinding(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0600)
 
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
 		"--fail-on", "low"})
@@ -479,7 +479,7 @@ func TestRunScan_FailOnLow_AnyFinding(t *testing.T) {
 func TestRunScan_FailOnHigh(t *testing.T) {
 	dir := t.TempDir()
 	// AWS key is high severity
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
 		"--fail-on", "high"})
@@ -491,7 +491,7 @@ func TestRunScan_FailOnHigh(t *testing.T) {
 
 func TestRunScan_FailOnMedium(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.py"), []byte("requests.get('http://localhost:8080/api')"), 0600)
 
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
 		"--fail-on", "medium"})
@@ -503,7 +503,7 @@ func TestRunScan_FailOnMedium(t *testing.T) {
 
 func TestRunScan_FailOnInvalidSeverity(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	// Invalid severity should default to "low" (any finding fails)
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
@@ -517,7 +517,7 @@ func TestRunScan_FailOnInvalidSeverity(t *testing.T) {
 func TestRunScan_ConcurrencyOverride(t *testing.T) {
 	dir := t.TempDir()
 	for i := 0; i < 5; i++ {
-		os.WriteFile(filepath.Join(dir, "file_"+string(rune('a'+i))+".txt"), []byte("clean"), 0644)
+		os.WriteFile(filepath.Join(dir, "file_"+string(rune('a'+i))+".txt"), []byte("clean"), 0600)
 	}
 
 	exitCode := run([]string{"aegisgate-scanner", "scan", dir, "--no-ml", "--quiet",
@@ -531,7 +531,7 @@ func TestRunScan_ConcurrencyOverride(t *testing.T) {
 func TestRunScan_DefaultPath(t *testing.T) {
 	// Scan with no path argument (defaults to ".")
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("clean content"), 0600)
 
 	origDir, _ := os.Getwd()
 	defer os.Chdir(origDir)
@@ -871,7 +871,7 @@ func TestRunScanStdin_ConfigError(t *testing.T) {
 	defer os.Chdir(origDir)
 	os.Chdir(dir)
 
-	os.WriteFile(".aegisgate.yml", []byte("min_severity: super-critical\n"), 0644)
+	os.WriteFile(".aegisgate.yml", []byte("min_severity: super-critical\n"), 0600)
 
 	origStdin := os.Stdin
 	r, w, _ := os.Pipe()
@@ -915,7 +915,7 @@ func TestRunScanStdin_CustomRuleInvalidRegex(t *testing.T) {
     description: bad
 enable_ml: false
 `
-	os.WriteFile(".aegisgate.yml", []byte(configContent), 0644)
+	os.WriteFile(".aegisgate.yml", []byte(configContent), 0600)
 
 	origStdin := os.Stdin
 	r, w, _ := os.Pipe()
@@ -1026,7 +1026,7 @@ func TestRunScanStdin_BaselineLoadError(t *testing.T) {
 	os.Chdir(dir)
 
 	// Create corrupted baseline
-	os.WriteFile("bad_baseline.json", []byte("not json{"), 0644)
+	os.WriteFile("bad_baseline.json", []byte("not json{"), 0600)
 
 	origStdin := os.Stdin
 	r, w, _ := os.Pipe()
@@ -1575,7 +1575,7 @@ func TestOutputResults_SarifError(t *testing.T) {
 // TestRunScan_JSONLOutputToFile verifies JSONL output via runScan (not stdin).
 func TestRunScan_JSONLOutputToFile(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	outFile := filepath.Join(dir, "..", "results.jsonl")
 	absOut, _ := filepath.Abs(outFile)
@@ -1601,7 +1601,7 @@ func TestRunScan_JSONLOutputToFile(t *testing.T) {
 // TestRunScan_JSONLOutputToStdout verifies JSONL output to stdout via runScan.
 func TestRunScan_JSONLOutputToStdout(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	// Capture stdout.
 	oldStdout := os.Stdout
@@ -1627,7 +1627,7 @@ func TestRunScan_JSONLOutputToStdout(t *testing.T) {
 // TestRunScan_SBOMOutputToStdout verifies SBOM output to stdout via runScan.
 func TestRunScan_SBOMOutputToStdout(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	oldStdout := os.Stdout
 	r, w, _ := os.Pipe()
@@ -1651,7 +1651,7 @@ func TestRunScan_SBOMOutputToStdout(t *testing.T) {
 // TestRunScan_HTMLOutputToStdout verifies HTML output to stdout via runScan.
 func TestRunScan_HTMLOutputToStdout(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("AKIAIOSFODNN7EXAMPLE"), 0600)
 
 	oldStdout := os.Stdout
 	r, w, _ := os.Pipe()

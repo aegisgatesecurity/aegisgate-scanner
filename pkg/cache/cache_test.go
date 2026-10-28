@@ -232,7 +232,7 @@ func TestCacheCorruptFile(t *testing.T) {
 	path := filepath.Join(dir, "cache.json")
 
 	// Write corrupt JSON.
-	os.WriteFile(path, []byte("{not valid json"), 0644)
+	os.WriteFile(path, []byte("{not valid json"), 0600)
 
 	// Load should return empty cache (graceful degradation).
 	c, err := Load(path, CacheHeader{Version: CacheVersion, ScannerVersion: "test"})

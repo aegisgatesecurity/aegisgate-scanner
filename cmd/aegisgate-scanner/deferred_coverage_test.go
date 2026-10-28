@@ -41,7 +41,7 @@ import (
 func runScanWithFormat(t *testing.T, format string) string {
 	t.Helper()
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte(contentWithPII), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte(contentWithPII), 0600)
 
 	out := captureStdout(func() {
 		code := runScan([]string{dir, "--no-ml", "--format", format}, "", "")
@@ -57,7 +57,7 @@ func runScanWithFormat(t *testing.T, format string) string {
 func runScanWithFormatToFile(t *testing.T, format, outExt string) string {
 	t.Helper()
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte(contentWithPII), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte(contentWithPII), 0600)
 
 	outFile := filepath.Join(dir, "results."+outExt)
 	code := runScan([]string{dir, "--no-ml", "--format", format, "--output", outFile}, "", "")
@@ -153,10 +153,10 @@ rules:
     category: secret
     description: Detects top secret leaks
 `
-	os.WriteFile(filepath.Join(pluginDir, "secret.yaml"), []byte(pluginContent), 0644)
+	os.WriteFile(filepath.Join(pluginDir, "secret.yaml"), []byte(pluginContent), 0600)
 
 	// Create a file that triggers the plugin rule.
-	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("Here is a TOPSECRETLEAK in the file"), 0644)
+	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("Here is a TOPSECRETLEAK in the file"), 0600)
 
 	out := captureStdout(func() {
 		code := runScan([]string{dir, "--no-ml", "--format", "json"}, "", "")
@@ -182,8 +182,8 @@ rules:
     category: secret
     description: Detects verbose leaks
 `
-	os.WriteFile(filepath.Join(pluginDir, "verbose.yaml"), []byte(pluginContent), 0644)
-	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("Found a VERBOSELEAK here"), 0644)
+	os.WriteFile(filepath.Join(pluginDir, "verbose.yaml"), []byte(pluginContent), 0600)
+	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("Found a VERBOSELEAK here"), 0600)
 
 	stderr := captureStderr(func() {
 		captureStdout(func() {
@@ -214,13 +214,13 @@ func TestRunScan_DiffScanning(t *testing.T) {
 	runGit(t, dir, "config", "user.name", "Test")
 
 	// Create initial commit on main branch with a clean file.
-	os.WriteFile(filepath.Join(dir, "clean.txt"), []byte("This is clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "clean.txt"), []byte("This is clean content"), 0600)
 	runGit(t, dir, "add", ".")
 	runGit(t, dir, "commit", "-m", "initial")
 
 	// Create a new branch with a change.
 	runGit(t, dir, "checkout", "-b", "feature")
-	os.WriteFile(filepath.Join(dir, "secret.txt"), []byte("SSN: 123-45-6789"), 0644)
+	os.WriteFile(filepath.Join(dir, "secret.txt"), []byte("SSN: 123-45-6789"), 0600)
 	runGit(t, dir, "add", ".")
 	runGit(t, dir, "commit", "-m", "add secret file")
 
@@ -248,7 +248,7 @@ func TestRunScan_ArchiveExtraction(t *testing.T) {
 	createTestZip(t, zipPath, "inner.txt", []byte("SSN: 123-45-6789"))
 
 	// Also add a non-archive text file so the walk finds something.
-	os.WriteFile(filepath.Join(dir, "readme.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "readme.txt"), []byte("clean content"), 0600)
 
 	out := captureStdout(func() {
 		code := runScan([]string{dir, "--no-ml", "--format", "json", "--extract-archives"}, "", "")
@@ -556,7 +556,7 @@ func TestVerifyChecksum_Valid(t *testing.T) {
 	// Create a test file with known content.
 	content := []byte("test binary content")
 	filePath := filepath.Join(dir, "binary")
-	os.WriteFile(filePath, content, 0644)
+	os.WriteFile(filePath, content, 0600)
 
 	// Calculate actual checksum.
 	hash := sha256.Sum256(content)
@@ -590,7 +590,7 @@ func TestVerifyChecksum_Invalid(t *testing.T) {
 
 	content := []byte("test binary content")
 	filePath := filepath.Join(dir, "binary")
-	os.WriteFile(filePath, content, 0644)
+	os.WriteFile(filePath, content, 0600)
 
 	// Create a mock server that serves a wrong checksum.
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -1106,7 +1106,7 @@ func TestVerifyChecksum_ServerError(t *testing.T) {
 	dir := t.TempDir()
 	content := []byte("test content")
 	filePath := filepath.Join(dir, "binary")
-	os.WriteFile(filePath, content, 0644)
+	os.WriteFile(filePath, content, 0600)
 
 	// Create a server that returns an error for the checksums file.
 	server := httptest.NewServer(http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
@@ -1147,12 +1147,12 @@ func TestRunScan_DiffVerbose(t *testing.T) {
 	runGit(t, dir, "config", "user.email", "test@test.com")
 	runGit(t, dir, "config", "user.name", "Test")
 
-	os.WriteFile(filepath.Join(dir, "clean.txt"), []byte("clean content"), 0644)
+	os.WriteFile(filepath.Join(dir, "clean.txt"), []byte("clean content"), 0600)
 	runGit(t, dir, "add", ".")
 	runGit(t, dir, "commit", "-m", "initial")
 
 	runGit(t, dir, "checkout", "-b", "feature")
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("SSN: 123-45-6789"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("SSN: 123-45-6789"), 0600)
 	runGit(t, dir, "add", ".")
 	runGit(t, dir, "commit", "-m", "add file")
 
@@ -1220,8 +1220,8 @@ rules:
     category: secret
     description: Bad regex
 `
-	os.WriteFile(filepath.Join(pluginDir, "bad.yaml"), []byte(pluginContent), 0644)
-	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("some content"), 0644)
+	os.WriteFile(filepath.Join(pluginDir, "bad.yaml"), []byte(pluginContent), 0600)
+	os.WriteFile(filepath.Join(dir, "data.txt"), []byte("some content"), 0600)
 
 	// The plugin registration will fail but the scan should continue.
 	stderr := captureStderr(func() {

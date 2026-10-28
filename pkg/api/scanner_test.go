@@ -245,8 +245,8 @@ func TestScanFiles_Basic(t *testing.T) {
 
 	path1 := filepath.Join(dir, "file1.yaml")
 	path2 := filepath.Join(dir, "file2.yaml")
-	os.WriteFile(path1, []byte("key: AKIAIOSFODNN7EXAMPLE\n"), 0644)
-	os.WriteFile(path2, []byte("safe: content\n"), 0644)
+	os.WriteFile(path1, []byte("key: AKIAIOSFODNN7EXAMPLE\n"), 0600)
+	os.WriteFile(path2, []byte("safe: content\n"), 0600)
 
 	sc, _ := NewScanner()
 	defer sc.Close()

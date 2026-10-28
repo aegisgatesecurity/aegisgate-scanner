@@ -57,7 +57,7 @@ func TestLoad_ValidFile(t *testing.T) {
 		},
 	}
 	raw, _ := json.MarshalIndent(data, "", "  ")
-	if err := os.WriteFile(path, raw, 0644); err != nil {
+	if err := os.WriteFile(path, raw, 0600); err != nil {
 		t.Fatalf("write temp file: %v", err)
 	}
 
@@ -85,7 +85,7 @@ func TestLoad_ValidFile(t *testing.T) {
 func TestLoad_InvalidJSON(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, "bad.json")
-	if err := os.WriteFile(path, []byte("{invalid json}}}"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("{invalid json}}}"), 0600); err != nil {
 		t.Fatalf("write temp file: %v", err)
 	}
 
@@ -109,7 +109,7 @@ func TestLoad_VersionMismatch(t *testing.T) {
 		},
 	}
 	raw, _ := json.MarshalIndent(data, "", "  ")
-	if err := os.WriteFile(path, raw, 0644); err != nil {
+	if err := os.WriteFile(path, raw, 0600); err != nil {
 		t.Fatalf("write temp file: %v", err)
 	}
 

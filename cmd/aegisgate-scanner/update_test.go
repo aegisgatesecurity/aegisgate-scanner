@@ -341,7 +341,7 @@ func TestPerformUpdate_UpToDate(t *testing.T) {
 func TestVerifyChecksum_NoChecksumFile(t *testing.T) {
 	dir := t.TempDir()
 	filePath := filepath.Join(dir, "binary")
-	os.WriteFile(filePath, []byte("test content"), 0644)
+	os.WriteFile(filePath, []byte("test content"), 0600)
 
 	release := &githubRelease{
 		Assets: []githubAsset{

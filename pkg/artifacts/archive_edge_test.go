@@ -11,7 +11,7 @@ import (
 func TestExtractZip_CorruptFile(t *testing.T) {
 	dir := t.TempDir()
 	zipPath := filepath.Join(dir, "corrupt.zip")
-	os.WriteFile(zipPath, []byte("not a real zip file"), 0644)
+	os.WriteFile(zipPath, []byte("not a real zip file"), 0600)
 
 	_, err := ExtractArchive(zipPath)
 	if err == nil {
@@ -22,7 +22,7 @@ func TestExtractZip_CorruptFile(t *testing.T) {
 func TestExtractTarGz_CorruptFile(t *testing.T) {
 	dir := t.TempDir()
 	tarPath := filepath.Join(dir, "corrupt.tar.gz")
-	os.WriteFile(tarPath, []byte("not a real tar.gz file"), 0644)
+	os.WriteFile(tarPath, []byte("not a real tar.gz file"), 0600)
 
 	_, err := ExtractArchive(tarPath)
 	if err == nil {
@@ -33,7 +33,7 @@ func TestExtractTarGz_CorruptFile(t *testing.T) {
 func TestExtractTarBz2_CorruptFile(t *testing.T) {
 	dir := t.TempDir()
 	tarPath := filepath.Join(dir, "corrupt.tar.bz2")
-	os.WriteFile(tarPath, []byte("not a real tar.bz2 file"), 0644)
+	os.WriteFile(tarPath, []byte("not a real tar.bz2 file"), 0600)
 
 	_, err := ExtractArchive(tarPath)
 	if err == nil {

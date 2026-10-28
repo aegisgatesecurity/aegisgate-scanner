@@ -53,7 +53,7 @@ func TestExtractZip_PathTraversal(t *testing.T) {
 	// Write the zip to a temp file.
 	tmpDir := t.TempDir()
 	zipPath := filepath.Join(tmpDir, "traversal.zip")
-	if err := os.WriteFile(zipPath, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(zipPath, buf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -100,7 +100,7 @@ func TestExtractTar_PathTraversal(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	tarPath := filepath.Join(tmpDir, "traversal.tar.gz")
-	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -210,7 +210,7 @@ func TestExtractZip_Bomb(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	zipPath := filepath.Join(tmpDir, "bomb.zip")
-	if err := os.WriteFile(zipPath, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(zipPath, buf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -273,7 +273,7 @@ func TestExtractTar_Bomb(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	tarPath := filepath.Join(tmpDir, "bomb.tar.gz")
-	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -309,7 +309,7 @@ func TestExtractZip_BombExceedsLimit(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	zipPath := filepath.Join(tmpDir, "huge.zip")
-	if err := os.WriteFile(zipPath, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(zipPath, buf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -365,7 +365,7 @@ func TestExtractTar_SymlinkAttack(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	tarPath := filepath.Join(tmpDir, "symlink.tar.gz")
-	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(tarPath, gzBuf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -397,7 +397,7 @@ func TestExtractZip_CorruptHeader(t *testing.T) {
 	tmpDir := t.TempDir()
 	zipPath := filepath.Join(tmpDir, "corrupt.zip")
 	// Write random bytes that look like a zip but aren't.
-	if err := os.WriteFile(zipPath, []byte("PK\x03\x04GARBAGE DATA NOT A REAL ZIP"), 0644); err != nil {
+	if err := os.WriteFile(zipPath, []byte("PK\x03\x04GARBAGE DATA NOT A REAL ZIP"), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -418,7 +418,7 @@ func TestExtractTar_CorruptData(t *testing.T) {
 
 	tmpDir := t.TempDir()
 	tarPath := filepath.Join(tmpDir, "corrupt.tar.gz")
-	if err := os.WriteFile(tarPath, buf.Bytes(), 0644); err != nil {
+	if err := os.WriteFile(tarPath, buf.Bytes(), 0600); err != nil {
 		t.Fatal(err)
 	}
 

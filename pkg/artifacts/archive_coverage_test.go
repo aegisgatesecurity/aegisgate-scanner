@@ -18,7 +18,7 @@ func TestExtractTarBz2(t *testing.T) {
 	// invalid bzip2 data gracefully.
 	dir := t.TempDir()
 	tarPath := filepath.Join(dir, "test.tar.bz2")
-	os.WriteFile(tarPath, []byte("not bzip2 data"), 0644)
+	os.WriteFile(tarPath, []byte("not bzip2 data"), 0600)
 
 	_, err := ExtractArchive(tarPath)
 	if err == nil {
@@ -95,7 +95,7 @@ func TestExtractZip_EmptyArchive(t *testing.T) {
 func TestExtractArchive_NotAnArchive(t *testing.T) {
 	dir := t.TempDir()
 	filePath := filepath.Join(dir, "notarchive.txt")
-	os.WriteFile(filePath, []byte("not an archive"), 0644)
+	os.WriteFile(filePath, []byte("not an archive"), 0600)
 
 	_, err := ExtractArchive(filePath)
 	if err == nil {
@@ -131,7 +131,7 @@ func TestExtractArchive_TarGzWithMultipleFiles(t *testing.T) {
 	gw.Write(tarBuf.Bytes())
 	gw.Close()
 
-	os.WriteFile(tarPath, gzBuf.Bytes(), 0644)
+	os.WriteFile(tarPath, gzBuf.Bytes(), 0600)
 
 	result, err := ExtractArchive(tarPath)
 	if err != nil {
@@ -170,7 +170,7 @@ func TestExtractArchivesInPlace_MixedFiles(t *testing.T) {
 	zipFile.Close()
 
 	// Also create a regular (non-archive) file
-	os.WriteFile(filepath.Join(dir, "regular.txt"), []byte("regular content"), 0644)
+	os.WriteFile(filepath.Join(dir, "regular.txt"), []byte("regular content"), 0600)
 
 	// Extract archives in place
 	extractedPaths, cleanup, err := ExtractArchivesInPlace([]string{zipPath})
@@ -196,7 +196,7 @@ func TestExtractArchivesInPlace_MixedFiles(t *testing.T) {
 func TestExtractArchivesInPlace_NoArchives_Cov(t *testing.T) {
 	dir := t.TempDir()
 	// Create only non-archive files
-	os.WriteFile(filepath.Join(dir, "regular.txt"), []byte("regular"), 0644)
+	os.WriteFile(filepath.Join(dir, "regular.txt"), []byte("regular"), 0600)
 
 	extractedPaths, cleanup, err := ExtractArchivesInPlace([]string{filepath.Join(dir, "regular.txt")})
 	if err != nil {
@@ -280,7 +280,7 @@ func TestExtractArchive_TarGzSimple(t *testing.T) {
 	gw.Write(tarBuf.Bytes())
 	gw.Close()
 
-	os.WriteFile(tarPath, gzBuf.Bytes(), 0644)
+	os.WriteFile(tarPath, gzBuf.Bytes(), 0600)
 
 	result, err := ExtractArchive(tarPath)
 	if err != nil {
@@ -313,7 +313,7 @@ func TestExtractArchive_TgzExtension(t *testing.T) {
 	gw.Write(tarBuf.Bytes())
 	gw.Close()
 
-	os.WriteFile(tarPath, gzBuf.Bytes(), 0644)
+	os.WriteFile(tarPath, gzBuf.Bytes(), 0600)
 
 	result, err := ExtractArchive(tarPath)
 	if err != nil {

@@ -308,7 +308,7 @@ rules:
     category: secrets
     description: "File-based rule"
 `
-	os.WriteFile(pluginPath, []byte(yaml), 0644)
+	os.WriteFile(pluginPath, []byte(yaml), 0600)
 
 	plugin, err := LoadPlugin(pluginPath)
 	if err != nil {
@@ -354,10 +354,10 @@ rules:
     severity: medium
     category: pii
 `
-	os.WriteFile(filepath.Join(dir, "p1.yaml"), []byte(yaml1), 0644)
-	os.WriteFile(filepath.Join(dir, "p2.yml"), []byte(yaml2), 0644)
+	os.WriteFile(filepath.Join(dir, "p1.yaml"), []byte(yaml1), 0600)
+	os.WriteFile(filepath.Join(dir, "p2.yml"), []byte(yaml2), 0600)
 	// Non-YAML file should be ignored.
-	os.WriteFile(filepath.Join(dir, "readme.txt"), []byte("not a plugin"), 0644)
+	os.WriteFile(filepath.Join(dir, "readme.txt"), []byte("not a plugin"), 0600)
 
 	plugins, err := LoadPluginsFromDir(dir)
 	if err != nil {
@@ -391,7 +391,7 @@ rules:
     severity: low
     category: compliance
 `
-	os.WriteFile(filepath.Join(pluginDir, "plugin.yaml"), []byte(yaml), 0644)
+	os.WriteFile(filepath.Join(pluginDir, "plugin.yaml"), []byte(yaml), 0600)
 
 	plugins, err := LoadPluginsFromDirWithDefault(dir)
 	if err != nil {

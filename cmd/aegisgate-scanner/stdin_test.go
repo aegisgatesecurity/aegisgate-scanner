@@ -541,7 +541,7 @@ custom_rules:
     pattern: "SECRET_TOKEN_[A-Z]+"
     description: "Detects test tokens"
 `
-	if err := os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600); err != nil {
 		t.Fatal(err)
 	}
 

@@ -114,7 +114,7 @@ extensions:
   - .go
 `
 	path := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -179,7 +179,7 @@ output_format: sarif
 `
 	// Use .yaml instead of .yml
 	path := filepath.Join(dir, ".aegisgate.yaml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -201,7 +201,7 @@ func TestLoad_AltConfigFile_ScannerName(t *testing.T) {
 output_format: text
 `
 	path := filepath.Join(dir, ".aegisgate-scanner.yml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -220,7 +220,7 @@ func TestLoad_AltConfigFile_ScannerNameYAML(t *testing.T) {
 output_format: json
 `
 	path := filepath.Join(dir, ".aegisgate-scanner.yaml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -241,7 +241,7 @@ func TestLoad_InvalidConfig_ReturnsError(t *testing.T) {
 	content := `min_severity: bogus
 `
 	path := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -259,7 +259,7 @@ func TestLoad_PartialConfig_MergesWithDefaults(t *testing.T) {
 	content := `min_severity: critical
 `
 	path := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -289,7 +289,7 @@ func TestLoad_InlineListConfig(t *testing.T) {
 extensions: [.py, .js, .go]
 `
 	path := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 
@@ -324,7 +324,7 @@ extensions: [.py, .js, .go]
 func TestFindConfigFile_Primary(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, ".aegisgate.yml")
-	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	result := findConfigFile(dir)
@@ -336,7 +336,7 @@ func TestFindConfigFile_Primary(t *testing.T) {
 func TestFindConfigFile_AltYAML(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, ".aegisgate.yaml")
-	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	result := findConfigFile(dir)
@@ -348,7 +348,7 @@ func TestFindConfigFile_AltYAML(t *testing.T) {
 func TestFindConfigFile_ScannerName(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, ".aegisgate-scanner.yml")
-	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	result := findConfigFile(dir)
@@ -360,7 +360,7 @@ func TestFindConfigFile_ScannerName(t *testing.T) {
 func TestFindConfigFile_ScannerNameYAML(t *testing.T) {
 	dir := t.TempDir()
 	path := filepath.Join(dir, ".aegisgate-scanner.yaml")
-	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(path, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	result := findConfigFile(dir)
@@ -382,10 +382,10 @@ func TestFindConfigFile_PriorityOrder(t *testing.T) {
 	// Create both .yml and .yaml — .yml should be found first (first in altConfigFileNames)
 	ymlPath := filepath.Join(dir, ".aegisgate.yml")
 	yamlPath := filepath.Join(dir, ".aegisgate.yaml")
-	if err := os.WriteFile(ymlPath, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(ymlPath, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
-	if err := os.WriteFile(yamlPath, []byte("min_severity: low\n"), 0644); err != nil {
+	if err := os.WriteFile(yamlPath, []byte("min_severity: low\n"), 0600); err != nil {
 		t.Fatalf("WriteFile: %v", err)
 	}
 	result := findConfigFile(dir)
@@ -1331,7 +1331,7 @@ func TestLoadFile_ValidConfig(t *testing.T) {
 enable_ml: false
 output_format: json
 `
-	if err := os.WriteFile(configPath, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(content), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1362,7 +1362,7 @@ func TestLoadFile_InvalidYAML(t *testing.T) {
 	configPath := filepath.Join(dir, "bad.yml")
 	// Invalid output_format triggers Validate() error.
 	content := "output_format: invalid_format\n"
-	if err := os.WriteFile(configPath, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(content), 0600); err != nil {
 		t.Fatal(err)
 	}
 

@@ -276,7 +276,7 @@ func TestParseGlobalFlags_MixedWithScanFlags(t *testing.T) {
 func TestRun_GlobalLogLevel_JSONFormat(t *testing.T) {
 	dir := t.TempDir()
 	// Create a clean file so scan succeeds.
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0644)
+	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -306,7 +306,7 @@ func TestRun_GlobalLogLevel_JSONFormat(t *testing.T) {
 
 func TestRun_GlobalLogLevel_DebugText(t *testing.T) {
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0644)
+	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()
@@ -336,7 +336,7 @@ func TestRun_LogLevelViaConfig(t *testing.T) {
 	// Config with log_level=debug and log_format=json
 	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(
 		"log_level: debug\nlog_format: json\n"), 0644)
-	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0644)
+	os.WriteFile(filepath.Join(dir, "doc.md"), []byte("Hello world"), 0600)
 
 	origStderr := os.Stderr
 	r, w, _ := os.Pipe()

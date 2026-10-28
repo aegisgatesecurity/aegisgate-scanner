@@ -46,7 +46,7 @@ func captureStderr(fn func()) string {
 func makeTestFile(t *testing.T, dir, name, content string) string {
 	t.Helper()
 	path := filepath.Join(dir, name)
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatal(err)
 	}
 	return path
@@ -291,7 +291,7 @@ func TestRunScan_DirectCall_CustomRules(t *testing.T) {
 	// Create config with custom rule (use character class instead of \d
 	// since the minimal YAML parser doesn't unescape \\d)
 	configContent := "enable_ml: false\ncustom_rules:\n  - name: custom_employee_id\n    pattern: \"EMP-[0-9]{6}\"\n    severity: high\n    category: pii-custom\n    description: \"Internal employee ID\"\n"
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	output := captureStdout(func() {
 		code := runScan([]string{dir, "--format", "json"}, "", "")
@@ -311,7 +311,7 @@ func TestRunScan_DirectCall_GitIgnore(t *testing.T) {
 	makeTestFile(t, dir, "safe.md", "Safe content\n")
 
 	// Create .gitignore that excludes leak.md
-	os.WriteFile(filepath.Join(dir, ".gitignore"), []byte("leak.md\n"), 0644)
+	os.WriteFile(filepath.Join(dir, ".gitignore"), []byte("leak.md\n"), 0600)
 
 	output := captureStdout(func() {
 		code := runScan([]string{dir, "--no-ml", "--format", "json"}, "", "")
@@ -579,7 +579,7 @@ func TestRunScan_DirectCall_ConfigFile(t *testing.T) {
 output_format: json
 min_severity: medium
 `
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	output := captureStdout(func() {
 		code := runScan([]string{dir}, "", "")
@@ -658,7 +658,7 @@ func TestParseScanArgs_InvalidConcurrency(t *testing.T) {
 func TestRunInit_DirectCall_ExistingFile(t *testing.T) {
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, ".aegisgate.yml")
-	os.WriteFile(configPath, []byte("existing"), 0644)
+	os.WriteFile(configPath, []byte("existing"), 0600)
 
 	code := runInit([]string{dir})
 	if code != exitError {
@@ -685,7 +685,7 @@ func TestFindDefaultModelPath_ModelsDir(t *testing.T) {
 	modelDir := filepath.Join(dir, "models")
 	os.MkdirAll(modelDir, 0755)
 	modelPath := filepath.Join(modelDir, "threat_cnn_bilstm.onnx")
-	os.WriteFile(modelPath, []byte("fake model"), 0644)
+	os.WriteFile(modelPath, []byte("fake model"), 0600)
 
 	old, _ := os.Getwd()
 	defer os.Chdir(old)
@@ -716,7 +716,7 @@ func TestRunScan_DirectCall_NoArgs(t *testing.T) {
 func TestRunScan_DirectCall_ConfigError(t *testing.T) {
 	dir := t.TempDir()
 	// Create invalid config
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte("min_severity: bogus\n"), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte("min_severity: bogus\n"), 0600)
 
 	code := runScan([]string{dir, "--no-ml"}, "", "")
 	if code != exitError {
@@ -729,10 +729,10 @@ func TestRunScan_DirectCall_ModelPath(t *testing.T) {
 	makeTestFile(t, dir, "leak.md", "My SSN is 123-45-6789\n")
 	// Create a fake model file to exercise the LoadModel path
 	fakeModel := filepath.Join(dir, "fake.onnx")
-	os.WriteFile(fakeModel, []byte("fake"), 0644)
+	os.WriteFile(fakeModel, []byte("fake"), 0600)
 
 	configContent := fmt.Sprintf("enable_ml: true\nmodel_path: %s\n", fakeModel)
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	// ML will fail to load the fake model, but should fall back to regex
 	code := runScan([]string{dir, "--format", "json"}, "", "")
@@ -748,7 +748,7 @@ func TestRunScan_DirectCall_InvalidCustomRule(t *testing.T) {
 
 	// Create config with invalid custom rule regex
 	configContent := "custom_rules:\n  - name: bad_rule\n    pattern: \"[invalid\"\n    severity: high\n    category: test\n"
-	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0644)
+	os.WriteFile(filepath.Join(dir, ".aegisgate.yml"), []byte(configContent), 0600)
 
 	code := runScan([]string{dir, "--no-ml", "--format", "json"}, "", "")
 	if code != exitError {

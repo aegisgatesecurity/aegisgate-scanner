@@ -100,7 +100,7 @@ func writeFile(t *testing.T, dir, name, content string) string {
 	if err := os.MkdirAll(filepath.Dir(path), 0755); err != nil {
 		t.Fatalf("mkdir: %v", err)
 	}
-	if err := os.WriteFile(path, []byte(content), 0644); err != nil {
+	if err := os.WriteFile(path, []byte(content), 0600); err != nil {
 		t.Fatalf("write file %s: %v", name, err)
 	}
 	return path
@@ -475,7 +475,7 @@ func TestRunInit_ExistingFile(t *testing.T) {
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, ".aegisgate.yml")
 	originalContent := "# original config\n"
-	if err := os.WriteFile(configPath, []byte(originalContent), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(originalContent), 0600); err != nil {
 		t.Fatalf("write original: %v", err)
 	}
 	ret := runInit([]string{dir})
@@ -1040,7 +1040,7 @@ func TestCLI_Init_ExistingFile(t *testing.T) {
 	dir := t.TempDir()
 	configPath := filepath.Join(dir, ".aegisgate.yml")
 	original := "# existing\n"
-	if err := os.WriteFile(configPath, []byte(original), 0644); err != nil {
+	if err := os.WriteFile(configPath, []byte(original), 0600); err != nil {
 		t.Fatalf("write: %v", err)
 	}
 
@@ -1548,7 +1548,7 @@ func TestRunDoctor_Basic(t *testing.T) {
 	defer cleanupDir()
 
 	// Create a small file to scan.
-	if err := os.WriteFile(filepath.Join(dir, "test.py"), []byte("x = 1\n"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "test.py"), []byte("x = 1\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1564,7 +1564,7 @@ func TestRunDoctor_DefaultPath(t *testing.T) {
 	cleanupDir := withChdir(t, dir)
 	defer cleanupDir()
 
-	if err := os.WriteFile(filepath.Join(dir, "README.md"), []byte("# Hello\n"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "README.md"), []byte("# Hello\n"), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -1679,7 +1679,7 @@ func TestRun_DoctorCommand(t *testing.T) {
 	cleanupDir := withChdir(t, dir)
 	defer cleanupDir()
 
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("hello world\n"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("hello world\n"), 0600)
 
 	exitCode := run([]string{"aegisgate-scanner", "doctor", dir})
 	if exitCode != exitOK {
@@ -1699,7 +1699,7 @@ func TestRunDoctor_InvalidConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("hello\n"), 0644)
+	os.WriteFile(filepath.Join(dir, "test.txt"), []byte("hello\n"), 0600)
 
 	exitCode := runDoctor([]string{dir})
 	if exitCode != exitOK {

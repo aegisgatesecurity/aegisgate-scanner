@@ -2385,7 +2385,7 @@ func TestWalk_FollowSymlinkDirWithInodeCheck(t *testing.T) {
 	if err := os.MkdirAll(targetDir, 0755); err != nil {
 		t.Fatal(err)
 	}
-	if err := os.WriteFile(filepath.Join(targetDir, "doc.md"), []byte("# content"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(targetDir, "doc.md"), []byte("# content"), 0600); err != nil {
 		t.Fatal(err)
 	}
 
@@ -2442,7 +2442,7 @@ func TestWalk_FileWithOnlyBOM(t *testing.T) {
 
 	// Create a file with only a UTF-8 BOM (3 bytes, no actual content).
 	bomOnly := []byte{0xEF, 0xBB, 0xBF}
-	if err := os.WriteFile(filepath.Join(dir, "bomonly.md"), bomOnly, 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(dir, "bomonly.md"), bomOnly, 0600); err != nil {
 		t.Fatal(err)
 	}
 

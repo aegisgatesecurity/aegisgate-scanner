@@ -1197,7 +1197,7 @@ func TestEvasionSuite(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to marshal JSON report: %v", err)
 	}
-	if err := os.WriteFile(jsonPath, jsonData, 0644); err != nil {
+	if err := os.WriteFile(jsonPath, jsonData, 0600); err != nil {
 		t.Fatalf("Failed to write JSON report: %v", err)
 	}
 	t.Logf("JSON report written to: %s", jsonPath)
@@ -1205,7 +1205,7 @@ func TestEvasionSuite(t *testing.T) {
 	// ---- Write Markdown report ----
 	mdPath := filepath.Join(reportDir, fmt.Sprintf("evasion-suite-rampart-%s.md", timestamp))
 	md := buildMarkdownReport(report)
-	if err := os.WriteFile(mdPath, []byte(md), 0644); err != nil {
+	if err := os.WriteFile(mdPath, []byte(md), 0600); err != nil {
 		t.Fatalf("Failed to write Markdown report: %v", err)
 	}
 	t.Logf("Markdown report written to: %s", mdPath)

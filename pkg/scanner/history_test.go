@@ -19,12 +19,12 @@ func TestScanHistory_BasicRepo(t *testing.T) {
 
 	// Commit a file with a secret
 	secretFile := filepath.Join(dir, "config.py")
-	os.WriteFile(secretFile, []byte("api_key = 'AKIAIOSFODNN7EXAMPLE'\n"), 0644)
+	os.WriteFile(secretFile, []byte("api_key = 'AKIAIOSFODNN7EXAMPLE'\n"), 0600)
 	runGitHelper(t, dir, "add", ".")
 	runGitHelper(t, dir, "commit", "-m", "add config with secret")
 
 	// Remove the secret and commit again
-	os.WriteFile(secretFile, []byte("api_key = os.environ.get('API_KEY')\n"), 0644)
+	os.WriteFile(secretFile, []byte("api_key = os.environ.get('API_KEY')\n"), 0600)
 	runGitHelper(t, dir, "add", ".")
 	runGitHelper(t, dir, "commit", "-m", "remove hardcoded secret")
 
@@ -92,7 +92,7 @@ func TestScanHistory_MaxCommitsLimit(t *testing.T) {
 	// Create 5 commits with different content
 	for i := 0; i < 5; i++ {
 		f := filepath.Join(dir, "file.txt")
-		os.WriteFile(f, []byte("content line "+string(rune('a'+i))+"\n"), 0644)
+		os.WriteFile(f, []byte("content line "+string(rune('a'+i))+"\n"), 0600)
 		runGitHelper(t, dir, "add", ".")
 		runGitHelper(t, dir, "commit", "-m", "commit")
 	}
@@ -115,7 +115,7 @@ func TestScanHistory_CleanRepo(t *testing.T) {
 	runGitHelper(t, dir, "config", "user.name", "Test")
 
 	// Commit a clean file
-	os.WriteFile(filepath.Join(dir, "clean.py"), []byte("print('hello world')\n"), 0644)
+	os.WriteFile(filepath.Join(dir, "clean.py"), []byte("print('hello world')\n"), 0600)
 	runGitHelper(t, dir, "add", ".")
 	runGitHelper(t, dir, "commit", "-m", "clean commit")
 

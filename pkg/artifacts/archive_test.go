@@ -436,7 +436,7 @@ func TestExtractArchivesInPlace(t *testing.T) {
 
 	// Create a regular file.
 	regularPath := filepath.Join(dir, "regular.txt")
-	os.WriteFile(regularPath, []byte("regular content"), 0644)
+	os.WriteFile(regularPath, []byte("regular content"), 0600)
 
 	paths := []string{zipPath, regularPath}
 

@@ -342,7 +342,7 @@ func TestLoadGitIgnoreHierarchy(t *testing.T) {
 
 	// Root .gitignore
 	rootGitignore := filepath.Join(tmpDir, ".gitignore")
-	if err := os.WriteFile(rootGitignore, []byte("tmp/\n*.log\n"), 0644); err != nil {
+	if err := os.WriteFile(rootGitignore, []byte("tmp/\n*.log\n"), 0600); err != nil {
 		t.Fatalf("write root .gitignore: %v", err)
 	}
 
@@ -352,15 +352,15 @@ func TestLoadGitIgnoreHierarchy(t *testing.T) {
 		t.Fatalf("mkdir sub: %v", err)
 	}
 	subGitignore := filepath.Join(subDir, ".gitignore")
-	if err := os.WriteFile(subGitignore, []byte("*.local\n"), 0644); err != nil {
+	if err := os.WriteFile(subGitignore, []byte("*.local\n"), 0600); err != nil {
 		t.Fatalf("write sub .gitignore: %v", err)
 	}
 
 	// Create test files.
-	if err := os.WriteFile(filepath.Join(tmpDir, "other.txt"), []byte("hello"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(tmpDir, "other.txt"), []byte("hello"), 0600); err != nil {
 		t.Fatalf("write other.txt: %v", err)
 	}
-	if err := os.WriteFile(filepath.Join(subDir, "file.txt"), []byte("world"), 0644); err != nil {
+	if err := os.WriteFile(filepath.Join(subDir, "file.txt"), []byte("world"), 0600); err != nil {
 		t.Fatalf("write file.txt: %v", err)
 	}
 
@@ -582,7 +582,7 @@ Thumbs.db
 func TestGitIgnoreMatcher_LoadFromFile(t *testing.T) {
 	tmpDir := t.TempDir()
 	gitignorePath := filepath.Join(tmpDir, ".gitignore")
-	if err := os.WriteFile(gitignorePath, []byte("*.log\ntmp/\n"), 0644); err != nil {
+	if err := os.WriteFile(gitignorePath, []byte("*.log\ntmp/\n"), 0600); err != nil {
 		t.Fatalf("write .gitignore: %v", err)
 	}
 

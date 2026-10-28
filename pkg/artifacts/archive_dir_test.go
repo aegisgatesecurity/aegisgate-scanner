@@ -49,7 +49,7 @@ func TestExtractTarGz_WithDirectories(t *testing.T) {
 	gw.Write(tarBuf.Bytes())
 	gw.Close()
 
-	os.WriteFile(tarPath, gzBuf.Bytes(), 0644)
+	os.WriteFile(tarPath, gzBuf.Bytes(), 0600)
 
 	result, err := ExtractArchive(tarPath)
 	if err != nil {
@@ -90,7 +90,7 @@ func TestExtractTarBz2_WithFiles(t *testing.T) {
 
 	// Create some data that looks like it might be bzip2 but isn't valid tar
 	// bzip2 files start with "BZh"
-	os.WriteFile(tarPath, []byte("BZh9\x00\x00\x00\x00invalid"), 0644)
+	os.WriteFile(tarPath, []byte("BZh9\x00\x00\x00\x00invalid"), 0600)
 
 	_, err := ExtractArchive(tarPath)
 	if err == nil {

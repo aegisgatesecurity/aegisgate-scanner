@@ -13,8 +13,8 @@ func TestWalk_UnreadableFile(t *testing.T) {
 		t.Skip("running as root — permission tests don't work")
 	}
 	dir := t.TempDir()
-	os.WriteFile(filepath.Join(dir, "readable.txt"), []byte("content"), 0644)
-	os.WriteFile(filepath.Join(dir, "unreadable.txt"), []byte("content"), 0644)
+	os.WriteFile(filepath.Join(dir, "readable.txt"), []byte("content"), 0600)
+	os.WriteFile(filepath.Join(dir, "unreadable.txt"), []byte("content"), 0600)
 	os.Chmod(filepath.Join(dir, "unreadable.txt"), 0000)
 	defer os.Chmod(filepath.Join(dir, "unreadable.txt"), 0644)
 
@@ -46,7 +46,7 @@ func TestWalk_SymlinkToDirectoryFollowed_Cov(t *testing.T) {
 	dir := t.TempDir()
 	// Create a real directory OUTSIDE the scan root
 	externalDir := t.TempDir()
-	os.WriteFile(filepath.Join(externalDir, "file.txt"), []byte("content"), 0644)
+	os.WriteFile(filepath.Join(externalDir, "file.txt"), []byte("content"), 0600)
 	// Add a file with binary content (null bytes) that will be skipped as binary
 	binContent := make([]byte, 200)
 	for i := range binContent {
@@ -56,7 +56,7 @@ func TestWalk_SymlinkToDirectoryFollowed_Cov(t *testing.T) {
 			binContent[i] = 'A'
 		}
 	}
-	os.WriteFile(filepath.Join(externalDir, "binary.txt"), binContent, 0644)
+	os.WriteFile(filepath.Join(externalDir, "binary.txt"), binContent, 0600)
 
 	// Create a symlink to the external directory inside the scan root
 	os.Symlink(externalDir, filepath.Join(dir, "link"))

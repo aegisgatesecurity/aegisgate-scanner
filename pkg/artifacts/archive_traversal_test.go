@@ -64,7 +64,7 @@ func TestExtractTarGz_PathTraversalEntry(t *testing.T) {
 	gw.Write(tarBuf.Bytes())
 	gw.Close()
 
-	os.WriteFile(tarPath, gzBuf.Bytes(), 0644)
+	os.WriteFile(tarPath, gzBuf.Bytes(), 0600)
 
 	_, err := ExtractArchive(tarPath)
 	if err == nil {
