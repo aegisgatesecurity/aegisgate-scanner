@@ -85,7 +85,7 @@ ARG TARGETARCH
 # internally. We remove wget after all downloads/cleanups to harden the
 # image attack surface.
 RUN apt-get update && \
-    apt-get upgrade -y ca-certificates && \
+    apt-get upgrade -y ca-certificates tzdata && \
     apt-get install -y --no-install-recommends ca-certificates libstdc++6 && \
     useradd -m -s /usr/sbin/nologin scanner && \
     mkdir -p /app/models /app/lib /github/workspace && \
