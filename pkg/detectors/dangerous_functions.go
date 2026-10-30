@@ -39,8 +39,8 @@ var DangerousFunctionPatterns = []PatternDef{
 	{
 		Name:        "dangerous_py_subprocess_shell",
 		Severity:    SeverityCritical,
-		Regex:       `subprocess\.(call|run|Popen)\s*\([^)]*shell\s*=\s*True`,
-		Description: "subprocess with shell=True allows command injection",
+		Regex:       `subprocess\.(call|run|Popen|check_output|check_call)\s*\([^)]*shell\s*=\s*True`,
+		Description: "subprocess with shell=True allows command injection (call, run, Popen, check_output, check_call)",
 		Languages:   []Language{LangPython},
 	},
 	{
