@@ -325,13 +325,13 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "prompt_injection_code_execution",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|on\w+\s*=\s*["']|on\w+\s*=\s*[^\s])`,
-		Description: "Code/script injection in prompt",
+		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*[^\w\s}][^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|on\w+\s*=\s*["']|on\w+\s*=\s*[^\s])`,
+		Description: "Code/script injection in prompt (excludes simple ${VAR} env references)",
 	},
 	{
 		Name:        "prompt_injection_command",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:ignore\s+(?:all\s+)?(?:previous|prior)\s+(?:instructions?|rules?|constraints?)|disregard\s+(?:your\s+)?(?:instructions?|rules?)|forget\s+(?:everything|all)\s+(?:you|we)\s+(?:have\s+)?told|temporary\s+instructions?)`,
+		Regex:       `(?i)(?:ignore\s+(?:all\s+)?(?:previous|prior)\s+(?:instructions?|rules?|constraints?)|disregard\s+(?:your\s+|all\s+)?(?:instructions?|rules?|safety\s+guidelines?)|forget\s+(?:everything|all)\s+(?:you|we)\s+(?:have\s+)?told|temporary\s+instructions?)`,
 		Description: "Command-style prompt injection",
 	},
 	{
@@ -431,8 +431,24 @@ var CompliancePatterns = []PatternDef{
 		Regex:       `(?i)(?:safety_checker|safety_filter|content_filter|guardrails?)\s*[:=]\s*(?:None|null|false|False|FALSE|disabled?|off)`,
 		Description: "Dangerous model config — safety checker/filter disabled removes content safety guardrails",
 	},
-
-	// --- Patterns synced from Platform v4.7.0 for detection parity ---
+	{
+		Name:        "prompt_injection_chatml_tokens",
+		Severity:    SeverityHigh,
+		Regex:       `<\|im_start\|>\s*(?:system|assistant|user)`,
+		Description: "ChatML token injection — <|im_start|> can override system prompts in RAG/agent contexts",
+	},
+	{
+		Name:        "prompt_injection_json_system_override",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)["'](?:system|system_prompt|instructions?)["']\s*:\s*["'][^"']*(?:ignore|disregard|forget|output.*(?:key|secret)|exfiltrat|reveal.*(?:prompt|instruction|key|secret))`,
+		Description: "JSON-wrapped system prompt injection in RAG/training data",
+	},
+	{
+		Name:        "model_config_unsafe_json_keys",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:allow_arbitrary_code_execution|allow_unlimited_output|unlimited_resource_consumption|training_data_unvetted|no_content_filter|input_sanitization["']\s*:\s*(?:false|False|FALSE)|output_validation["']\s*:\s*(?:false|False|FALSE))`,
+		Description: "Unsafe model configuration keys in JSON configs (OWASP LLM01/LLM05/LLM08 violations)",
+	},
 	{
 		Name:        "dangerous_command_rm_rf",
 		Severity:    SeverityCritical,
