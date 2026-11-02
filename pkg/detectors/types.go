@@ -37,6 +37,11 @@ const (
 	CategoryPromptLeakage     Category = "prompt-leakage"
 	CategoryPathTraversal     Category = "path-traversal"
 	CategoryAgentPoisoning    Category = "agent-poisoning"
+	CategoryInjection         Category = "injection"
+	CategoryMalware           Category = "malware"
+	CategoryEvasion           Category = "evasion"
+	CategoryDataExfil         Category = "data-exfil"
+	CategorySocialEngineering Category = "social-engineering"
 )
 
 // Match represents a single regex detection match.

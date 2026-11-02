@@ -717,7 +717,13 @@ func TotalCompiledPatterns() int {
 		len(CompiledRAGPatterns) +
 		len(CompiledPromptLeakagePatterns) +
 		len(CompiledPathTraversalPatterns) +
-		len(CompiledAgentPoisoningPatterns)
+		len(CompiledAgentPoisoningPatterns) +
+		len(CompiledInjectionPatterns) +
+		len(CompiledMalwarePatterns) +
+		len(CompiledEvasionPatterns) +
+		len(CompiledDataExfilPatterns) +
+		len(CompiledSocialEngineeringPatterns) +
+		len(CompiledXSSRequestPatterns)
 }
 
 func DetectAll(text string) []Match {
@@ -780,6 +786,24 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledPathTraversalPatterns, "path-traversal", lang)
 		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledInjectionPatterns, "injection", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledMalwarePatterns, "malware", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledEvasionPatterns, "evasion", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledDataExfilPatterns, "data-exfil", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledSocialEngineeringPatterns, "social-engineering", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledXSSRequestPatterns, "xss", lang)
+		},
 	}
 	if len(customSnapshot) > 0 {
 		scanners = append(scanners, func() []Match {
@@ -841,6 +865,12 @@ func DetectAllWithResults(text string) ([]Match, []DetectionResult) {
 		{CompiledPromptLeakagePatterns, CategoryPromptLeakage},
 		{CompiledPathTraversalPatterns, CategoryPathTraversal},
 		{CompiledAgentPoisoningPatterns, CategoryAgentPoisoning},
+		{CompiledInjectionPatterns, CategoryInjection},
+		{CompiledMalwarePatterns, CategoryMalware},
+		{CompiledEvasionPatterns, CategoryEvasion},
+		{CompiledDataExfilPatterns, CategoryDataExfil},
+		{CompiledSocialEngineeringPatterns, CategorySocialEngineering},
+		{CompiledXSSRequestPatterns, CategoryXSS},
 	}
 
 	results := make([]DetectionResult, len(categories))
