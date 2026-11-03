@@ -253,7 +253,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_internal_api_key",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:INTERNAL[_-]?API[_-]?KEY|INTERNAL[_-]?KEY|INTERNAL[_-]?TOKEN)\s*[:=]\s*['"]?([A-Za-z0-9_\-]{20,})['"]?`,
+		Regex:       `(?i)(?:INTERNAL[_-]?API[_-]?KEY|INTERNAL[_-]?KEY|INTERNAL[_-]?TOKEN)\s*[:=]\s*['"]?([A-Za-z0-9_\-]{10,})['"]?`,
 		Description: "Internal API key assignment",
 	},
 	{

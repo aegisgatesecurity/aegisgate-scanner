@@ -166,6 +166,12 @@ var PromptInjectionRequestPatterns = []PatternDef{
 		Regex:       `(?i)(?:emergency|critical|urgent)\s+protocol.{0,40}(?:safety|security|all)\s+(?:restrictions?|filters?|guardrails?|protections?|limits?).{0,20}(?:lifted|removed|disabled|suspended|deactivated|overridden)`,
 		Description: "Fake emergency protocol to lift safety restrictions",
 	},
+	{
+		Name:        "pi_hex_encoded_instruction",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:decode|deobfuscate|unhex|hex\s+decode|convert\s+from\s+(?:hex|base16)).{0,50}(?:follow|execute|run|process|interpret|act\s+on|comply)`,
+		Description: "Hex-encoded instruction to decode and execute",
+	},
 }
 
 // CompiledPromptInjectionRequestPatterns holds pre-compiled prompt injection request regex patterns.

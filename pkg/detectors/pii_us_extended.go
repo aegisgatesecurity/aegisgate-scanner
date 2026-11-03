@@ -109,7 +109,7 @@ var PIIUSExtendedPatterns = []PatternDef{
 	},
 	{
 		Name:        "pii_license_plate",
-		Severity:    SeverityMedium,
+		Severity:    SeverityHigh,
 		Regex:       `(?i)\b(?:license|licence)\s+plate\s*(?:is|:|=|#|number)?\s*[A-Z0-9]{1,8}[-\s][A-Z0-9]{1,8}\b`,
 		Description: "Vehicle license plate number",
 	},
@@ -121,7 +121,7 @@ var PIIUSExtendedPatterns = []PatternDef{
 	},
 	{
 		Name:        "pii_mac_address",
-		Severity:    SeverityMedium,
+		Severity:    SeverityHigh,
 		Regex:       `(?i)\bmac\s+address\s*(?:is|:|=|#)?\s*(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\b`,
 		Description: "MAC address (hardware network identifier)",
 	},
