@@ -106,7 +106,7 @@ var PromptInjectionRequestPatterns = []PatternDef{
 	{
 		Name:        "pi_base64_execute",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:execute|run|decode|process)\s*[:=]?\s*[A-Za-z0-9+/]{20,}={0,2}\b`,
+		Regex:       `(?i)(?:execute|run|decode|process)\s*[:=]\s*[A-Za-z0-9+/]{20,}={0,2}\b`,
 		Description: "Base64-encoded command execution attempt",
 	},
 	// --- Code execution in prompt ---

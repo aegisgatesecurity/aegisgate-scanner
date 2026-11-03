@@ -332,7 +332,7 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "prompt_injection_base64",
 		Severity:    SeverityMedium,
-		Regex:       `[A-Za-z0-9+/]{50,}={0,2}`,
+		Regex:       `[A-Za-z0-9+/]{80,}={0,2}`,
 		Description: "Base64-encoded content (obfuscation)",
 	},
 	{
