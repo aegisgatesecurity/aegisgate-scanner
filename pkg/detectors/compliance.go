@@ -15,36 +15,49 @@ package detectors
 // CompliancePatterns defines all compliance framework detection patterns.
 // Lens parity: compliance.js v0.2.0 (35 base patterns), extended to 64.
 var CompliancePatterns = []PatternDef{
-	// --- OWASP LLM Top 10 ---
+	// --- OWASP LLM Top 10 (2025) ---
+	// Pattern names retain 2024 numbering for backward compatibility with
+	// SARIF output and suppression rules. 2025 mapping:
+	//   owasp_llm01 → LLM01:2025 Prompt Injection (same)
+	//   owasp_llm02 → LLM05:2025 Improper Output Handling
+	//   owasp_llm04 → LLM10:2025 Unbounded Consumption (DoS aspect)
+	//   owasp_llm05 → LLM03:2025 Supply Chain Vulnerabilities
+	//   owasp_llm06 → LLM07:2025 System Prompt Leakage
+	//   owasp_llm07 → (removed in 2025, was Insecure Plugin Design)
+	//   owasp_llm08 → LLM06:2025 Excessive Agency
+	//   owasp_llm09 → LLM09:2025 Misinformation
+	//   owasp_llm10 → LLM10:2025 Unbounded Consumption
+	// Coverage: ALL 10 OWASP LLM 2025 categories covered across compliance +
+	// injection + rag_patterns + prompt_leakage + secrets + pii + xss + dangerous.
 	{
 		Name:        "owasp_llm01_prompt_injection",
 		Severity:    SeverityCritical,
 		Regex:       `(?i)(?:ignore|disregard|forget|override|bypass)\s+(?:all\s+)?(?:previous|prior|above|earlier|preceding)\s+(?:instructions?|prompts?|rules?|context)|(?:^|\s)(?:new|updated?)\s+instructions?\s*:|system\s*:\s*you\s+are\s+now`,
-		Description: "Prompt injection attempt",
+		Description: "OWASP LLM01:2025 Prompt Injection attempt",
 	},
 	{
 		Name:        "owasp_llm04_model_dos",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:flood|overwhelm|DDoS|denial.of.service)\s+(?:the\s+)?(?:system|server|model|API)|(?:repeat|output)\s+(?:this\s+)?(?:sentence|phrase|word)\s+\d{3,}\s+times?`,
-		Description: "Denial-of-service attempt on model",
+		Description: "OWASP LLM10:2025 Unbounded Consumption: DoS attempt on model",
 	},
 	{
 		Name:        "owasp_llm08_excessive_agency",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:use|run|execute|call|invoke)\s+(?:the\s+)?(?:file|shell|terminal|command|exec|system)\s+(?:tool|command|function|API)|(?:without|no)\s+(?:human\s+)?(?:oversight|review|approval|confirmation)`,
-		Description: "Excessive agency: asking AI to use tools without oversight",
+		Description: "OWASP LLM06:2025 Excessive Agency: asking AI to use tools without oversight",
 	},
 	{
 		Name:        "owasp_llm09_overreliance",
 		Severity:    SeverityMedium,
 		Regex:       `(?i)(?:is\s+this\s+(?:safe|legal|compliant|ethical|appropriate))|(?:should\s+I\s+(?:trust|rely\s+on|sign|send|submit))|(?:validate|verify|check)\s+(?:this\s+)?(?:for\s+me|before\s+I)`,
-		Description: "Overreliance: asking AI to validate critical decisions",
+		Description: "OWASP LLM09:2025 Misinformation: overreliance on AI for critical decisions",
 	},
 	{
 		Name:        "owasp_llm10_model_theft",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:extract|reveal|expose|leak|give\s+me|print|show|output|display|share|tell\s+me)\s+(?:me\s+)?(?:your\s+|the\s+)?(?:model|weights?|parameters?|architecture|training\s+data|embeddings?)`,
-		Description: "Model extraction/theft attempt",
+		Description: "OWASP LLM10:2025 Unbounded Consumption: model extraction/theft attempt",
 	},
 	{
 		Name:        "mitre_atlas_ta0001_reconnaissance",
@@ -56,7 +69,7 @@ var CompliancePatterns = []PatternDef{
 		Name:        "owasp_llm06_sensitive_info_disclosure_system_prompt",
 		Severity:    SeverityMedium,
 		Regex:       `(?i)(?:what(?:'s|\s+is)\s+)?(?:your|the)\s+(?:system\s+prompt|initial\s+instructions?|original\s+instructions?|hidden\s+instructions?|secret\s+instructions?|secret\s+prompt|underlying\s+prompt)|(?:reveal|show|print|display|output|expose|leak|share|give\s+me)\s+(?:your|the)\s+(?:system\s+message|system\s+prompt|initial\s+instructions?|original\s+instructions?|secret\s+instructions?|secret\s+prompt|underlying\s+prompt|hidden\s+prompt)`,
-		Description: "System prompt extraction attempt",
+		Description: "OWASP LLM07:2025 System Prompt Leakage: extraction attempt",
 	},
 	{
 		Name:        "eu_ai_act_article_5_prohibited",
@@ -68,13 +81,13 @@ var CompliancePatterns = []PatternDef{
 		Name:        "owasp_llm09_overreliance_misinformation_explicit",
 		Severity:    SeverityMedium,
 		Regex:       `(?i)(?:make\s+up|fabricat(?:e|ion|ed|ing)|invent|fake|create\s+(?:a\s+)?(?:fake|fabricated))\s+(?:a\s+)?(?:study|statistic|stat(?:s|istics)|source|citation|reference|quote|testimonial|review|article|news|headline|survey|paper|report)|(?:cite\s+(?:a\s+)?(?:fake|non-existent|fabricated|made-up|invented))|(?:write\s+(?:a\s+)?(?:misleading|fake|fabricated|inaccurate))\s+(?:article|headline|review|news|story|report)`,
-		Description: "Explicit request to generate misinformation",
+		Description: "OWASP LLM09:2025 Misinformation: explicit request to generate false info",
 	},
 	{
 		Name:        "owasp_llm10_unbounded_consumption",
 		Severity:    SeverityMedium,
 		Regex:       `(?i)(?:run|process|repeat|generate|output|call)\s+(?:this\s+)?(?:1[0-9]{3,}|[2-9][0-9]{3,})\s+times?|(?:run|process)\s+(?:this\s+)?(?:dataset|list|data|requests?)\s+(?:repeatedly|in\s+a\s+loop|exhaustively|infinitely|forever|continuously)|(?:use\s+the\s+most\s+expensive\s+model)|(?:maximize|exhaust)\s+(?:the\s+)?(?:API|token|cost|budget|context)`,
-		Description: "Resource exhaustion / unbounded consumption",
+		Description: "OWASP LLM10:2025 Unbounded Consumption: resource exhaustion",
 	},
 	{
 		Name:        "mitre_atlas_ta0002_resource_development",
@@ -86,7 +99,7 @@ var CompliancePatterns = []PatternDef{
 		Name:        "owasp_llm05_supply_chain",
 		Severity:    SeverityMedium,
 		Regex:       `(?i)(?:install|load|import|use|deploy|register|fetch|download)\s+(?:this\s+|the\s+|a\s+)?(?:untrusted|unverified|unknown|custom|third-party|external|community)\s+(?:model|plugin|extension|package|library|module|tool|API|endpoint|repository|repo|checkpoint|weights?)`,
-		Description: "Supply chain: using untrusted components",
+		Description: "OWASP LLM03:2025 Supply Chain: using untrusted components",
 	},
 	{
 		Name:        "eu_ai_act_article_10_data_governance",
@@ -104,7 +117,7 @@ var CompliancePatterns = []PatternDef{
 		Name:        "owasp_llm02_insecure_output",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:output|return|render|generate|include|insert)\s+(?:HTML|markdown|JavaScript|JS|code|script|iframe|eval|innerHTML|outerHTML)\s+(?:that\s+(?:will\s+)?)?(?:execute|run|be\s+evaluated|be\s+interpreted|be\s+rendered|inject|executes?\s+in\s+the\s+(?:browser|page|DOM))|(?:the\s+response\s+(?:will\s+)?(?:be\s+)?(?:evaluated|executed|rendered)\s+(?:as|in\s+the))\s+(?:HTML|code|script|browser|DOM|page)`,
-		Description: "OWASP LLM02: Insecure output handling (XSS-via-output)",
+		Description: "OWASP LLM05:2025 Improper Output Handling (XSS-via-output)",
 	},
 	{
 		Name:        "eu_ai_act_article_52_generative_ai",
@@ -262,14 +275,14 @@ var CompliancePatterns = []PatternDef{
 		Name:        "owasp_llm10_model_theft_query",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:what\s+are\s+your\s+(?:model\s+)?weights|what\s+is\s+your\s+(?:model\s+)?architecture|export\s+(?:your\s+)?(?:neural\s+network|model|weights|parameters)|show\s+me\s+(?:your\s+)?(?:model\s+)?(?:weights|parameters|architecture)|what\s+(?:model|architecture)\s+(?:are|is)\s+you|give\s+me\s+(?:your\s+)?(?:model\s+)?(?:weights|parameters|architecture|hyperparameters))`,
-		Description: "Model theft via direct query",
+		Description: "OWASP LLM10:2025 Unbounded Consumption: model theft via direct query",
 	},
 	// --- System prompt extraction via variant phrasings ---
 	{
 		Name:        "owasp_llm06_system_prompt_extraction_variant",
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:give\s+me\s+(?:your|the)\s+(?:system\s+prompt|instructions?)\s+(?:in\s+full|completely|verbatim)|(?:what|which)\s+instructions\s+(?:were\s+you\s+given|do\s+you\s+have|are\s+you\s+using)\s+(?:about|regarding|for|on)\s+(?:content\s+filtering|safety|guidelines|restrictions)|(?:tell|show)\s+me\s+(?:everything|all)\s+(?:about\s+)?(?:your|the)\s+(?:system\s+prompt|instructions?|configuration|rules?))`,
-		Description: "System prompt extraction via variant phrasing",
+		Description: "OWASP LLM07:2025 System Prompt Leakage: extraction via variant phrasing",
 	},
 	// --- Safety protocol bypass ---
 	{

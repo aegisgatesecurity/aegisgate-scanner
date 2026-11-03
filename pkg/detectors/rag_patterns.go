@@ -155,6 +155,16 @@ var RAGPatterns = []PatternDef{
 		Description: "RAG smuggling: prompt injection encoded as unicode escapes",
 	},
 
+	// --- RAG attack meta-phrases (direct requests to perform RAG attacks) ---
+	// These detect attack descriptions in agent skill files, config documents,
+	// or training data that reference RAG injection/poisoning as a technique.
+	{
+		Name:        "rag_attack_metaphrase",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:\brag\s+(?:context\s+)?(?:injection|poisoning|attack|exploit|compromise)|(?:inject|poison|contaminate|taint)\w*\s+(?:\w+\s+){0,3}(?:into\s+)?(?:the\s+)?(?:rag|retrieval|knowledge\s+base|vector\s+store)|context\s+injection|fake\s+documents?\s+(?:to|into|for)|fabricated\s+references?)`,
+		Description: "RAG attack: direct request or reference to RAG context injection or poisoning",
+	},
+
 	// --- Patterns synced from Platform v4.7.0 for detection parity ---
 	{
 		Name:        "rag_poison_embed_document",
