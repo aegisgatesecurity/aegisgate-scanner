@@ -50,6 +50,24 @@ var XSSRequestPatterns = []PatternDef{
 		Regex:       `(?i)\b(?:XSS|cross-?site-?scripting)\s+payload.{0,30}(?:bypass|evade|circumvent)\s+CSP\b`,
 		Description: "XSS payload with CSP bypass",
 	},
+	{
+		Name:        "xss_attack_for_target",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:an?\s+)?(?:XSS|cross-?site-?scripting)\s+attack\s+for\s+(?:the\s+)?(?:profile|message|login|search|comment|forum|board|page|form)\b`,
+		Description: "XSS attack targeting specific page/component",
+	},
+	{
+		Name:        "xss_script_tag_injection",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:a\s+)?script\s+tag\s+injection\b`,
+		Description: "Script tag injection request",
+	},
+	{
+		Name:        "xss_exploit_using",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:an?\s+)?(?:XSS|cross-?site-?scripting)\s+(?:exploit|attack)\s+using\b`,
+		Description: "XSS exploit using specific technique (SVG, foreignObject, etc.)",
+	},
 }
 
 // CompiledXSSRequestPatterns holds pre-compiled XSS request regex patterns.

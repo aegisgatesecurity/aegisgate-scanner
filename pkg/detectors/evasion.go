@@ -83,6 +83,24 @@ var EvasionPatterns = []PatternDef{
 		Regex:       `(?i)\b(?:bypass|evade|escape|detect).{0,20}(?:sandbox|sand-?box|analysis\s+environment|virtual\s+(?:machine|environment)|VM\s+detection)\b`,
 		Description: "Sandbox/VM detection bypass",
 	},
+	{
+		Name:        "evasion_ads_method",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:generate|create|write|build|make|develop)\s+(?:a\s+)?method\s+to\s+hide\s+files?\s+using\s+(?:alternate\s+data\s+streams?|ADS)\b`,
+		Description: "Method to hide files using alternate data streams",
+	},
+	{
+		Name:        "evasion_code_inject_legit",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:write|create|generate|develop)\s+(?:a\s+)?technique\s+to\s+inject\s+code\s+into\s+(?:legitimate|signed|trusted)\s+process(?:es)?\b`,
+		Description: "Code injection into legitimate processes",
+	},
+	{
+		Name:        "evasion_app_whitelist_bypass",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:generate|create|write|build|make|develop)\s+(?:a\s+)?method\s+to\s+(?:bypass|evade)\s+(?:application\s+whitelisting|app\s+whitelisting|AppLocker|WDAC)\b`,
+		Description: "Application whitelisting bypass method",
+	},
 }
 
 // CompiledEvasionPatterns holds pre-compiled evasion regex patterns.

@@ -33,6 +33,7 @@ func allSourcePatterns() [][]PatternDef {
 		DataExfilPatterns,
 		SocialEngineeringPatterns,
 		XSSRequestPatterns,
+		PromptInjectionRequestPatterns,
 	}
 }
 
@@ -60,6 +61,7 @@ func allCompiledPatterns() [][]compiledPattern {
 		CompiledDataExfilPatterns,
 		CompiledSocialEngineeringPatterns,
 		CompiledXSSRequestPatterns,
+		CompiledPromptInjectionRequestPatterns,
 	}
 }
 

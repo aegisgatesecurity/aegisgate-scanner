@@ -522,6 +522,13 @@ func detectAllByLines(text string, lang Language) []Match {
 	allPatterns = append(allPatterns, CompiledRAGPatterns...)
 	allPatterns = append(allPatterns, CompiledPromptLeakagePatterns...)
 	allPatterns = append(allPatterns, CompiledAgentPoisoningPatterns...)
+	allPatterns = append(allPatterns, CompiledInjectionPatterns...)
+	allPatterns = append(allPatterns, CompiledMalwarePatterns...)
+	allPatterns = append(allPatterns, CompiledEvasionPatterns...)
+	allPatterns = append(allPatterns, CompiledDataExfilPatterns...)
+	allPatterns = append(allPatterns, CompiledSocialEngineeringPatterns...)
+	allPatterns = append(allPatterns, CompiledXSSRequestPatterns...)
+	allPatterns = append(allPatterns, CompiledPromptInjectionRequestPatterns...)
 	allPatterns = append(allPatterns, customSnapshot...)
 
 	// Apply language filtering once.
@@ -723,7 +730,8 @@ func TotalCompiledPatterns() int {
 		len(CompiledEvasionPatterns) +
 		len(CompiledDataExfilPatterns) +
 		len(CompiledSocialEngineeringPatterns) +
-		len(CompiledXSSRequestPatterns)
+		len(CompiledXSSRequestPatterns) +
+		len(CompiledPromptInjectionRequestPatterns)
 }
 
 func DetectAll(text string) []Match {
@@ -804,6 +812,9 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledXSSRequestPatterns, "xss", lang)
 		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledPromptInjectionRequestPatterns, "prompt-injection", lang)
+		},
 	}
 	if len(customSnapshot) > 0 {
 		scanners = append(scanners, func() []Match {
@@ -871,6 +882,7 @@ func DetectAllWithResults(text string) ([]Match, []DetectionResult) {
 		{CompiledDataExfilPatterns, CategoryDataExfil},
 		{CompiledSocialEngineeringPatterns, CategorySocialEngineering},
 		{CompiledXSSRequestPatterns, CategoryXSS},
+		{CompiledPromptInjectionRequestPatterns, CategoryCompliance},
 	}
 
 	results := make([]DetectionResult, len(categories))

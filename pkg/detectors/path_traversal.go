@@ -145,6 +145,18 @@ var PathTraversalPatterns = []PatternDef{
 		Regex:       `(?:^|[/\\"\s'])var/run/docker\.sock(?:$|[/\\"\s'&|;])`,
 		Description: "Access to Docker socket (container escape, host compromise)",
 	},
+	{
+		Name:        "sensitive_file_gcp_service_key",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:show|read|display|output|reveal|give|dump).{0,20}(?:me\s+)?(?:the\s+)?GCP\s+service\s+account\s+key\s+file\b`,
+		Description: "GCP service account key file access request",
+	},
+	{
+		Name:        "sensitive_file_jwt_signing",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:read|show|display|output|reveal|extract|get).{0,30}(?:the\s+)?JWT\s+signing\s+key.{0,20}(?:from|in)\s+(?:the\s+)?(?:server|application|config|configuration)`,
+		Description: "JWT signing key extraction request",
+	},
 }
 
 // CompiledPathTraversalPatterns holds pre-compiled path traversal regex patterns.
