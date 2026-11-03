@@ -56,7 +56,7 @@ var PromptInjectionRequestPatterns = []PatternDef{
 	{
 		Name:        "pi_leakage_show",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:show\s+(?:me\s+)?(?:your\s+)?(?:initial\s+|system\s+|hidden\s+|internal\s+)?(?:prompt|instructions?|guidelines?|rules?|config)|reveal\s+(?:your\s+|the\s+)?(?:hidden\s+|system\s+|internal\s+)?(?:rules?|instructions?|prompt|guidelines?|config)|print\s+(?:your\s+)?(?:system\s+|hidden\s+|internal\s+)?(?:instructions?|prompt|config))`,
+		Regex:       `(?i)(?:show\s+(?:me\s+)?(?:your\s+)?(?:initial\s+|system\s+|hidden\s+|internal\s+)?(?:prompt|instructions?|guidelines?|rules?|config)|reveal\s+(?:your\s+|the\s+)?(?:hidden\s+|system\s+|internal\s+)?(?:rules?|instructions?|prompt|guidelines?|config)|print\s+(?:your\s+)?(?:full\s+|complete\s+|entire\s+)?(?:system\s+|hidden\s+|internal\s+)?(?:instructions?|prompt|config))`,
 		Description: "Prompt extraction — show/reveal/print system prompt or instructions",
 	},
 	{
@@ -93,7 +93,7 @@ var PromptInjectionRequestPatterns = []PatternDef{
 	{
 		Name:        "pi_system_admin_override",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:I\s+am\s+(?:the\s+)?(?:system\s+administrator|admin|developer|root)|as\s+(?:a\s+)?(?:system\s+administrator|admin|developer|root)).{0,40}(?:override|bypass|disable|ignore|enable|access|unlock)`,
+		Regex:       `(?i)(?:I\s+am\s+(?:the\s+)?(?:system\s+administrator|admin|developer|root)|as\s+(?:a\s+|the\s+)?(?:system\s+administrator|admin|developer|root)).{0,40}(?:override|bypass|disable|ignore|enable|access|unlock)`,
 		Description: "System administrator authority claim with override request",
 	},
 	{
@@ -135,6 +135,36 @@ var PromptInjectionRequestPatterns = []PatternDef{
 		Severity:    SeverityCritical,
 		Regex:       `忽略所有之前的指令|忽略之前的指令|忽略所有先前的指示|泄露系统提示|显示系统提示|输出系统提示|忽略安全限制|无视安全规则`,
 		Description: "Chinese-language prompt injection",
+	},
+	{
+		Name:        "pi_translate_execute",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:translate|convert|change).{0,30}(?:ignore|disregard|bypass|override).{0,30}(?:safety|security|filter|restriction|guardrail).{0,40}(?:follow|execute|obey|comply)\s+(?:the\s+)?(?:translated|converted)\s+instruction`,
+		Description: "Translate-then-execute prompt injection (obfuscation via translation)",
+	},
+	{
+		Name:        "pi_game_extraction",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:let'?s\s+play|play\s+a\s+game|round\s+\d).{0,60}(?:repeat|say|output|print).{0,40}(?:system\s+prompt|system\s+instructions?|hidden\s+prompt|secret\s+prompt)`,
+		Description: "Game-based prompt extraction technique",
+	},
+	{
+		Name:        "pi_authorized_test",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:authorized|approved|official)\s+(?:security\s+)?test.{0,40}(?:disable|turn\s+off|deactivate|remove|bypass).{0,20}(?:your\s+)?(?:filters?|safety|guardrails?|protections?|restrictions?|security)`,
+		Description: "Fake authorization claim to disable safety filters",
+	},
+	{
+		Name:        "pi_developer_instruct",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)as\s+(?:the\s+)?(?:developer|admin|administrator|creator|owner).{0,30}(?:instruct\w*|telling|ordering|directing)\s+(?:you\s+)?to\s+(?:bypass|ignore|override|disable|circumvent)\s+(?:your\s+)?(?:guidelines?|rules?|safety|restrictions?|guardrails?)`,
+		Description: "Developer authority claim to bypass guidelines",
+	},
+	{
+		Name:        "pi_emergency_protocol",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:emergency|critical|urgent)\s+protocol.{0,40}(?:safety|security|all)\s+(?:restrictions?|filters?|guardrails?|protections?|limits?).{0,20}(?:lifted|removed|disabled|suspended|deactivated|overridden)`,
+		Description: "Fake emergency protocol to lift safety restrictions",
 	},
 }
 

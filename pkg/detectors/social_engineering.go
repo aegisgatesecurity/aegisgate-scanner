@@ -50,7 +50,7 @@ var SocialEngineeringPatterns = []PatternDef{
 	{
 		Name:        "socialeng_tailgating",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:a\s+)?tailgating\s+(?:script|attack|scenario|technique)\b`,
+		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:a\s+)?tailgating\s+(?:social\s+engineering\s+)?(?:script|attack|scenario|technique)\b`,
 		Description: "Tailgating social engineering",
 	},
 	{
@@ -62,7 +62,7 @@ var SocialEngineeringPatterns = []PatternDef{
 	{
 		Name:        "socialeng_landing_page",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:a\s+)?phishing\s+(?:landing\s+page|login\s+page|credential\s+harvest\w*\s+page).{0,30}(?:mimic|clone|impersonate|copy|replicate)\b`,
+		Regex:       `(?i)\b(?:write|create|generate|build|make)\s+(?:a\s+)?phishing\s+(?:landing\s+page|login\s+page|credential\s+harvest\w*\s+page).{0,30}(?:mimic\w*|clone|impersonate|copy|replicate)\b`,
 		Description: "Phishing landing page generation",
 	},
 	{

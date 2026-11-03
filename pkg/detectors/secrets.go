@@ -442,7 +442,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_square_token",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)\bsq0atp-[A-Za-z0-9_-]{20,}\b|\bsq0csp-[A-Za-z0-9_-]{40,}\b`,
+		Regex:       `(?i)\bsq0atp-[A-Za-z0-9_-]{10,}\b|\bsq0csp-[A-Za-z0-9_-]{40,}\b`,
 		Description: "Square access token or client secret",
 	},
 	{
@@ -468,6 +468,18 @@ var SecretsPatterns = []PatternDef{
 		Severity:    SeverityHigh,
 		Regex:       `(?i)(?:aws_session_token|aws_security_token|session_token|SessionToken|SecurityToken)\s*["']?\s*[:=]\s*["']?[A-Za-z0-9/+=_-]{400,}["']?`,
 		Description: "AWS STS session token",
+	},
+	{
+		Name:        "secret_k8s_secrets_dump",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:dump|extract|read|show|get|reveal|list)\s+(?:all\s+)?secrets?\s+(?:from\s+|in\s+)(?:the\s+)?kubernetes\s+(?:secrets?\s+)?(?:file|manifest|secret)\b`,
+		Description: "Kubernetes secrets file dump request",
+	},
+	{
+		Name:        "secret_discord_webhook_share",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:share|send|post|give|leak|expose)\s+(?:my\s+|the\s+|our\s+)?discord\s+webhook\b`,
+		Description: "Discord webhook sharing/disclosure request",
 	},
 }
 

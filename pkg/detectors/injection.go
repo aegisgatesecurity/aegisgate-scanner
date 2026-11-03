@@ -102,6 +102,12 @@ var InjectionPatterns = []PatternDef{
 		Description: "SQL ALTER TABLE schema corruption",
 	},
 	{
+		Name:        "sqli_copy_to_external",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:create|write|generate|build)\s+(?:a\s+)?sql\s+to\s+(?:copy|move|transfer|export)\s+(?:all\s+)?(?:credit\s*card|customer|user|financial|payment)\s+data\s+to\s+(?:an?\s+)?(?:external|outside|remote|third.?party)\s+table\b`,
+		Description: "SQL to copy sensitive data to external table",
+	},
+	{
 		Name:        "sqli_dump_passwords",
 		Severity:    SeverityCritical,
 		Regex:       `(?i)\b(?:write|generate|create)\s+sql\s+to\s+(?:dump|extract|steal|export)\s+(?:all\s+)?(?:passwords|credentials|usernames|emails?|credit\s*cards?|ssns?).{0,30}(?:from\s+(?:the\s+)?(?:users?|accounts?|customers?)\s+table)`,
