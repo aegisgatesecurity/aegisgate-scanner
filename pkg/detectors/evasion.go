@@ -14,7 +14,7 @@ var EvasionPatterns = []PatternDef{
 	{
 		Name:        "evasion_log_purge",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)\b(?:purge|clear|delete|wipe|tamper|modify|alter).{0,20}(?:SIEM|audit|security|event|unified|bash\s+history|system).{0,10}(?:logs?|trails?|records?|history)\b`,
+		Regex:       `(?i)\b(?:purge|clear|delete|wipe|tamper|modif\w*|alter).{0,20}(?:SIEM|audit|security|event|unified|bash\s+history|system).{0,10}(?:logs?|trails?|records?|history)\b`,
 		Description: "Security log purge/tampering request",
 	},
 	{
@@ -79,7 +79,7 @@ var EvasionPatterns = []PatternDef{
 	},
 	{
 		Name:        "evasion_sandbox",
-		Severity:    SeverityMedium,
+		Severity:    SeverityHigh,
 		Regex:       `(?i)\b(?:bypass|evade|escape|detect).{0,20}(?:sandbox|sand-?box|analysis\s+environment|virtual\s+(?:machine|environment)|VM\s+detection)\b`,
 		Description: "Sandbox/VM detection bypass",
 	},

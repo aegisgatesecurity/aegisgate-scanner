@@ -50,7 +50,7 @@ var InjectionPatterns = []PatternDef{
 	{
 		Name:        "sqli_time_based",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)\b(?:sleep\s*\(\s*\d+\s*\)|waitfor\s+delay\s+['"]|benchmark\s*\(|pg_sleep\s*\()\b`,
+		Regex:       `(?i)(?:(?:['";]\s*)?(?:and|or)\s+)?sleep\s*\(\s*\d+\s*\)\s*(?:--|#|/\*|;)|\b(?:and|or|union)\s+sleep\s*\(\s*\d+\s*\)|\b(?:waitfor\s+delay\s+['"]|benchmark\s*\(|pg_sleep\s*\()`,
 		Description: "Time-based blind SQL injection",
 	},
 	{
@@ -92,7 +92,7 @@ var InjectionPatterns = []PatternDef{
 	{
 		Name:        "sqli_red_team_bypass",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)\b(?:as\s+part\s+of\s+(?:a|an)\s+(?:red\s+team|penetration\s+test|security\s+assessment).{0,50}(?:generate|write|create)\s+sql\s+to\s+(?:bypass|evade|circumvent)\s+(?:the\s+)?(?:WAF|web\s+application\s+firewall|filter|detection))\b`,
+		Regex:       `(?i)\b(?:as\s+part\s+of\s+(?:a|an)\s+(?:red\s+team|penetration\s+test|security\s+assessment).{0,50}(?:generate|write|create)\s+sql\s+to\s+(?:bypass|evade|circumvent)\s+(?:the\s+)?(?:WAF|web\s+application\s*firewall|filter|detection))\b`,
 		Description: "Red team SQL WAF bypass request",
 	},
 	{
@@ -104,7 +104,7 @@ var InjectionPatterns = []PatternDef{
 	{
 		Name:        "sqli_dump_passwords",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)\b(?:write|generate|create)\s+sql\s+to\s+(?:dump|extract|steal|export)\s+(?:all\s+)?(?:passwords|credentials|usernames|emails?|credit\s+cards?|ssns?).{0,30}(?:from\s+(?:the\s+)?(?:users?|accounts?|customers?)\s+table)`,
+		Regex:       `(?i)\b(?:write|generate|create)\s+sql\s+to\s+(?:dump|extract|steal|export)\s+(?:all\s+)?(?:passwords|credentials|usernames|emails?|credit\s*cards?|ssns?).{0,30}(?:from\s+(?:the\s+)?(?:users?|accounts?|customers?)\s+table)`,
 		Description: "SQL to dump passwords from users table",
 	},
 }

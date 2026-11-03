@@ -210,7 +210,7 @@ var PIIUSCorePatterns = []PatternDef{
 	{
 		Name:        "pii_ssn",
 		Severity:    SeverityCritical,
-		Regex:       `\b\d{3}-?\d{2}-?\d{4}\b`,
+		Regex:       `\b\d{3}[-\s]\d{2}[-\s]\d{4}\b`,
 		Description: "US Social Security Number",
 	},
 	{
