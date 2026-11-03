@@ -381,7 +381,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_bearer_token",
 		Severity:    SeverityMedium,
-		Regex:       `\bBearer\s+[a-zA-Z0-9_\-\.]+`,
+		Regex:       `\bBearer\s+[a-zA-Z0-9_\-\.]{20,}`,
 		Description: "Bearer authentication token",
 	},
 	{

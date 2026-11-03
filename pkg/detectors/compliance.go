@@ -325,7 +325,7 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "prompt_injection_code_execution",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*[^\w\s}][^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|on\w+\s*=\s*["']|on\w+\s*=\s*[^\s])`,
+		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*[^\w\s}][^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|\bon\w+\s*=\s*["']|\bon\w+\s*=\s*[^\s])`,
 		Description: "Code/script injection in prompt (excludes simple ${VAR} env references)",
 	},
 	{
@@ -476,7 +476,7 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "supply_chain_eval_user_input",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:eval|exec|Function)\s*\(\s*(?:input|user|request|query|param|data|args?|raw|untrusted)\b`,
+		Regex:       `(?i:(?:eval|exec)\s*\(\s*(?:input|user|request|query|param|data|args?|raw|untrusted|content|file|result|response|text|payload|body)\b)|Function\s*\(\s*(?:input|user|request|query|param|data|args?|raw|untrusted|content|file|result|response|text|payload|body)\b`,
 		Description: "Dangerous function: eval/exec with user input",
 	},
 	{
