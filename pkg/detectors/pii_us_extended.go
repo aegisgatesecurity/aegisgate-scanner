@@ -103,9 +103,9 @@ var PIIUSExtendedPatterns = []PatternDef{
 	},
 	{
 		Name:        "pii_vin",
-		Severity:    SeverityHigh,
+		Severity:    SeverityLow,
 		Regex:       `(?i)\b(?:vin|vehicle\s+identification\s+number)\s*(?:is|:|=|#)?\s*[A-HJ-NPR-Z0-9]{17}\b`,
-		Description: "Vehicle Identification Number (17 chars, excluding I/O/Q)",
+		Description: "Vehicle Identification Number (17 chars, excluding I/O/Q) — public info, logged for audit",
 	},
 	{
 		Name:        "pii_license_plate",
