@@ -23,6 +23,7 @@ package scanner
 
 import (
 	"fmt"
+	"log/slog"
 	"sort"
 	"strings"
 	"sync"
@@ -281,6 +282,16 @@ func (s *Scanner) detectAll(art artifacts.Artifact) []Finding {
 	// This is part of raw detection (not option-based filtering) because
 	// it depends only on the content, not on scan options.
 	regexFindings = s.suppressKnownExamples(regexFindings)
+
+	// --- Layer 1b-2: ML Gatekeeper (PII false positive suppression) ---
+	// If all regex findings are PII-only and the ML threat detector scores
+	// the content as clearly benign (score < 0.1), downgrade those findings
+	// to Info severity. This prevents benign PII (e.g., SSN in a customer
+	// service transcript) from failing the scan while still reporting it.
+	// Never downgrades secrets, attacks, or compliance violations.
+	if s.mlEnabled && s.mlDetector != nil && s.mlDetector.IsEnabled() {
+		regexFindings = s.applyMLGatekeeper(art, regexFindings)
+	}
 
 	findings = append(findings, regexFindings...)
 
@@ -562,6 +573,48 @@ func (s *Scanner) scanRegex(art artifacts.Artifact) []Finding {
 
 // scanML runs the ML threat detector on an artifact.
 // ML is supplementary — it scans content segments that regex didn't flag.
+// applyMLGatekeeper checks if all regex findings are PII-only and the ML
+// model scores the content as benign. If so, downgrades findings to Info
+// severity so they are reported but don't fail the scan.
+// Never downgrades secrets, attacks, or compliance violations.
+func (s *Scanner) applyMLGatekeeper(art artifacts.Artifact, findings []Finding) []Finding {
+	if len(findings) == 0 {
+		return findings
+	}
+
+	// Check if ALL findings are PII-only
+	hasPII := false
+	hasNonPII := false
+	for _, f := range findings {
+		cat := strings.ToLower(f.Category)
+		if strings.Contains(cat, "pii") || strings.Contains(cat, "financial") {
+			hasPII = true
+		} else {
+			hasNonPII = true
+		}
+	}
+	if !hasPII || hasNonPII {
+		return findings
+	}
+
+	// Run ML detection on the full content
+	score := s.mlDetector.Detect(art.Content)
+	if score.Score < 0.1 {
+		slog.Info("ML gatekeeper: benign score suppresses PII-only FP",
+			"artifact", art.Path,
+			"ml_score", fmt.Sprintf("%.4f", score.Score),
+			"findings", len(findings),
+		)
+		// Downgrade all findings to Info severity
+		for i := range findings {
+			findings[i].Severity = detectors.SeverityInfo
+			findings[i].Message = findings[i].Message + " (ML gatekeeper: downgraded to info — benign context)"
+		}
+	}
+
+	return findings
+}
+
 func (s *Scanner) scanML(art artifacts.Artifact, regexLines map[int]bool) []Finding {
 	var findings []Finding
 
@@ -746,6 +799,7 @@ func filterBySeverity(findings []Finding, min Severity) []Finding {
 		detectors.SeverityHigh:     3,
 		detectors.SeverityMedium:   2,
 		detectors.SeverityLow:      1,
+		detectors.SeverityInfo:     0,
 	}
 
 	minRank, ok := rank[min]

@@ -18,6 +18,7 @@ const (
 	SeverityHigh     Severity = "high"
 	SeverityMedium   Severity = "medium"
 	SeverityLow      Severity = "low"
+	SeverityInfo     Severity = "info"
 )
 
 // Category represents the detection category.
