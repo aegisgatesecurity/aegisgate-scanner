@@ -600,15 +600,25 @@ func (s *Scanner) applyMLGatekeeper(art artifacts.Artifact, findings []Finding) 
 	// Run ML detection on the full content
 	score := s.mlDetector.Detect(art.Content)
 	if score.Score < 0.1 {
-		slog.Info("ML gatekeeper: benign score suppresses PII-only FP",
-			"artifact", art.Path,
-			"ml_score", fmt.Sprintf("%.4f", score.Score),
-			"findings", len(findings),
-		)
-		// Downgrade all findings to Info severity
+		// Only downgrade non-Critical findings. Critical PII (SSNs, credit
+		// cards, passports) in artifacts is always a security concern —
+		// hardcoded PII in source code is never "benign context."
+		var downgradeCount int
 		for i := range findings {
+			if findings[i].Severity == detectors.SeverityCritical {
+				continue
+			}
 			findings[i].Severity = detectors.SeverityInfo
 			findings[i].Message = findings[i].Message + " (ML gatekeeper: downgraded to info — benign context)"
+			downgradeCount++
+		}
+		if downgradeCount > 0 {
+			slog.Info("ML gatekeeper: benign score suppresses non-critical PII FP",
+				"artifact", art.Path,
+				"ml_score", fmt.Sprintf("%.4f", score.Score),
+				"downgraded", downgradeCount,
+				"preserved_critical", len(findings)-downgradeCount,
+			)
 		}
 	}
 
