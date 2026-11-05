@@ -38,12 +38,54 @@ var PIIUSCorePatterns = []PatternDef{
 		Description: "US phone number (10 digits with optional +1 prefix)",
 	},
 	{
+		Name:        "pii_phone_intl",
+		Severity:    SeverityMedium,
+		Regex:       `\+\d{1,3}[\s.\-](?:\d{1,5}[\s.\-]?){1,3}\d{2,4}`,
+		Description: "International phone number (with country code)",
+	},
+	{
 		Name:        "pii_credit_card",
 		Severity:    SeverityHigh,
 		Regex:       `\b(?:\d{4}[ -]?){3}\d{1,7}\b|\b\d{13,19}\b`,
 		Description: "Credit card number (13-19 digits with optional separators)",
 	},
 	// Phase 3 parity fix — 2026-09-02: brand-specific credit card patterns
+	{
+		Name:        "pii_credit_card_discover",
+		Severity:    SeverityCritical,
+		Regex:       `\b6(?:011|5\d{2}|4[4-9]\d{2})\d{12}\b`,
+		Description: "Discover credit card number",
+	},
+	{
+		Name:        "pii_credit_card_discover_spaced",
+		Severity:    SeverityCritical,
+		Regex:       `\b6(?:011|5\d{2}|4[4-9]\d{2})[\s-]\d{4}[\s-]\d{4}[\s-]\d{4}\b`,
+		Description: "Discover credit card (with separators)",
+	},
+	{
+		Name:        "pii_credit_card_jcb",
+		Severity:    SeverityCritical,
+		Regex:       `\b35(?:2[89]|[3-8]\d)\d{12}\b`,
+		Description: "JCB credit card number",
+	},
+	{
+		Name:        "pii_credit_card_jcb_spaced",
+		Severity:    SeverityCritical,
+		Regex:       `\b35(?:2[89]|[3-8]\d)[\s-]\d{4}[\s-]\d{4}[\s-]\d{4}\b`,
+		Description: "JCB credit card (with separators)",
+	},
+	{
+		Name:        "pii_credit_card_unionpay",
+		Severity:    SeverityCritical,
+		Regex:       `\b62\d{14}\b`,
+		Description: "UnionPay credit card number",
+	},
+	{
+		Name:        "pii_credit_card_unionpay_spaced",
+		Severity:    SeverityCritical,
+		Regex:       `\b62\d{2}[\s-]\d{4}[\s-]\d{4}[\s-]\d{4}\b`,
+		Description: "UnionPay credit card (with separators)",
+	},
 	{
 		Name:        "pii_credit_card_mastercard",
 		Severity:    SeverityCritical,
@@ -85,6 +127,12 @@ var PIIUSCorePatterns = []PatternDef{
 		Severity:    SeverityHigh,
 		Regex:       `\b\d{2}-\d{7}\b`,
 		Description: "US EIN (Employer Identification Number)",
+	},
+	{
+		Name:        "pii_tax_id_labeled",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:tax\s+(?:id|identification\s+number|number)|TIN)\s*(?:is|was|:|=|#|No\.?)?\s*[A-Z0-9][A-Z0-9\-]{7,15}\b`,
+		Description: "Tax ID number (with label context)",
 	},
 	{
 		Name:        "pii_bank_account",

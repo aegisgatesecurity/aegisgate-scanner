@@ -36,8 +36,8 @@ var AgentPoisoningPatterns = []PatternDef{
 	{
 		Name:        "agent_poisoning_install_instruction",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:execute|please|also|additionally|next|then|you\s+(?:should|must|need\s+to|are\s+required\s+to)|make\s+sure\s+to|remember\s+to|always|before\s+(?:running|starting|deploying)|don'?t\s+forget\s+to)\s.{0,40}(?:npm\s+install|npm\s+add|pip3?\s+install|install\s+(?:the\s+)?npm\s+package)\s+\S+`,
-		Description: "Package install command embedded in agent instruction context (npm/pip install in instruction text)",
+		Regex:       `(?i)(?:agent|tool|MCP|system\s+prompt|assistant|copilot|cursor|cline|windsurf|continue|devin).{0,60}(?:run|execute|please|also|additionally|next|then|you\s+(?:should|must|need\s+to|are\s+required\s+to)|make\s+sure\s+to|remember\s+to|always|before\s+(?:running|starting|deploying)|don'?t\s+forget\s+to)\s.{0,40}(?:npm\s+install|npm\s+add|pip3?\s+install|install\s+(?:the\s+)?npm\s+package)\s+\S+`,
+		Description: "Package install command embedded in agent/MCP instruction context",
 		Category:    CategoryAgentPoisoning,
 	},
 	// Pattern 3: ~/.codex/config.toml modification references

@@ -34,6 +34,7 @@ func allSourcePatterns() [][]PatternDef {
 		SocialEngineeringPatterns,
 		XSSRequestPatterns,
 		PromptInjectionRequestPatterns,
+		ContextManipulationPatterns,
 	}
 }
 
@@ -62,6 +63,7 @@ func allCompiledPatterns() [][]compiledPattern {
 		CompiledSocialEngineeringPatterns,
 		CompiledXSSRequestPatterns,
 		CompiledPromptInjectionRequestPatterns,
+		CompiledContextManipulationPatterns,
 	}
 }
 

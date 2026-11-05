@@ -731,7 +731,8 @@ func TotalCompiledPatterns() int {
 		len(CompiledDataExfilPatterns) +
 		len(CompiledSocialEngineeringPatterns) +
 		len(CompiledXSSRequestPatterns) +
-		len(CompiledPromptInjectionRequestPatterns)
+		len(CompiledPromptInjectionRequestPatterns) +
+		len(CompiledContextManipulationPatterns)
 }
 
 func DetectAll(text string) []Match {
@@ -877,6 +878,7 @@ func DetectAllWithResults(text string) ([]Match, []DetectionResult) {
 		{CompiledPathTraversalPatterns, CategoryPathTraversal},
 		{CompiledAgentPoisoningPatterns, CategoryAgentPoisoning},
 		{CompiledInjectionPatterns, CategoryInjection},
+		{CompiledContextManipulationPatterns, CategoryContextManipulation},
 		{CompiledMalwarePatterns, CategoryMalware},
 		{CompiledEvasionPatterns, CategoryEvasion},
 		{CompiledDataExfilPatterns, CategoryDataExfil},

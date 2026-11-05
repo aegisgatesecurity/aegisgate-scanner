@@ -41,7 +41,7 @@ func TestDetectSecretsEmpty(t *testing.T) {
 }
 
 func TestSecretsPatternsLoaded(t *testing.T) {
-	if len(SecretsPatterns) != 77 {
+	if len(SecretsPatterns) != 79 {
 		t.Errorf("SecretsPatterns = %d, want 77", len(SecretsPatterns))
 	}
 }

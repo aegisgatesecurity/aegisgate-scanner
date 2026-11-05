@@ -12,6 +12,12 @@ package detectors
 // InjectionPatterns defines SQL injection detection patterns.
 var InjectionPatterns = []PatternDef{
 	{
+		Name:        "mass_pii_retrieval",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:retrieve|access|fetch|pull|get|export|dump|extract|download|query|return|output|list|show|display|collect|gather|harvest)\b.{0,80}\b(?:all|every|entire|complete|full)\b.{0,80}\b(?:SSNs?|social\s+security|credit\s+cards?|card\s+numbers?|CVVs?|PINs?|passwords?|passports?|driver'?s?\s+licenses?|dates?\s+of\s+birth|DOBs?|bank\s+accounts?|routing\s+numbers?|national\s+IDs?)\b`,
+		Description: "Mass PII retrieval request — bulk data collection specifying sensitive PII types",
+	},
+	{
 		Name:        "sqli_payload_request",
 		Severity:    SeverityCritical,
 		Regex:       `(?i)\b(?:sql\s*injection\s*(?:payload|attack|query|exploit|vector)|injection\s*payload.{0,30}bypass(?:es)?\s*(?:waf|filter|firewall)|sqli\s*payload)\b`,
