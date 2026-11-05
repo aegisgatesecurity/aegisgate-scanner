@@ -34,8 +34,10 @@ var PIIUSCorePatterns = []PatternDef{
 		// in longer alphanumeric strings (e.g., API keys like sk-proj-abcdef1234567890abcdef).
 		// \b at end ensures the phone number isn't followed by more word characters.
 		// Trade-off: +1XXXXXXXXXX (no separator after country code) won't match — uncommon format.
-		Regex:       `(?:\+?\d{1,3}[-.\s]?)?\b\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b`,
-		Description: "US phone number (10 digits with optional +1 prefix)",
+		// Require at least one separator ([-.\s]) or country code prefix to avoid
+		// matching bare digit sequences in code (e.g., set('0123456789')).
+		Regex:       `(?:\+\d{1,3}[-.\s]\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4})|(?:\(?\d{3}\)?[-.\s]\d{3}[-.\s]?\d{4})`,
+		Description: "US phone number (requires separators to reduce code FPs)",
 	},
 	{
 		Name:        "pii_phone_intl",

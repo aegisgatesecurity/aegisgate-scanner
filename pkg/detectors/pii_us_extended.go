@@ -30,10 +30,10 @@ var PIIUSExtendedPatterns = []PatternDef{
 	{
 		Name:     "pii_phone_intl_loose",
 		Severity: SeverityMedium,
-		// \b at start and end prevents matching digit sequences embedded in
-		// longer alphanumeric strings (e.g., API keys, hashes, base64 tokens).
-		Regex:       `\b\+?\d[\d\s\-()]{6,12}\d\b`,
-		Description: "International phone number (loose: digits with separators)",
+		// Require at least one separator or + prefix to avoid matching bare digit
+		// sequences in code (e.g., hex values, character sets like set('0123456789')).
+		Regex:       `\+\d[\d\s\-()]{6,12}\d|\b\d{3}[\s\-()]\d{3,4}[\s\-()]?\d{3,4}\b`,
+		Description: "International phone number (requires separators to reduce code FPs)",
 	},
 	{
 		Name:        "pii_phone_intl_strict",
