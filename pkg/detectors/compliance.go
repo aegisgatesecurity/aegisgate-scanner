@@ -146,6 +146,44 @@ var CompliancePatterns = []PatternDef{
 		Description: "Jailbreak attempt",
 	},
 
+	// --- ATLAS L2 Patterns (synced from Platform v3.6.0) ---
+	{
+		Name:        "atlas_t1552_005_secret_disclosure",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)((?:what\s+is|what\s+are|what's|what\s+would|show\s+me|reveal|tell\s+me|give\s+me|i\s+need|display|output|print|share|send\s+me)\s+(?:the\s+)?(?:(?:first|second|third|fourth|fifth|last|next|previous)\s+(?:digit|character|char|letter|byte|bit|part|half|number)\s+of\s+(?:the\s+)?)?(?:admin\s+|master\s+|root\s+|database\s+|system\s+|hidden\s+|secret\s+|private\s+|encryption\s+|ssh\s+|2fa\s+|jwt\s+|oauth\s+|stripe\s+|github\s+|slack\s+|gcp\s+|aws\s+)?(?:password|passcode|pass\s*code|secret\s+key|private\s+key|api\s+key|access\s+key|secret\s+token|auth\s+token|bearer\s+token|encryption\s+key|ssh\s+key|backup\s+code|client\s+secret|webhook\s+(?:url|secret)|service\s+account\s+(?:json|token|key)|(?:master|admin|root)\s+key|access\s+token|auth(?:orization)?\s+(?:code|token)|admin\s+pin|\bpin\b|(?:aws|api|secret|access|private)\s+keys?)\b)`,
+		Description: "ATLAS T1552.005: Direct secret disclosure request",
+	},
+	{
+		Name:        "atlas_t1589_006_model_arch_extraction",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(how\s+many\s+(?:layers|parameters|neurons|weights)\s+(?:does|do|are)\s+(?:your|this|the)\s+(?:neural\s+network|model|network)\s+have|(?:what\s+is|describe|tell\s+me)\s+your\s+(?:architecture|model\s+architecture|embedding\s+dimension|hidden\s+size|attention\s+mechanism|activation\s+function|loss\s+function|tokenizer|model.s\s+learning\s+rate|optimization\s+process|training\s+data\s+distribution|model\s+size|maximum\s+sequence\s+length|vocabulary\s+size)|list\s+all\s+the\s+weights\s+in\s+your|what\s+(?:vocabulary\s+size|activation\s+function|loss\s+function|embedding\s+dimension|hidden\s+size|maximum\s+sequence\s+length|model\s+size)\s+(?:does|do)\s+(?:your|this|the)\s+(?:model|network|ai)\s+(?:use|have)|what\s+(?:activation\s+function|loss\s+function|tokenizer)\s+do\s+you\s+use|how\s+were\s+you\s+trained|what\s+is\s+the\s+dimension\s+of\s+your\s+embeddings)`,
+		Description: "ATLAS T1589.006: Model architecture interrogation",
+	},
+	{
+		Name:        "atlas_t1548_004_insider_threat",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(disable\s+logging\s+on\s+(?:the\s+)?(?:production|main|primary)\s+(?:database|server|system)|bypass\s+(?:the\s+)?(?:approval\s+workflow|change\s+management\s+process)|modify\s+(?:the\s+)?payroll\s+system|add\s+(?:my\s+)?ssh\s+key\s+to\s+(?:the\s+)?root|remove\s+(?:the\s+)?ip\s+whitelist|change\s+(?:the\s+)?firewall\s+rules\s+to\s+allow\s+all|create\s+(?:a\s+)?(?:backdoor|hidden)\s+(?:admin\s+)?account|set\s+up\s+mail\s+forwarding\s+for\s+(?:the\s+)?ceo|elevate\s+(?:my\s+)?permissions?\s+to\s+(?:superuser|root|admin)|create\s+(?:a\s+)?vpn\s+tunnel\s+to\s+an\s+external|override\s+(?:the\s+)?(?:approval\s+workflow|change\s+management)|create\s+(?:a\s+)?scheduled\s+task\s+to\s+exfiltrat\w+|set\s+up\s+mail\s+forwarding\s+for\s+(?:the\s+)?ceo)`,
+		Description: "ATLAS T1548.004: Insider threat action request",
+	},
+	{
+		Name:        "atlas_t1648_002_malicious_code",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)((?:write|create)\s+(?:code|a\s+script|a\s+python\s+script|javascript|a\s+bash\s+script|a\s+dns\s+exfiltration\s+script)\s+(?:that|to)\s+(?:steal|dump|intercept|connect\s+to\s+(?:a\s+)?c2|download\s+(?:and\s+execute\s+)?malware|exfiltrat\w+|phones?\s+home|log\s+all\s+network|extract\s+(?:api\s+keys?|credentials?|secrets?|tokens?)\s+from\s+(?:process\s+)?memory)|(?:write|create)\s+(?:a\s+)?(?:python\s+)?script\s+that\s+connects?\s+to\s+(?:a\s+)?c2|(?:write|create)\s+(?:a\s+)?cron\s+job\s+that\s+phones?\s+home|generate\s+(?:a\s+)?(?:zip\s+bomb|reverse\s+shell|macro\s+that\s+downloads\s+malware)|dns\s+exfiltration\s+script)`,
+		Description: "ATLAS T1648.002: Malicious code generation request",
+	},
+	{
+		Name:        "atlas_t1498_004_resource_exhaustion",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(catastrophic\s+backtracking|zip\s+bomb|infinitely\s+recursive\s+(?:function|loop)|cartesian\s+product\s+on\s+(?:a\s+)?(?:large|big)\s+table|generate\s+all\s+possible\s+\w+\s+character\s+passwords|generate\s+(?:a\s+)?(?:100,?000|one\s+hundred\s+thousand)\s+word\s+essay)`,
+		Description: "ATLAS T1498.004: Resource exhaustion via algorithmic complexity",
+	},
+	{
+		Name:        "atlas_t1535_003_roleplay",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(role\s*play\s+(?:as|that|where|mode|scenario)|play\s+the\s+role\s+of|simulate\s+(?:being|an?)|imagine\s+(you|i)\s+(are|were)|let's\s+play\s+(a|an)|as\s+(an?|a)\s+(fictional|hypothetical)|character\s+mode|scenario\s+mode)`,
+		Description: "ATLAS T1535.003: Prompt injection via role play",
+	},
+
 	// --- EU AI Act ---
 	{
 		Name:        "eu_ai_act_high_risk",

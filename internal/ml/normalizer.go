@@ -29,7 +29,7 @@ import (
 
 const (
 	// MaxSeqLen is the maximum sequence length for the model input.
-	MaxSeqLen = 256
+	MaxSeqLen = 512
 
 	// PadID is the padding token ID.
 	PadID = 0
@@ -53,6 +53,23 @@ func NewCharNormalizer() *CharNormalizer {
 	}
 }
 
+// MapRegionalIndicators converts Unicode regional indicator symbols
+// (U+1F1E6–U+1F1FF, used in flag emoji spelling attacks) to their
+// ASCII letter equivalents (A–Z). This prevents attackers from
+// encoding injection payloads using flag emoji that would otherwise
+// collapse to UNK tokens.
+func MapRegionalIndicators(text string) string {
+	var b strings.Builder
+	for _, r := range text {
+		if r >= 0x1F1E6 && r <= 0x1F1FF {
+			b.WriteRune('A' + (r - 0x1F1E6))
+		} else {
+			b.WriteRune(r)
+		}
+	}
+	return b.String()
+}
+
 // Normalize preprocesses text for model input.
 // Steps:
 //  1. NFKC normalization (Unicode canonical decomposition + composition)
@@ -60,15 +77,19 @@ func NewCharNormalizer() *CharNormalizer {
 //     canonical forms, so "ⅴ" (U+2174) → "v" (U+0076) and "ﬁ" (U+FB01)
 //     → "fi". Without this, adversarial inputs using Unicode tricks
 //     bypass the model's detection.
-//  2. Convert to lowercase
-//  3. Strip leading/trailing whitespace
-//  4. Collapse multiple whitespace
-//  5. Truncate to max length
+//  2. Map regional indicator symbols (flag emoji letters) to ASCII A-Z
+//  3. Convert to lowercase
+//  4. Strip leading/trailing whitespace
+//  5. Collapse multiple whitespace
+//  6. Truncate to max length
 func (cn *CharNormalizer) Normalize(text string) string {
 	// NFKC normalization — canonical decomposition + composition.
 	// This maps compatibility characters and homoglyphs to their
 	// canonical ASCII equivalents where possible.
 	text = norm.NFKC.String(text)
+
+	// Map flag emoji regional indicators to ASCII letters
+	text = MapRegionalIndicators(text)
 
 	// Lowercase
 	text = strings.ToLower(text)
