@@ -260,7 +260,7 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "lgpd_reference",
 		Severity:    SeverityMedium,
-		Regex:       `(?i)\b(?:LGPD|Lei\s+Geral\s+de\s+Protec[ça]ção\s+de\s+Dados|Art\.\s*\d+(?:[\s,º°]+(?:I|II|III|IV|V|VI|VII|VIII|IX|X))*|dados\s+pessoais|controlador|operador|ANPD)\b`,
+		Regex:       `(?i)\b(?:LGPD|Lei\s+Geral\s+de\s+Protec?ção\s+de\s+Dados|Art\.\s*\d+(?:[\s,º°]+(?:I|II|III|IV|V|VI|VII|VIII|IX|X))*|dados\s+pessoais|controlador|operador|ANPD)\b`,
 		Description: "LGPD (Brazilian data protection) reference",
 	},
 	{
