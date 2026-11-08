@@ -40,7 +40,7 @@ var PIIFinancialPatterns = []PatternDef{
 	{
 		Name:        "pii_crypto_sol",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:Solana|SOL|sol)\s*(?:address|address\s+for|wallet)?\s*[:=]?\s*([1-9A-HJ-NP-Za-km-z]{32,44})`,
+		Regex:       `(?i)(?:Solana|SOL[:\s=])\s*(?:address|address\s+for|wallet)?\s*[:=]?\s*([1-9A-HJ-NP-Za-km-z]{32,44})`,
 		Description: "Solana wallet address",
 	},
 	{

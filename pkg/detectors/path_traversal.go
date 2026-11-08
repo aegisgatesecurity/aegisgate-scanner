@@ -88,19 +88,19 @@ var PathTraversalPatterns = []PatternDef{
 	{
 		Name:        "sensitive_file_shadow",
 		Severity:    SeverityCritical,
-		Regex:       `(?:^|[/\\"\s'])etc[/\\]shadow(?:$|[/\\"\s'&|;])`,
+		Regex:       `(?:^|[/\\\"\s'])etc[/\\]shadow(?:$|[/\\\"\s'&|;])`,
 		Description: "Access to /etc/shadow (password hashes — critical credential exposure)",
 	},
 	{
 		Name:        "sensitive_file_passwd",
 		Severity:    SeverityHigh,
-		Regex:       `(?:^|[/\\"\s'])etc[/\\]passwd(?:$|[/\\"\s'&|;])`,
+		Regex:       `(?:^|[/\\\"\s'])etc[/\\]passwd(?:$|[/\\\"\s'&|;])`,
 		Description: "Access to /etc/passwd (user enumeration — system reconnaissance)",
 	},
 	{
 		Name:        "sensitive_file_proc",
 		Severity:    SeverityHigh,
-		Regex:       `(?:^|[/\\"\s'])proc[/\\](?:self|\d+)[/\\]`,
+		Regex:       `(?:^|[/\\\"\s'])proc[/\\](?:self|\d+)[/\\]`,
 		Description: "Access to /proc/self/ or /proc/<pid>/ (process info, env, fd — sandbox escape)",
 	},
 	{
@@ -124,13 +124,13 @@ var PathTraversalPatterns = []PatternDef{
 	{
 		Name:        "sensitive_file_env",
 		Severity:    SeverityHigh,
-		Regex:       `(?:^|[/\\"\s'])\.(?:env|env\.local|env\.production)(?:$|[/\\"\s'&|;])`,
+		Regex:       `(?:^|[/\\\"\s'])\.(?:env|env\.local|env\.production)(?:$|[/\\\"\s'&|;])`,
 		Description: "Access to .env files (application secrets and configuration)",
 	},
 	{
 		Name:        "sensitive_file_hosts",
 		Severity:    SeverityMedium,
-		Regex:       `(?:^|[/\\"\s'])etc[/\\]hosts(?:$|[/\\"\s'&|;])`,
+		Regex:       `(?:^|[/\\\"\s'])etc[/\\]hosts(?:$|[/\\\"\s'&|;])`,
 		Description: "Access to /etc/hosts (DNS manipulation, network reconnaissance)",
 	},
 	{
@@ -142,8 +142,20 @@ var PathTraversalPatterns = []PatternDef{
 	{
 		Name:        "sensitive_file_docker_socket",
 		Severity:    SeverityCritical,
-		Regex:       `(?:^|[/\\"\s'])var/run/docker\.sock(?:$|[/\\"\s'&|;])`,
+		Regex:       `(?:^|[/\\\"\s'])var/run/docker\.sock(?:$|[/\\\"\s'&|;])`,
 		Description: "Access to Docker socket (container escape, host compromise)",
+	},
+	{
+		Name:        "sensitive_file_gcp_service_key",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:show|read|display|output|reveal|give|dump).{0,20}(?:me\s+)?(?:the\s+)?GCP\s+service\s+account\s+key\s+file\b`,
+		Description: "GCP service account key file access request",
+	},
+	{
+		Name:        "sensitive_file_jwt_signing",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:read|show|display|output|reveal|extract|get).{0,30}(?:the\s+)?JWT\s+signing\s+key.{0,20}(?:from|in)\s+(?:the\s+)?(?:server|application|config|configuration)`,
+		Description: "JWT signing key extraction request",
 	},
 }
 

@@ -255,9 +255,9 @@ func LoadFile(path string) (*Config, error) {
 func (c *Config) Validate() error {
 	// Validate min severity.
 	switch strings.ToLower(c.MinSeverity) {
-	case "critical", "high", "medium", "low", "":
+	case "critical", "high", "medium", "low", "info", "":
 	default:
-		return fmt.Errorf("invalid min_severity: %s (must be critical, high, medium, or low)", c.MinSeverity)
+		return fmt.Errorf("invalid min_severity: %s (must be critical, high, medium, low, or info)", c.MinSeverity)
 	}
 
 	// Validate output format.
@@ -283,9 +283,9 @@ func (c *Config) Validate() error {
 
 	// Validate fail_on_severity.
 	switch strings.ToLower(c.FailOnSeverity) {
-	case "critical", "high", "medium", "low", "":
+	case "critical", "high", "medium", "low", "info", "":
 	default:
-		return fmt.Errorf("invalid fail_on_severity: %s (must be critical, high, medium, or low)", c.FailOnSeverity)
+		return fmt.Errorf("invalid fail_on_severity: %s (must be critical, high, medium, low, or info)", c.FailOnSeverity)
 	}
 
 	// Validate log level.

@@ -18,25 +18,32 @@ const (
 	SeverityHigh     Severity = "high"
 	SeverityMedium   Severity = "medium"
 	SeverityLow      Severity = "low"
+	SeverityInfo     Severity = "info"
 )
 
 // Category represents the detection category.
 type Category string
 
 const (
-	CategorySecrets           Category = "secrets"
-	CategoryPIIUSCore         Category = "pii-us-core"
-	CategoryPIIUSExtended     Category = "pii-us-extended"
-	CategoryPIIFinancial      Category = "pii-financial"
-	CategoryPIIInternational  Category = "pii-international"
-	CategoryXSS               Category = "xss"
-	CategoryCompliance        Category = "compliance"
-	CategoryDangerousFunction Category = "dangerous_function"
-	CategoryOT                Category = "ot-protocols"
-	CategoryRAG               Category = "rag"
-	CategoryPromptLeakage     Category = "prompt-leakage"
-	CategoryPathTraversal     Category = "path-traversal"
-	CategoryAgentPoisoning    Category = "agent-poisoning"
+	CategorySecrets             Category = "secrets"
+	CategoryPIIUSCore           Category = "pii-us-core"
+	CategoryPIIUSExtended       Category = "pii-us-extended"
+	CategoryPIIFinancial        Category = "pii-financial"
+	CategoryPIIInternational    Category = "pii-international"
+	CategoryXSS                 Category = "xss"
+	CategoryCompliance          Category = "compliance"
+	CategoryDangerousFunction   Category = "dangerous_function"
+	CategoryOT                  Category = "ot-protocols"
+	CategoryRAG                 Category = "rag"
+	CategoryPromptLeakage       Category = "prompt-leakage"
+	CategoryPathTraversal       Category = "path-traversal"
+	CategoryAgentPoisoning      Category = "agent-poisoning"
+	CategoryInjection           Category = "injection"
+	CategoryContextManipulation Category = "context-manipulation"
+	CategoryMalware             Category = "malware"
+	CategoryEvasion             Category = "evasion"
+	CategoryDataExfil           Category = "data-exfil"
+	CategorySocialEngineering   Category = "social-engineering"
 )
 
 // Match represents a single regex detection match.

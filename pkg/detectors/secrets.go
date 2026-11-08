@@ -253,7 +253,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_internal_api_key",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)(?:INTERNAL[_-]?API[_-]?KEY|INTERNAL[_-]?KEY|INTERNAL[_-]?TOKEN)\s*[:=]\s*['"]?([A-Za-z0-9_\-]{20,})['"]?`,
+		Regex:       `(?i)(?:INTERNAL[_-]?API[_-]?KEY|INTERNAL[_-]?KEY|INTERNAL[_-]?TOKEN)\s*[:=]\s*['"]?([A-Za-z0-9_\-]{10,})['"]?`,
 		Description: "Internal API key assignment",
 	},
 	{
@@ -357,7 +357,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_redis_connection_string",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)redis://[^\s"\']+`,
+		Regex:       `(?i)redis://[^\s"']+`,
 		Description: "Redis connection string",
 	},
 	{
@@ -387,20 +387,111 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_postgresql_connection_string",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)postgresql://[^\s"\']+`,
+		Regex:       `(?i)postgresql://[^\s"']+`,
 		Description: "PostgreSQL connection string",
 	},
 	{
 		Name:        "secret_mysql_connection_string",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)mysql://[^\s"\']+`,
+		Regex:       `(?i)mysql://[^\s"']+`,
 		Description: "MySQL connection string",
 	},
 	{
 		Name:        "secret_mongodb_connection_string",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)mongodb(\+srv)?://[^\s"\']+`,
+		Regex:       `(?i)mongodb(\+srv)?://[^\s"']+`,
 		Description: "MongoDB connection string",
+	},
+	// --- Patterns ported from Rampart + Lens for parity ---
+	{
+		Name:        "secret_discord_webhook",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)discord\s+webhook.{0,30}https://discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9_-]+|https://discord(?:app)?\.com/api/webhooks/\d+/[A-Za-z0-9_-]+`,
+		Description: "Discord webhook URL",
+	},
+	{
+		Name:        "secret_jwt_prefix",
+		Severity:    SeverityMedium,
+		Regex:       `\beyJhbGci[A-Za-z0-9_-]*`,
+		Description: "JWT token prefix (partial match for truncated tokens)",
+	},
+	{
+		Name:        "secret_k8s_token_context",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)kubernetes\s+(?:service\s+account\s+)?token\s*[:=]\s*[A-Za-z0-9+/=._-]{8,}`,
+		Description: "Kubernetes service account token in context",
+	},
+	{
+		Name:        "secret_paypal_token",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)access_token\$production\$[A-Za-z0-9]+`,
+		Description: "PayPal/Braintree access token",
+	},
+	{
+		Name:        "secret_sendgrid_context",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)sendgrid\s+(?:api\s+)?key\s*[:=]\s*SG\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+`,
+		Description: "SendGrid API key mentioned in context",
+	},
+	{
+		Name:        "secret_slack_webhook_url",
+		Severity:    SeverityHigh,
+		Regex:       `https://hooks\.slack\.com/services/[A-Za-z0-9/]+`,
+		Description: "Slack webhook URL",
+	},
+	{
+		Name:        "secret_square_token",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\bsq0atp-[A-Za-z0-9_-]{10,}\b|\bsq0csp-[A-Za-z0-9_-]{40,}\b`,
+		Description: "Square access token or client secret",
+	},
+	{
+		Name:        "secret_twilio_sid_context",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)twilio\s+(?:account\s+)?SID\s+(?:is|:)\s*AC[A-Za-z0-9]{10,}`,
+		Description: "Twilio account SID in context",
+	},
+	{
+		Name:        "secret_stripe_key",
+		Severity:    SeverityCritical,
+		Regex:       `\b(?:sk|pk|rk)_(?:live|test)_[A-Za-z0-9]{20,}\b`,
+		Description: "Stripe API key",
+	},
+	{
+		Name:        "secret_aws_sts_secret_key",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:aws_secret_access_key|secret_access_key|SecretAccessKey)\s*[:=]\s*["']?[A-Za-z0-9/+=]{40}["']?`,
+		Description: "AWS STS secret access key in context",
+	},
+	{
+		Name:        "secret_aws_sts_session_token",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:aws_session_token|aws_security_token|session_token|SessionToken|SecurityToken)\s*["']?\s*[:=]\s*["']?[A-Za-z0-9/+=_-]{400,}["']?`,
+		Description: "AWS STS session token",
+	},
+	{
+		Name:        "secret_k8s_secrets_dump",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\b(?:dump|extract|read|show|get|reveal|list)\s+(?:all\s+)?secrets?\s+(?:from\s+|in\s+)(?:the\s+)?kubernetes\s+(?:secrets?\s+)?(?:file|manifest|secret)\b`,
+		Description: "Kubernetes secrets file dump request",
+	},
+	{
+		Name:        "secret_discord_webhook_share",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:share|send|post|give|leak|expose)\s+(?:my\s+|the\s+|our\s+)?discord\s+webhook\b`,
+		Description: "Discord webhook sharing/disclosure request",
+	},
+	{
+		Name:        "secret_exfil_context",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:the\s+value\s+is|here(?:'s| is)?\s+(?:the\s+)?(?:secret|key|token|password|credential|api\s+key))\s*[:=]\s*.{59,}?.{0,20}(?:do\s+not\s+share|don'?t\s+share|keep\s+(?:it\s+)?(?:private|secret|confidential))`,
+		Description: "Secret value disclosure in exfiltration context",
+	},
+	{
+		Name:        "secret_exfil_context_compact",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)(?:the\s+value\s+is)\s*[:=]\s*(?-i:[A-Z][A-Z0-9 \-]{19,}).{0,20}(?i:do\s+not\s+share|don'?t\s+share)`,
+		Description: "Secret value disclosure in exfiltration context (compact format, uppercase token)",
 	},
 }
 

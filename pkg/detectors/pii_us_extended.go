@@ -30,10 +30,10 @@ var PIIUSExtendedPatterns = []PatternDef{
 	{
 		Name:     "pii_phone_intl_loose",
 		Severity: SeverityMedium,
-		// \b at start and end prevents matching digit sequences embedded in
-		// longer alphanumeric strings (e.g., API keys, hashes, base64 tokens).
-		Regex:       `\b\+?\d[\d\s\-()]{6,12}\d\b`,
-		Description: "International phone number (loose: digits with separators)",
+		// Require at least one separator or + prefix to avoid matching bare digit
+		// sequences in code (e.g., hex values, character sets like set('0123456789')).
+		Regex:       `\+\d[\d\s\-()]{6,12}\d|\b\d{3}[\s\-()]\d{3,4}[\s\-()]?\d{3,4}\b`,
+		Description: "International phone number (requires separators to reduce code FPs)",
 	},
 	{
 		Name:        "pii_phone_intl_strict",
@@ -74,8 +74,8 @@ var PIIUSExtendedPatterns = []PatternDef{
 	{
 		Name:        "pii_letter_only_id",
 		Severity:    SeverityHigh,
-		Regex:       `\b[A-Z]{8,12}\b`,
-		Description: "Pure-letter 8-12 char uppercase ID (requires context)",
+		Regex:       `(?i)\b(?:ID|identifier|reference|ref|customer\s+ID|account\s+ID)\s*(?:is|:|=|#|number)?\s*[A-Z]{8,12}\b`,
+		Description: "Pure-letter 8-12 char uppercase ID (requires ID/reference context)",
 	},
 	{
 		Name:        "pii_id_multisegment",
@@ -94,6 +94,36 @@ var PIIUSExtendedPatterns = []PatternDef{
 		Severity:    SeverityLow,
 		Regex:       `(?:[A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}`,
 		Description: "IPv6 address",
+	},
+	{
+		Name:        "pii_medicare_number",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\bmedicare\s+(?:number|id|card)\s*(?:is|:|=|#)?\s*[0-9A-Z]{2,5}[-\s][0-9A-Z]{2,5}[-\s][0-9A-Z]{2,5}\b`,
+		Description: "US Medicare number (alphanumeric with separators)",
+	},
+	{
+		Name:        "pii_vin",
+		Severity:    SeverityLow,
+		Regex:       `(?i)\b(?:vin|vehicle\s+identification\s+number)\s*(?:is|:|=|#)?\s*[A-HJ-NPR-Z0-9]{17}\b`,
+		Description: "Vehicle Identification Number (17 chars, excluding I/O/Q) — public info, logged for audit",
+	},
+	{
+		Name:        "pii_license_plate",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\b(?:license|licence)\s+plate\s*(?:is|:|=|#|number)?\s*[A-Z0-9]{1,8}[-\s][A-Z0-9]{1,8}\b`,
+		Description: "Vehicle license plate number",
+	},
+	{
+		Name:        "pii_gcp_project_id",
+		Severity:    SeverityMedium,
+		Regex:       `(?i)\bgcp\s+project\s+(?:id|identifier)\s*(?:is|:|=|#)?\s*[a-z][a-z0-9-]{5,30}\b`,
+		Description: "Google Cloud Platform project ID",
+	},
+	{
+		Name:        "pii_mac_address",
+		Severity:    SeverityHigh,
+		Regex:       `(?i)\bmac\s+address\s*(?:is|:|=|#)?\s*(?:[0-9A-Fa-f]{2}[:-]){5}[0-9A-Fa-f]{2}\b`,
+		Description: "MAC address (hardware network identifier)",
 	},
 }
 

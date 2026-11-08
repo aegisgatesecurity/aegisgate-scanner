@@ -27,6 +27,14 @@ func allSourcePatterns() [][]PatternDef {
 		PromptLeakageResponsePatterns,
 		PathTraversalPatterns,
 		AgentPoisoningPatterns,
+		InjectionPatterns,
+		MalwarePatterns,
+		EvasionPatterns,
+		DataExfilPatterns,
+		SocialEngineeringPatterns,
+		XSSRequestPatterns,
+		PromptInjectionRequestPatterns,
+		ContextManipulationPatterns,
 	}
 }
 
@@ -48,6 +56,14 @@ func allCompiledPatterns() [][]compiledPattern {
 		CompiledPromptLeakagePatterns,
 		CompiledPathTraversalPatterns,
 		CompiledAgentPoisoningPatterns,
+		CompiledInjectionPatterns,
+		CompiledMalwarePatterns,
+		CompiledEvasionPatterns,
+		CompiledDataExfilPatterns,
+		CompiledSocialEngineeringPatterns,
+		CompiledXSSRequestPatterns,
+		CompiledPromptInjectionRequestPatterns,
+		CompiledContextManipulationPatterns,
 	}
 }
 

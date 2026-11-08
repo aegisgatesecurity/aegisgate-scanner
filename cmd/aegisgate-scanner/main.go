@@ -55,7 +55,7 @@ import (
 // The Makefile passes -ldflags="-X main.Version=$(VERSION)" using the
 // VERSION file. When running via `go run` without ldflags, this default
 // is used. Keep it in sync with the VERSION file.
-var Version = "0.4.2"
+var Version = "0.5.0"
 
 // Exit codes.
 const (
@@ -472,7 +472,7 @@ func runScan(args []string, globalLogLevel, globalLogFormat string) int {
 		}
 		// If fail-on is "low", any finding fails.
 		// If fail-on is "high", only high+critical fail.
-		rank := map[string]int{"critical": 4, "high": 3, "medium": 2, "low": 1}
+		rank := map[string]int{"critical": 4, "high": 3, "medium": 2, "low": 1, "info": 0}
 		minRank, ok := rank[strings.ToLower(failSeverity)]
 		if !ok {
 			minRank = 1 // default: any finding fails
@@ -1400,7 +1400,7 @@ func runScanStdin(opts *scanArgs) int {
 		if failSeverity == "" {
 			failSeverity = "low"
 		}
-		rank := map[string]int{"critical": 4, "high": 3, "medium": 2, "low": 1}
+		rank := map[string]int{"critical": 4, "high": 3, "medium": 2, "low": 1, "info": 0}
 		minRank, ok := rank[strings.ToLower(failSeverity)]
 		if !ok {
 			minRank = 1

@@ -13,4 +13,4 @@ go 1.27.3
 
 replace github.com/aegisgatesecurity/aegisgate-platform => ../consolidated/aegisgate-platform
 
-require github.com/aegisgatesecurity/aegisgate-platform v1.3.8 // indirect
+require github.com/aegisgatesecurity/aegisgate-platform v1.3.8

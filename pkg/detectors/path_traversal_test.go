@@ -223,7 +223,7 @@ func TestPathTraversal_NoFalsePositives(t *testing.T) {
 }
 
 func TestPathTraversal_PatternCount(t *testing.T) {
-	if len(PathTraversalPatterns) != 19 {
-		t.Errorf("PathTraversalPatterns has %d patterns, expected 19", len(PathTraversalPatterns))
+	if len(PathTraversalPatterns) != 21 {
+		t.Errorf("PathTraversalPatterns has %d patterns, expected 21", len(PathTraversalPatterns))
 	}
 }

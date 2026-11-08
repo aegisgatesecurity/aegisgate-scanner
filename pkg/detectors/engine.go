@@ -522,6 +522,13 @@ func detectAllByLines(text string, lang Language) []Match {
 	allPatterns = append(allPatterns, CompiledRAGPatterns...)
 	allPatterns = append(allPatterns, CompiledPromptLeakagePatterns...)
 	allPatterns = append(allPatterns, CompiledAgentPoisoningPatterns...)
+	allPatterns = append(allPatterns, CompiledInjectionPatterns...)
+	allPatterns = append(allPatterns, CompiledMalwarePatterns...)
+	allPatterns = append(allPatterns, CompiledEvasionPatterns...)
+	allPatterns = append(allPatterns, CompiledDataExfilPatterns...)
+	allPatterns = append(allPatterns, CompiledSocialEngineeringPatterns...)
+	allPatterns = append(allPatterns, CompiledXSSRequestPatterns...)
+	allPatterns = append(allPatterns, CompiledPromptInjectionRequestPatterns...)
 	allPatterns = append(allPatterns, customSnapshot...)
 
 	// Apply language filtering once.
@@ -717,7 +724,15 @@ func TotalCompiledPatterns() int {
 		len(CompiledRAGPatterns) +
 		len(CompiledPromptLeakagePatterns) +
 		len(CompiledPathTraversalPatterns) +
-		len(CompiledAgentPoisoningPatterns)
+		len(CompiledAgentPoisoningPatterns) +
+		len(CompiledInjectionPatterns) +
+		len(CompiledMalwarePatterns) +
+		len(CompiledEvasionPatterns) +
+		len(CompiledDataExfilPatterns) +
+		len(CompiledSocialEngineeringPatterns) +
+		len(CompiledXSSRequestPatterns) +
+		len(CompiledPromptInjectionRequestPatterns) +
+		len(CompiledContextManipulationPatterns)
 }
 
 func DetectAll(text string) []Match {
@@ -780,6 +795,27 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledPathTraversalPatterns, "path-traversal", lang)
 		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledInjectionPatterns, "injection", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledMalwarePatterns, "malware", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledEvasionPatterns, "evasion", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledDataExfilPatterns, "data-exfil", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledSocialEngineeringPatterns, "social-engineering", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledXSSRequestPatterns, "xss", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledPromptInjectionRequestPatterns, "prompt-injection", lang)
+		},
 	}
 	if len(customSnapshot) > 0 {
 		scanners = append(scanners, func() []Match {
@@ -841,6 +877,14 @@ func DetectAllWithResults(text string) ([]Match, []DetectionResult) {
 		{CompiledPromptLeakagePatterns, CategoryPromptLeakage},
 		{CompiledPathTraversalPatterns, CategoryPathTraversal},
 		{CompiledAgentPoisoningPatterns, CategoryAgentPoisoning},
+		{CompiledInjectionPatterns, CategoryInjection},
+		{CompiledContextManipulationPatterns, CategoryContextManipulation},
+		{CompiledMalwarePatterns, CategoryMalware},
+		{CompiledEvasionPatterns, CategoryEvasion},
+		{CompiledDataExfilPatterns, CategoryDataExfil},
+		{CompiledSocialEngineeringPatterns, CategorySocialEngineering},
+		{CompiledXSSRequestPatterns, CategoryXSS},
+		{CompiledPromptInjectionRequestPatterns, CategoryCompliance},
 	}
 
 	results := make([]DetectionResult, len(categories))
