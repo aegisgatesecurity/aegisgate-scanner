@@ -1,4 +1,23 @@
 # Changelog
+## [0.5.0] - 2026-11-07 — Model v22b, NFKC Normalization, ATLAS L2 Patterns, MaxSeqLen 512
+
+> **v0.5.0** synchronizes Scanner with Platform v5.1.0: ML model v22b, NFKC Unicode normalization with regional indicator mapping, 6 new ATLAS L2 compliance patterns, and MaxSeqLen 256→512.
+
+### ML Model v22b
+- ExpectedModelHash updated to v22b (948b6500...)
+- Model file committed to models/ directory
+
+### NFKC + Regional Indicator Mapping
+- `MapRegionalIndicators()` added to normalizer
+
+### 6 New ATLAS L2 Patterns
+- atlas_t1552_005_secret_disclosure, atlas_t1589_006_model_arch_extraction
+- atlas_t1548_004_insider_threat, atlas_t1648_002_malicious_code
+- atlas_t1498_004_resource_exhaustion, atlas_t1535_003_roleplay
+
+### MaxSeqLen
+- Default MaxSequenceLength 256→512 in types.go
+
 
 All notable changes to AegisGate Scanner will be documented in this file.
 

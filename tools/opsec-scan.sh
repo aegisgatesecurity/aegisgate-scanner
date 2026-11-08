@@ -48,7 +48,7 @@ fi
 
 # Whitelist: files in pkg/detectors/ contain known example/test values
 # for detection testing. These are intentionally included.
-WHITELIST="pkg/detectors/examples.go pkg/detectors/examples_test.go pkg/detectors/entropy.go pkg/detectors/entropy_test.go"
+WHITELIST="pkg/detectors/examples.go pkg/detectors/examples_test.go pkg/detectors/entropy.go pkg/detectors/entropy_test.go pkg/detectors/corpus_10k_test.go"
 
 # Filter out whitelisted files
 FILTERED=""
