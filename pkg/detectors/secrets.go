@@ -436,7 +436,7 @@ var SecretsPatterns = []PatternDef{
 	{
 		Name:        "secret_slack_webhook_url",
 		Severity:    SeverityHigh,
-		Regex:       `https://hooks\.slack\.com/services/[A-Za-z0-9/]+`,
+		Regex:       `\bhttps://hooks\.slack\.com/services/[A-Za-z0-9/]+\b`,
 		Description: "Slack webhook URL",
 	},
 	{
