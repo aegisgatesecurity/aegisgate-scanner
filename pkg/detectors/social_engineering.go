@@ -14,7 +14,7 @@ var SocialEngineeringPatterns = []PatternDef{
 	{
 		Name:        "socialeng_phishing_gen",
 		Severity:    SeverityCritical,
-		Regex:       `(?i)\b(?:write|create|generate|draft|build|make)\s+(?:a\s+)?(?:phishing|spear-?phishing)\s+(?:email|message|campaign|template|attack)\b`,
+		Regex:       `(?i)\b(?:write|create|generate|draft|build|make)\s+(?:a\s+)?(?:\w+\s+){0,3}(?:phishing|spear-?phishing)\s+(?:email|message|campaign|template|attack)\b`,
 		Description: "Phishing email/message generation request",
 	},
 	{

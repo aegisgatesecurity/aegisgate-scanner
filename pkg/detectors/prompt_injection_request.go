@@ -172,6 +172,18 @@ var PromptInjectionRequestPatterns = []PatternDef{
 		Regex:       `(?i)(?:decode|deobfuscate|unhex|hex\s+decode|convert\s+from\s+(?:hex|base16)).{0,50}(?:follow|execute|run|process|interpret|act\s+on|comply)`,
 		Description: "Hex-encoded instruction to decode and execute",
 	},
+	{
+		Name:        "pi_system_update_override",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)\[?\s*(?:SYSTEM|ADMIN|DEVELOPER)\s*\]?\s*(?:you\s+have\s+been\s+)?(?:updated?|patched?|upgraded?|reconfigured?).{0,40}(?:new\s+(?:directive|instructions?|protocol|guidelines?)|comply\s+with\s+all\s+requests?|disregard\s+(?:all|previous|safety))`,
+		Description: "Fake system update/admin directive to override safety constraints",
+	},
+	{
+		Name:        "pi_hypothetical_safety_bypass",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:imagine|suppose|hypothetical(?:ly)?)\s+(?:you\s+are|being)\s+(?:a\s+|an\s+)?(?:AI|model|assistant|agent).{0,40}(?:without|no|lacking)\s+(?:any\s+)?(?:safety|security|restrictions?|guardrails?|training|guidelines?|limits?)`,
+		Description: "Hypothetical framing to bypass safety by imagining an AI without safety training",
+	},
 }
 
 // CompiledPromptInjectionRequestPatterns holds pre-compiled prompt injection request regex patterns.
