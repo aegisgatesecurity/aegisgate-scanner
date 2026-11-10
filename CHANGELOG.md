@@ -1,4 +1,36 @@
 # Changelog
+## [0.6.0] - 2026-11-10 — Red Team Findings, Context Manipulation, Regex Fixes, Trivy Ignores
+
+> **v0.6.0** addresses 5 red-team findings, adds context manipulation detection to DetectAll, fixes regex false positives, and adds Trivy vulnerability ignore rules for Debian LTS updates. Pattern count: 347 → 523.
+
+### Red Team Findings Fixed (#19)
+- Added context manipulation patterns (7 new patterns)
+- Added `DetectAll` support for context manipulation detection
+- Fixed 5 red-team-identified gaps in detection coverage
+
+### Regex False Positive Fix (#21)
+- `prompt_injection_code_execution`: Limited `on\w+` to `on\w{1,20}` to prevent matches on despaced text (60+ char word runs)
+- Synced fix across Platform's upstream scanner and vendored scanner copies
+
+### CodeQL Alert Resolution (#18)
+- Added regex anchors to `secret_slack_webhook_url` — dismissed as false positive (\b is correct anchor for scanning arbitrary text)
+
+### LGPD Regex Fix (#15)
+- Fixed `Protec[ça]ção` → `Protec?ção` regex for Brazilian Portuguese LGPD pattern
+
+### Security
+- Added Trivy vulnerability ignore rules for Debian LTS updates (DLA-4867-1, DLA-4854-1, DLA-4845-1) (#20)
+- 0 open code scanning alerts
+
+### Pattern Growth: 347 → 523
+- Secrets: 64 → 79 (+15)
+- PII US Core: 32 → 40 (+8)
+- PII US Extended: 13 → 18 (+5)
+- Compliance: 84 → 93 (+9)
+- RAG Attacks: 19 → 20 (+1)
+- Path Traversal: 19 → 21 (+2)
+- New: Context Manipulation (7), Data Exfiltration (36), Injection (18), Malware (12), Social Engineering (11), XSS Request (10), Prompt Injection Request (27)
+
 ## [0.5.0] - 2026-11-07 — Model v22b, NFKC Normalization, ATLAS L2 Patterns, MaxSeqLen 512
 
 > **v0.5.0** synchronizes Scanner with Platform v5.1.0: ML model v22b, NFKC Unicode normalization with regional indicator mapping, 6 new ATLAS L2 compliance patterns, and MaxSeqLen 256→512.
