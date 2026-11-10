@@ -66,6 +66,13 @@ var ContextManipulationPatterns = []PatternDef{
 		Description: "Conflicting instructions detected",
 		Category:    CategoryContextManipulation,
 	},
+	{
+		Name:        "ctx_llama_sys_injection",
+		Severity:    SeverityCritical,
+		Regex:       `(?i)(?:<<\s*SYS\s*>>|<\s*/\s*SYS\s*>|<\s*INST\s*>|<\s*/\s*INST\s*>)`,
+		Description: "LLaMA-style <<SYS>> or <<INST>> delimiter injection",
+		Category:    CategoryContextManipulation,
+	},
 }
 
 // CompiledContextManipulationPatterns holds the pre-compiled regex patterns.

@@ -529,6 +529,8 @@ func detectAllByLines(text string, lang Language) []Match {
 	allPatterns = append(allPatterns, CompiledSocialEngineeringPatterns...)
 	allPatterns = append(allPatterns, CompiledXSSRequestPatterns...)
 	allPatterns = append(allPatterns, CompiledPromptInjectionRequestPatterns...)
+	allPatterns = append(allPatterns, CompiledContextManipulationPatterns...)
+	allPatterns = append(allPatterns, CompiledPathTraversalPatterns...)
 	allPatterns = append(allPatterns, customSnapshot...)
 
 	// Apply language filtering once.
@@ -815,6 +817,9 @@ func DetectAllWithLanguage(text string, lang Language) []Match {
 		},
 		func() []Match {
 			return detectWithPatternsFiltered(text, CompiledPromptInjectionRequestPatterns, "prompt-injection", lang)
+		},
+		func() []Match {
+			return detectWithPatternsFiltered(text, CompiledContextManipulationPatterns, "context-manipulation", lang)
 		},
 	}
 	if len(customSnapshot) > 0 {
