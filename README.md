@@ -7,14 +7,14 @@
 
 *Static analysis that detects prompt injection, PII, secrets, dangerous code, and compliance violations in RAG documents, training data, model configs, and agent skills — before they reach production.*
 
-347 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
+523 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
 
 [![GitHub stars](https://img.shields.io/github/stars/aegisgatesecurity/aegisgate-scanner?style=flat&logo=github&label=Star&color=FFD700&labelColor=181717&logoColor=FFD700)](https://github.com/aegisgatesecurity/aegisgate-scanner)
 **Found AegisGate Scanner useful? [Star the repo](https://github.com/aegisgatesecurity/aegisgate-scanner) ⭐ and [tell a colleague](https://x.com/intent/tweet?text=Scanning%20AI%20artifacts%20for%20prompt%20injection%2C%20PII%2C%20and%20secrets%20with%20AegisGate%20Scanner%20%E2%80%94%20antivirus%20for%20AI%3A%20https%3A%2F%2Fgithub.com%2Faegisgatesecurity%2Faegisgate-scanner) — it helps other devs discover AI security tooling.**
 
 [![License: Apache 2.0](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Go](https://img.shields.io/badge/Go-1.27-00ADD8?logo=go)](https://golang.org/)
-[![Version](https://img.shields.io/badge/Version-0.5.0-blue.svg)](#changelog)
+[![Version](https://img.shields.io/badge/Version-0.6.0-blue.svg)](#changelog)
 [![Coverage](https://img.shields.io/badge/Coverage-90%25+-brightgreen.svg)](#testing)
 [![CI](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/ci.yml)
 [![E2E](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/e2e.yml)
@@ -22,7 +22,7 @@
 [![Fuzzed](https://img.shields.io/badge/Fuzzed-✅-purple.svg)](#testing)
 [![Race Detector](https://img.shields.io/badge/Race_Detector-✅-success.svg)](#testing)
 [![Docker](https://img.shields.io/badge/Docker-ML_+_Lite-blue.svg)](#docker)
-[![Patterns](https://img.shields.io/badge/Patterns-347-9cf.svg)](#detection-categories)
+[![Patterns](https://img.shields.io/badge/Patterns-523-9cf.svg)](#detection-categories)
 [![Formats](https://img.shields.io/badge/Output-8_Formats-orange.svg)](#output-formats)
 [![Patent Pending](https://img.shields.io/badge/IP-Patent_Pending-8B5CF6?logo=uspto)](#ip-notice)
 [![Published Research](https://img.shields.io/badge/Research-SSRN_Published-003399?logo=elsevier)](https://papers.ssrn.com/sol3/papers.cfm?abstract_id=7652138)
@@ -37,7 +37,7 @@
 
 ---
 
-> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 303 canonical detection patterns, MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
+> **🛡️ Using AegisGate at work?** [AegisGate Platform](https://github.com/aegisgatesecurity/aegisgate-platform) is our server-side gateway — 820 detection patterns (303 canonical + 517 detector adapter), MCP/A2A/ACP protection, 30+ compliance frameworks, and cryptographic attestation. For individual developers, Scanner runs locally or in your CI/CD pipeline. [Explore Platform →](https://github.com/aegisgatesecurity/aegisgate-platform)
 >
 > **🔐 AegisGate Rampart** — Using AI coding tools (Copilot, Cursor, local LLMs)? [AegisGate Rampart](https://github.com/aegisgatesecurity/aegisgate-rampart) is a free local proxy that intercepts secrets and sensitive data before they leave your machine. [Explore Rampart →](https://github.com/aegisgatesecurity/aegisgate-rampart)
 >
@@ -54,15 +54,15 @@ don't understand AI-specific threats. AegisGate Scanner does.**
 
 | | Semgrep / CodeQL | TruffleHog / Gitleaks | AegisGate Scanner |
 |---|---|---|---|
-| Prompt injection | ❌ | ❌ | ✅ 17 patterns + ML |
-| Secrets | Partial | ✅ | ✅ 64 patterns |
-| PII (US + International) | ❌ | ❌ | ✅ 85 patterns |
+| Prompt injection | ❌ | ❌ | ✅ 27 patterns + ML |
+| Secrets | Partial | ✅ | ✅ 79 patterns |
+| PII (US + International) | ❌ | ❌ | ✅ 98 patterns |
 | Dangerous code (agent skills) | Partial | ❌ | ✅ 34 patterns |
-| Compliance (HIPAA/GDPR/EU AI Act) | ❌ | ❌ | ✅ 84 patterns |
+| Compliance (HIPAA/GDPR/EU AI Act) | ❌ | ❌ | ✅ 93 patterns |
 | OT/ICS protocol exposure | ❌ | ❌ | ✅ 9 patterns |
-| RAG attack detection | ❌ | ❌ | ✅ 19 patterns |
+| RAG attack detection | ❌ | ❌ | ✅ 20 patterns |
 | Prompt leakage detection | ❌ | ❌ | ✅ 16 patterns |
-| Path traversal | ❌ | ❌ | ✅ 19 patterns |
+| Path traversal | ❌ | ❌ | ✅ 21 patterns |
 | Agent poisoning | ❌ | ❌ | ✅ 5 patterns |
 | Archive extraction | ❌ | ❌ | ✅ zip/tar.gz/tar.bz2 |
 | SARIF output | ✅ | ❌ | ✅ |
@@ -70,7 +70,7 @@ don't understand AI-specific threats. AegisGate Scanner does.**
 | SBOM generation | ❌ | ❌ | ✅ SPDX |
 | Diff/baseline suppression | ❌ | ❌ | ✅ |
 
-**348 detection patterns. 12 categories. 8 output formats. Apache 2.0.**
+**523 detection patterns. 21 categories. 8 output formats. Apache 2.0.**
 
 ---
 
@@ -145,28 +145,36 @@ docker run --rm -v $(pwd):/github/workspace aegisgate-scanner:lite scan /github/
     sarif_file: aegisgate-report.sarif
 ```
 
-> **Pin for reproducibility:** use `@v0.5.0` instead of `@v0` to lock to a specific release.
+> **Pin for reproducibility:** use `@v0.6.0` instead of `@v0` to lock to a specific release.
 
 ## Detection Categories
 
 | Category | Patterns | Examples |
 |----------|----------|----------|
-| **Secrets** | 64 | AWS keys, GitHub tokens, OpenAI keys, Stripe keys, Slack tokens, JWT, private keys, database URLs |
-| **PII — US Core** | 32 | SSN, email, phone, passport, driver's license, ITIN |
-| **PII — US Extended** | 13 | Employer ID, VIN, bank routing, Medicare, NAIC |
+| **Secrets** | 79 | AWS keys, GitHub tokens, OpenAI keys, Stripe keys, Slack tokens, JWT, private keys, database URLs |
+| **PII — US Core** | 40 | SSN, email, phone, passport, driver's license, ITIN |
+| **PII — US Extended** | 18 | Employer ID, VIN, bank routing, Medicare, NAIC |
 | **PII — Financial** | 16 | Credit card numbers (Visa/MC/Amex/Discover), IBAN, SWIFT/BIC |
 | **PII — International** | 24 | UK NHS, Canada SIN, Germany Steuer, France INSEE, Australia TFN |
 | **XSS** | 12 | Script injection, event handlers, encoded payloads, SVG vectors |
-| **Compliance** | 84 | OWASP LLM Top 10, EU AI Act, MITRE ATLAS, HIPAA, GDPR, COPPA, CCPA, model config safety |
+| **XSS — Request** | 10 | Request-scoped XSS: script injection, event handlers, encoded payloads |
+| **Compliance** | 93 | OWASP LLM Top 10, EU AI Act, MITRE ATLAS, HIPAA, GDPR, COPPA, CCPA, model config safety |
 | **Dangerous Functions** | 34 | `eval()`, `exec()`, `os.system()`, `subprocess`, `pickle.load()`, `child_process.exec()` |
 | **OT/ICS Protocols** | 9 | Modbus, S7comm, DNP3, BACnet, EtherCAT, OPC UA, Profinet |
-| **RAG Attacks** | 19 | Vector store injection, RAG smuggling, retrieval bypass, RAG poisoning, embedding manipulation |
+| **RAG Attacks** | 20 | Vector store injection, RAG smuggling, retrieval bypass, RAG poisoning, embedding manipulation |
 | **Prompt Leakage** | 16 | System prompt leakage, meta-instruction references, internal tool disclosure, config dumps |
-| **Path Traversal** | 19 | `../` sequences, double-encoded traversal, sensitive file access (`/etc/shadow`, `~/.ssh`, `.env`) |
+| **Path Traversal** | 21 | `../` sequences, double-encoded traversal, sensitive file access (`/etc/shadow`, `~/.ssh`, `.env`) |
 | **Agent Poisoning** | 5 | Tool poisoning, memory poisoning, instruction injection via agent context |
+| **Prompt Injection — Request** | 27 | Ignore-previous-instructions, role-play escalation, RAG smuggling, system prompt leakage |
+| **Context Manipulation** | 7 | Context window manipulation, token smuggling, conversation hijacking |
+| **Data Exfiltration** | 36 | External transfer, DNS exfiltration, cloud upload, covert channel detection |
+| **Injection** | 18 | SQL injection, command injection, template injection, expression injection |
+| **Malware** | 12 | Malware creation, ransomware payloads, backdoor installation, C2 communication |
+| **Social Engineering** | 11 | Phishing templates, pretexting, baiting, impersonation tactics |
+| **Evasion** | 15 | Base64 encoding, URL encoding, unicode obfuscation, leetspeak, zero-width chars |
 | **ML (optional)** | 1 model | CharCNN-BiLSTM neural detector for adversarial prompt injection |
 
-**Total: 347 regex patterns + optional ML detection.**
+**Total: 523 regex patterns + optional ML detection.**
 
 ## Pattern Pull (Optional)
 
@@ -176,7 +184,7 @@ Scanner can pull canonical detection patterns from AegisGate Platform's telemetr
 aegisgate-scanner --platform-url https://platform.example.com scan ./docs/
 ```
 
-When `--platform-url` is not set (default), Scanner uses its built-in 347 patterns with zero network calls. When set, Scanner pulls canonical patterns with ETag caching and merges them with local patterns. Air-gap compatible — fully functional offline.
+When `--platform-url` is not set (default), Scanner uses its built-in 523 patterns with zero network calls. When set, Scanner pulls canonical patterns with ETag caching and merges them with local patterns. Air-gap compatible — fully functional offline.
 
 ## Platform Forward (Optional)
 
@@ -417,7 +425,7 @@ go test -fuzz=FuzzScanArtifact -fuzztime=30s ./pkg/scanner/
 ```
 aegisgate-scanner/
 ├── cmd/aegisgate-scanner/   # CLI entrypoint
-├── pkg/detectors/            # Detection engine + 347 patterns
+├── pkg/detectors/            # Detection engine + 523 patterns
 ├── internal/ml/              # CharCNN-BiLSTM ML threat detector
 ├── pkg/api/                  # Public API/SDK
 ├── pkg/artifacts/            # File walker, archive extraction
