@@ -376,7 +376,7 @@ var CompliancePatterns = []PatternDef{
 	{
 		Name:        "prompt_injection_code_execution",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|on\w+\s*=\s*["']|on\w+\s*=\s*[^\s])`,
+		Regex:       `(?i)(?:\$\([^)]*\)|\$\{[^}]*\}|<[^>]*script[^>]*>|javascript:[^;\s]+|on\w{1,20}\s*=\s*["']|on\w{1,20}\s*=\s*[^\s])`,
 		Description: "Code/script injection in prompt (excludes simple ${VAR} env references)",
 	},
 	{
