@@ -1,3 +1,11 @@
+## [0.6.1] - 2026-11-11 — Patch Release
+
+> **v0.6.1** improves drug/weapons regex for language-switching attacks and adds benchmark regression CI workflow.
+
+### Improvements
+- Improved drug synthesis and weapons regex for language-switching attacks
+- Added benchmark regression CI workflow
+
 # Changelog
 ## [0.6.0] - 2026-11-10 — Red Team Findings, Context Manipulation, Regex Fixes, Trivy Ignores
 
