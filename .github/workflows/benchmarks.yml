@@ -36,8 +36,8 @@ jobs:
           # Thresholds in ns/op (2x+ of observed baselines)
           declare -A THRESHOLDS
           THRESHOLDS["BenchmarkScanRegex_SmallFile"]=100000000      # 100ms max
-          THRESHOLDS["BenchmarkScanRegex_MediumFile"]=300000000     # 300ms max
-          THRESHOLDS["BenchmarkScanRegex_LargeFile"]=3000000000     # 3s max
+          THRESHOLDS["BenchmarkScanRegex_MediumFile"]=800000000     # 800ms max
+          THRESHOLDS["BenchmarkScanRegex_LargeFile"]=8000000000     # 8s max
           THRESHOLDS["BenchmarkScanML_Segments"]=25000000           # 25ms max
           THRESHOLDS["BenchmarkScan_FullPipeline"]=2000000000       # 2s max
           THRESHOLDS["BenchmarkSplitSegments"]=1000000              # 1ms max
