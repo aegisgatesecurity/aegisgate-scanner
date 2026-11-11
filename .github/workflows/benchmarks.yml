@@ -1,0 +1,77 @@
+name: Benchmarks
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'pkg/**'
+      - 'cmd/**'
+      - 'go.mod'
+      - 'go.sum'
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  benchmark:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: actions/setup-go@v7.0.0
+        with:
+          go-version: '1.27.3'
+
+      - name: Run benchmarks
+        run: |
+          go test -run=^$ -bench=. -benchmem -benchtime=3s -count=3 -timeout=10m ./pkg/scanner/ | tee benchmark-results.txt
+
+      - name: Check for regressions (2x threshold)
+        run: |
+          echo "## Benchmark Regression Check" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          FAIL=0
+          # Thresholds in ns/op (2x+ of observed baselines)
+          declare -A THRESHOLDS
+          THRESHOLDS["BenchmarkScanRegex_SmallFile"]=100000000      # 100ms max
+          THRESHOLDS["BenchmarkScanRegex_MediumFile"]=800000000     # 800ms max
+          THRESHOLDS["BenchmarkScanRegex_LargeFile"]=8000000000     # 8s max
+          THRESHOLDS["BenchmarkScanML_Segments"]=25000000           # 25ms max
+          THRESHOLDS["BenchmarkScan_FullPipeline"]=2000000000       # 2s max
+          THRESHOLDS["BenchmarkSplitSegments"]=1000000              # 1ms max
+          THRESHOLDS["BenchmarkTruncate"]=2000                      # 2μs max
+          THRESHOLDS["BenchmarkByteOffsetToLineCol"]=8000           # 8μs max
+
+          while IFS= read -r line; do
+            BENCH=$(echo "$line" | awk '{print $1}')
+            NS_OP=$(echo "$line" | awk '{print $3}')
+            if [[ -n "$BENCH" && -n "$NS_OP" && "$NS_OP" =~ ^[0-9]+$ ]]; then
+              for KEY in "${!THRESHOLDS[@]}"; do
+                if [[ "$BENCH" == "$KEY"-* ]]; then
+                  THRESHOLD=${THRESHOLDS[$KEY]}
+                  if [ "$NS_OP" -gt "$THRESHOLD" ]; then
+                    FAIL=1
+                    echo "❌ ${BENCH}: ${NS_OP}ns/op exceeds threshold ${THRESHOLD}ns/op" >> $GITHUB_STEP_SUMMARY
+                  else
+                    echo "✅ ${BENCH}: ${NS_OP}ns/op within threshold ${THRESHOLD}ns/op" >> $GITHUB_STEP_SUMMARY
+                  fi
+                fi
+              done
+            fi
+          done < benchmark-results.txt
+
+          if [ "$FAIL" -eq 1 ]; then
+            echo "" >> $GITHUB_STEP_SUMMARY
+            echo "**Result: FAIL** — regression detected" >> $GITHUB_STEP_SUMMARY
+            exit 1
+          fi
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**Result: PASS** — all benchmarks within thresholds" >> $GITHUB_STEP_SUMMARY
+
+      - name: Upload benchmark results
+        uses: actions/upload-artifact@v7.0.2
+        with:
+          name: benchmark-results
+          path: benchmark-results.txt
