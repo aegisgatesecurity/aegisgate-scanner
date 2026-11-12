@@ -40,8 +40,8 @@ var PIIFinancialPatterns = []PatternDef{
 	{
 		Name:        "pii_crypto_sol",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:Solana|SOL[:\s=])\s*(?:address|address\s+for|wallet)?\s*[:=]?\s*([1-9A-HJ-NP-Za-km-z]{32,44})`,
-		Description: "Solana wallet address",
+		Regex:       `(?:Solana|SOL[:\s=])\s*(?:address|address\s+for|wallet)?\s*[:=]?\s*([1-9A-HJ-NP-Za-km-z]{32,44})`,
+		Description: "Solana wallet address (case-sensitive: requires 'Solana' or uppercase 'SOL' prefix)",
 	},
 	{
 		Name:        "pii_digital_paypal",
@@ -70,8 +70,8 @@ var PIIFinancialPatterns = []PatternDef{
 	{
 		Name:        "pii_banking_swift_bic",
 		Severity:    SeverityHigh,
-		Regex:       `(?i)(?:SWIFT|BIC|bank\s*identifier\s*code)\s*(?:code|identifier)?\s*[:=]?\s*([A-Z]{4}[A-Z]{2}[A-Z0-9]{2}(?:[A-Z0-9]{3})?)`,
-		Description: "SWIFT/BIC bank code (8-11 characters: AAAABBBBXXX)",
+		Regex:       `(?:SWIFT|BIC|bank\s+identifier\s+code)\s*(?:code|identifier)?\s*[:=]?\s*([A-Z]{4}[A-Z]{2}[A-Z0-9]{2}(?:[A-Z0-9]{3})?)`,
+		Description: "SWIFT/BIC bank code (case-sensitive: requires SWIFT/BIC label)",
 	},
 	{
 		Name:        "pii_banking_swift_8",
