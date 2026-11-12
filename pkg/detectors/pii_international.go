@@ -53,8 +53,8 @@ var PIIInternationalPatterns = []PatternDef{
 	{
 		Name:        "pii_bip39_seed",
 		Severity:    SeverityCritical,
-		Regex:       `\b(?:[a-z]{3,8}\s+){11}[a-z]{3,8}\b|\b(?:[a-z]{3,8}\s+){23}[a-z]{3,8}\b`,
-		Description: "BIP39 cryptocurrency seed phrase (12 or 24 words)",
+		Regex:       `(?i)(?:seed[\s-]?phrase|mnemonic(?:\s+code)?|recovery[\s-]?phrase|BIP39|wallet[\s-]?(?:seed|recovery))\s*[:=]?\s*(?:[a-z]{3,8}\s+){11,23}[a-z]{3,8}\b`,
+		Description: "BIP39 cryptocurrency seed phrase (requires crypto context)",
 	},
 	{
 		Name:        "pii_passport_uk",
