@@ -60,7 +60,7 @@ COPY . .
 
 # Build arguments (overridable via --build-arg).
 ARG CGO_ENABLED=1
-ARG VERSION=0.4.0
+ARG VERSION=0.6.2
 ARG TARGETARCH
 
 # CGO / ONNX Runtime environment.
@@ -138,7 +138,7 @@ WORKDIR /build
 COPY go.mod ./
 COPY . .
 
-ARG VERSION=0.4.0
+ARG VERSION=0.6.2
 
 ENV CGO_ENABLED=0
 
