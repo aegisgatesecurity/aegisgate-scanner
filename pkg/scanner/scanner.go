@@ -182,10 +182,16 @@ type Scanner struct {
 // New creates a new Scanner with the given options.
 // If EnableML is true and CGO is available, the ML detector is initialized.
 func New(opts ScanOptions) (*Scanner, error) {
-	s := &Scanner{
-		mlEnabled: opts.EnableML,
-	}
+	s := &Scanner{}
 
+	// WITHDRAWN 2026-11-23: ML detector is withdrawn (model failed corpus
+	// label audit). EnableML is ignored; the ML path can never turn on.
+	// See docs/ML-WITHDRAWN.md.
+	if opts.EnableML {
+		slog.Warn("EnableML is ignored: neural ML detection is withdrawn pending retraining (see docs/ML-WITHDRAWN.md)")
+		opts.EnableML = false
+	}
+	s.mlEnabled = opts.EnableML
 	if opts.EnableML {
 		cfg := ml.DefaultDetectorConfig()
 		cfg.Enabled = true

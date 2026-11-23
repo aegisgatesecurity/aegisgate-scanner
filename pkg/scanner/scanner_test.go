@@ -104,6 +104,8 @@ func TestNew_NoML(t *testing.T) {
 }
 
 func TestNew_WithML(t *testing.T) {
+	// Neural ML is WITHDRAWN (2026-11-23): EnableML must be ignored and the
+	// scanner must come up with ML fully disabled. See docs/ML-WITHDRAWN.md.
 	s, err := New(ScanOptions{EnableML: true, MLThreshold: 0.85})
 	if err != nil {
 		t.Fatalf("New(EnableML=true) returned error: %v", err)
@@ -111,15 +113,11 @@ func TestNew_WithML(t *testing.T) {
 	if s == nil {
 		t.Fatal("New returned nil scanner")
 	}
-	if !s.mlEnabled {
-		t.Error("mlEnabled should be true when EnableML is true")
+	if s.mlEnabled {
+		t.Error("mlEnabled should be false: ML is withdrawn")
 	}
-	if s.mlDetector == nil {
-		t.Error("mlDetector should not be nil when EnableML is true")
-	}
-	// IsEnabled() should be true since config.Enabled is set.
-	if !s.mlDetector.IsEnabled() {
-		t.Error("mlDetector should report enabled=true")
+	if s.mlDetector != nil {
+		t.Error("mlDetector should be nil: ML is withdrawn")
 	}
 }
 

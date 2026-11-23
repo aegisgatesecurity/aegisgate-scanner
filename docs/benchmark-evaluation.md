@@ -1,3 +1,5 @@
+> **⚠ WITHDRAWN 2026-11-23 — ML detection is disabled.** Detection-rate figures in this document derive from a model trained on a corpus whose attack-side labels failed audit and are void. See docs/ML-WITHDRAWN.md.
+
 # AegisGate Scanner — Detection Performance Benchmark
 
 > **Document status**: Draft · **Date**: 2026-10-12 · **Sources**: Platform/Rampart runtime testing (Jul 2026)

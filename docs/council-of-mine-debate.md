@@ -1,3 +1,5 @@
+> **⚠ WITHDRAWN 2026-11-23 — ML detection is disabled.** Detection-rate figures in this document derive from a model trained on a corpus whose attack-side labels failed audit and are void. See docs/ML-WITHDRAWN.md.
+
 # Council-of-Mine: AegisGate Scanner Pre-Patent Review
 
 ## Synthetic Debate — "Are We Bulletproof?"
