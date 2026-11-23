@@ -13,11 +13,15 @@
 # AegisGate Scanner is a CLI tool for scanning AI artifacts — RAG document
 # stores, training datasets, model configuration files, and agent skill
 # packages — for prompt injection, PII exposure, hardcoded secrets, and
-# compliance violations. It combines heuristic rules with an optional
-# CNN-BiLSTM neural threat detector (ONNX Runtime) for ML-based detection.
+# compliance violations, using deterministic detection.
+#
+# ML WITHDRAWN 2026-11-23: the neural threat detector was withdrawn (the
+# model was trained on a corrupted corpus). This image runs deterministic
+# detection only. See docs/ML-WITHDRAWN.md.
 #
 # ML-enabled build (default target "ml"): CGO_ENABLED=1 with vendored
-# ONNX Runtime shared library. Uses debian:bookworm-slim because
+# ONNX Runtime shared library kept so the (hard-disabled) code path still
+# links. Uses debian:bookworm-slim because
 # onnxruntime prebuilt Linux shared libraries require glibc; Alpine's musl
 # libc cannot load them.
 #
@@ -106,8 +110,8 @@ COPY entrypoint.sh /entrypoint.sh
 COPY --from=builder /build/lib/${TARGETARCH}/libonnxruntime.so /app/lib/libonnxruntime.so
 COPY --from=builder /build/lib/${TARGETARCH}/libonnxruntime.so.1 /app/lib/libonnxruntime.so.1
 
-# Copy the CNN-BiLSTM threat detection model.
-COPY --from=builder /build/models/threat_cnn_bilstm.onnx /app/models/threat_cnn_bilstm.onnx
+# Neural ML detection WITHDRAWN 2026-11-23 (see docs/ML-WITHDRAWN.md).
+# No model is shipped; the scanner runs deterministic detection only.
 
 # Runtime env: tell the scanner where to find ONNX Runtime.
 ENV ONNXRUNTIME_SHARED_LIBRARY_PATH=/app/lib/libonnxruntime.so

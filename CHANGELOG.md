@@ -1,3 +1,7 @@
+## [0.6.2] - 2026-11-23 — ML Withdrawn
+
+- `models/threat_cnn_bilstm.onnx` removed; ML detector hard-disabled (`EnableML` ignored); all detection-rate claims void. Deterministic detection unaffected. See docs/ML-WITHDRAWN.md.
+
 ## [0.6.1] - 2026-11-11 — Patch Release
 
 > **v0.6.1** improves drug/weapons regex for language-switching attacks and adds benchmark regression CI workflow.
