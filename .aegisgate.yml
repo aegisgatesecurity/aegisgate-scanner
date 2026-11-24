@@ -41,10 +41,14 @@ respect_gitignore: true
 min_severity: low
 
 # Enable ML threat detection (requires CGO build with ONNX Runtime)
+# WITHDRAWN 2026-11-23: ML detection is withdrawn and hard-disabled; this
+# setting is ignored (EnableML is ignored; the loader refuses all models).
+# Kept for config compatibility. See docs/ML-WITHDRAWN.md
 # Set to false for lite/regex-only builds
 enable_ml: true
 
 # ML detection threshold (0.0-1.0, default 0.50)
+# WITHDRAWN 2026-11-23: inert — ML detection is withdrawn; see docs/ML-WITHDRAWN.md
 # Lower = more sensitive (more false positives)
 # Higher = more conservative (may miss subtle threats)
 ml_threshold: 0.50
@@ -59,6 +63,8 @@ output_format: text
 color_output: true
 
 # Path to ONNX model file (empty = use bundled default)
+# WITHDRAWN 2026-11-23: no model is bundled and the loader refuses all
+# models; this setting is inert. See docs/ML-WITHDRAWN.md
 model_path: ""
 
 # Fail-on severity: exit non-zero only for findings at or above this level

@@ -7,7 +7,7 @@
 
 *Static analysis that detects prompt injection, PII, secrets, dangerous code, and compliance violations in RAG documents, training data, model configs, and agent skills — before they reach production.*
 
-523 regex patterns + CharCNN-BiLSTM (v15) ML · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
+523 regex patterns · 8 output formats · SARIF · SBOM · GitHub Action · Dual Docker images · Zero runtime dependencies
 
 [![GitHub stars](https://img.shields.io/github/stars/aegisgatesecurity/aegisgate-scanner?style=flat&logo=github&label=Star&color=FFD700&labelColor=181717&logoColor=FFD700)](https://github.com/aegisgatesecurity/aegisgate-scanner)
 **Found AegisGate Scanner useful? [Star the repo](https://github.com/aegisgatesecurity/aegisgate-scanner) ⭐ and [tell a colleague](https://x.com/intent/tweet?text=Scanning%20AI%20artifacts%20for%20prompt%20injection%2C%20PII%2C%20and%20secrets%20with%20AegisGate%20Scanner%20%E2%80%94%20antivirus%20for%20AI%3A%20https%3A%2F%2Fgithub.com%2Faegisgatesecurity%2Faegisgate-scanner) — it helps other devs discover AI security tooling.**
@@ -21,7 +21,8 @@
 [![Security](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/security.yml/badge.svg)](https://github.com/aegisgatesecurity/aegisgate-scanner/actions/workflows/security.yml)
 [![Fuzzed](https://img.shields.io/badge/Fuzzed-✅-purple.svg)](#testing)
 [![Race Detector](https://img.shields.io/badge/Race_Detector-✅-success.svg)](#testing)
-[![Docker](https://img.shields.io/badge/Docker-ML_+_Lite-blue.svg)](#docker)
+[![Docker](https://img.shields.io/badge/Docker-Lite-blue.svg)](#docker)
+[![ML](https://img.shields.io/badge/ML-WITHDRAWN%20(2026--11--23)-lightgrey.svg)](docs/ML-WITHDRAWN.md)
 [![Patterns](https://img.shields.io/badge/Patterns-523-9cf.svg)](#detection-categories)
 [![Formats](https://img.shields.io/badge/Output-8_Formats-orange.svg)](#output-formats)
 [![Patent Pending](https://img.shields.io/badge/IP-Patent_Pending-8B5CF6?logo=uspto)](#ip-notice)
@@ -32,6 +33,8 @@
 
 
 </div>
+
+> **⚠ 2026-11-23 — ML WITHDRAWN.** The optional CharCNN-BiLSTM ML detector and all ML-based detection claims in this document are withdrawn (see [docs/ML-WITHDRAWN.md](docs/ML-WITHDRAWN.md)). Deterministic regex detection is unaffected.
 
 > **We follow [GitHub's recommended security practices](https://securitylab.github.com/resources/five-easy-steps-to-secure-your-open-source-project/) for open source projects.** CodeQL scanning · Secret scanning with push protection · Dependabot alerts · DCO enforcement · Fuzz testing · Race detector CI · Archive bomb protection
 
@@ -54,7 +57,7 @@ don't understand AI-specific threats. AegisGate Scanner does.**
 
 | | Semgrep / CodeQL | TruffleHog / Gitleaks | AegisGate Scanner |
 |---|---|---|---|
-| Prompt injection | ❌ | ❌ | ✅ 27 patterns + ML |
+| Prompt injection | ❌ | ❌ | ✅ 27 patterns |
 | Secrets | Partial | ✅ | ✅ 79 patterns |
 | PII (US + International) | ❌ | ❌ | ✅ 98 patterns |
 | Dangerous code (agent skills) | Partial | ❌ | ✅ 34 patterns |
@@ -66,7 +69,7 @@ don't understand AI-specific threats. AegisGate Scanner does.**
 | Agent poisoning | ❌ | ❌ | ✅ 5 patterns |
 | Archive extraction | ❌ | ❌ | ✅ zip/tar.gz/tar.bz2 |
 | SARIF output | ✅ | ❌ | ✅ |
-| ML-based detection | ❌ | ❌ | ✅ CharCNN-BiLSTM |
+| ML-based detection | ❌ | ❌ | ❌ Withdrawn 2026-11-23 |
 | SBOM generation | ❌ | ❌ | ✅ SPDX |
 | Diff/baseline suppression | ❌ | ❌ | ✅ |
 
@@ -108,14 +111,14 @@ git clone https://github.com/aegisgatesecurity/aegisgate-scanner.git
 cd aegisgate-scanner
 
 # Using Makefile
-make build          # ML-enabled (requires CGO)
-make build-lite     # Lite (no ML, pure static binary)
+make build          # Full build (requires CGO)
+make build-lite     # Lite (pure static binary) — recommended
 
 # Or directly
 # Lite build (no ML, pure static binary)
 CGO_ENABLED=0 go build -o aegisgate-scanner ./cmd/aegisgate-scanner/
 
-# ML-enabled build (requires ONNX Runtime)
+# CGO build (neural detection withdrawn 2026-11-23; kept for reproducibility)
 # Linux amd64: lib/amd64/libonnxruntime.so is vendored
 CGO_ENABLED=1 go build -o aegisgate-scanner ./cmd/aegisgate-scanner/
 ```
@@ -123,7 +126,7 @@ CGO_ENABLED=1 go build -o aegisgate-scanner ./cmd/aegisgate-scanner/
 ### Docker
 
 ```bash
-# ML-enabled (full detection)
+# ML image (neural detection withdrawn 2026-11-23; kept for reproducibility)
 docker build --target ml -t aegisgate-scanner .
 docker run --rm -v $(pwd):/github/workspace aegisgate-scanner scan /github/workspace
 
@@ -172,9 +175,9 @@ docker run --rm -v $(pwd):/github/workspace aegisgate-scanner:lite scan /github/
 | **Malware** | 12 | Malware creation, ransomware payloads, backdoor installation, C2 communication |
 | **Social Engineering** | 11 | Phishing templates, pretexting, baiting, impersonation tactics |
 | **Evasion** | 15 | Base64 encoding, URL encoding, unicode obfuscation, leetspeak, zero-width chars |
-| **ML (optional)** | 1 model | CharCNN-BiLSTM neural detector for adversarial prompt injection |
+| **ML** | — | WITHDRAWN 2026-11-23 — see [docs/ML-WITHDRAWN.md](docs/ML-WITHDRAWN.md) |
 
-**Total: 523 regex patterns + optional ML detection.**
+**Total: 523 regex patterns.**
 
 ## Pattern Pull (Optional)
 
@@ -233,7 +236,7 @@ aegisgate-scanner scan ./project --extract-archives
 # Diff against baseline (show only new findings)
 aegisgate-scanner scan ./project --diff --baseline previous-results.json
 
-# Enable ML detection (requires CGO build)
+# ML detection: withdrawn 2026-11-23 (flag is inert)
 aegisgate-scanner scan ./project --ml
 
 # Stdin/pipe mode
@@ -275,7 +278,7 @@ extensions: []
 # Severity threshold (critical, high, medium, low)
 severity: "medium"
 
-# Enable ML detection
+# ML detection — withdrawn 2026-11-23 (inert)
 ml: false
 
 # Parallel workers
@@ -352,11 +355,11 @@ Two Docker images are built from the same Dockerfile:
 
 | Image | Size | Detection | Use Case |
 |-------|------|-----------|----------|
-| `aegisgate-scanner:ml` | ~150MB | Regex + ML (full) | Local / server / full CI |
+| `aegisgate-scanner:ml` | ~150MB | Regex (ML withdrawn 2026-11-23) | Local / server |
 | `aegisgate-scanner:lite` | ~20MB | Regex only (heuristic) | CI/CD pipelines / minimal |
 
 The lite image is distroless (no shell, no package manager) for minimal
-attack surface. The ML image uses Debian slim with the ONNX Runtime.
+attack surface. The ML image uses Debian slim (kept for reproducibility; neural detection is withdrawn).
 
 ## GitHub Action
 
@@ -365,7 +368,7 @@ attack surface. The ML image uses Debian slim with the ONNX Runtime.
 | `path` | `.` | Directory to scan |
 | `format` | `github` | Output format |
 | `severity` | `medium` | Minimum severity threshold |
-| `no-ml` | `false` | Disable ML detection |
+| `no-ml` | `false` | Disable ML detection (inert — ML withdrawn) |
 | `diff` | `false` | Show only new findings |
 | `baseline` | — | Baseline file path (for diff) |
 | `disable-rule` | — | Rules to disable (comma-separated) |
@@ -400,7 +403,7 @@ All 9 testable packages maintain ≥90% coverage:
 | Fuzz tests | 6 | Random input crash detection |
 | Race tests | 7 | Concurrent access validation |
 | Archive security tests | 12 | Bomb/traversal/symlink protection |
-| Evasion suite | 1 | Adversarial detection resistance (50 transforms × 52 payloads) |
+| Evasion suite | 1 | Adversarial detection resistance (50 transforms × 52 payloads); ML path inert since 2026-11-23 — see [docs/ML-WITHDRAWN.md](docs/ML-WITHDRAWN.md) |
 | E2E tests | 10 | Full pipeline integration (CI workflow) |
 
 ### Running Tests
@@ -426,7 +429,7 @@ go test -fuzz=FuzzScanArtifact -fuzztime=30s ./pkg/scanner/
 aegisgate-scanner/
 ├── cmd/aegisgate-scanner/   # CLI entrypoint
 ├── pkg/detectors/            # Detection engine + 523 patterns
-├── internal/ml/              # CharCNN-BiLSTM ML threat detector
+├── internal/ml/              # ML detector — withdrawn 2026-11-23 (disabled)
 ├── pkg/api/                  # Public API/SDK
 ├── pkg/artifacts/            # File walker, archive extraction
 ├── pkg/baseline/             # Baseline suppression
@@ -465,7 +468,6 @@ aegisgate-scanner/
 - [ ] Streaming scan mode for large files (chunk-based processing)
 - [ ] Real-world corpus validation (100+ known-poisoned artifacts)
 - [ ] Competitive benchmark report (vs TruffleHog, Gitleaks, Semgrep)
-- [ ] Transformer-based ML model upgrade (DistilBERT/BERT)
 - [ ] Multimodal artifact support (image-based prompt injection)
 - [ ] Model weight analysis (backdoor detection)
 - [ ] Additional archive formats (.7z, .rar)

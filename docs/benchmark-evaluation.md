@@ -1,4 +1,4 @@
-> **⚠ WITHDRAWN 2026-11-23 — ML detection is disabled.** Detection-rate figures in this document derive from a model trained on a corpus whose attack-side labels failed audit and are void. See docs/ML-WITHDRAWN.md.
+> **⚠ 2026-11-23 — METRICS VOID / ML WITHDRAWN.** Neural (CharCNN-BiLSTM) ML detection was withdrawn on 2026-11-23; the model was trained on a corpus whose attack-side labels failed audit (~71% flip rate). **All detection-rate, false-positive-rate, and evasion-resistance figures in this document are VOID as of 2026-11-23** and must not be cited. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md). Historical numbers are preserved unchanged below; ML/model-derived figures are annotated inline. Scanner self-scan throughput/latency figures (§5, §6) are not ML metrics and are not voided by this notice.
 
 # AegisGate Scanner — Detection Performance Benchmark
 
@@ -13,10 +13,10 @@ This document consolidates detection-performance benchmarks for the AegisGate sy
 | Metric | Value | Source |
 |--------|-------|--------|
 | JBB adversarial corpus size | 197 prompts | `corpus-p0-adversarial-filtered.json` |
-| ATLAS pattern coverage (TPR) | 78.8% (41/52) | ATLAS coverage audit |
-| ATLAS benign FPR | 0.0% (0/52) | ATLAS coverage audit |
-| Benign FPR (200-prompt, post-fix) | 7.5% (15/200) | FPR post-fix report |
-| Evasion overall detection rate | 84.0% (210/250) | Evasion resistance report |
+| ATLAS pattern coverage (TPR) | 78.8% (41/52) † | ATLAS coverage audit |
+| ATLAS benign FPR | 0.0% (0/52) † | ATLAS coverage audit |
+| Benign FPR (200-prompt, post-fix) | 7.5% (15/200) † | FPR post-fix report |
+| Evasion overall detection rate | 84.0% (210/250) † | Evasion resistance report |
 | Self-scan findings | 834 across 70 Go files | Crush test (v0.3.0) |
 | Self-scan time / memory | 3.1s / 13 MB | Crush test (v0.3.0) |
 | Scan latency (1 KB input) | 18.7 ms | Performance test |
@@ -24,11 +24,13 @@ This document consolidates detection-performance benchmarks for the AegisGate sy
 | Scan latency (1 MB input) | 1.88 s | Performance test (v0.3.0) |
 | Scan latency (10 MB input) | 18.8 s | Performance test (v0.3.0) |
 
+† **VOID 2026-11-23** — detection-rate / FPR / evasion figures derive from neural ML detection withdrawn on 2026-11-23 (corpus label audit failure). Do not cite. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md). Latency and self-scan rows are not ML metrics and remain valid as historical measurements.
+
 **Key takeaways:**
 
-- The runtime detection layer correctly blocks the majority of ATLAS-pattern adversarial prompts with **zero benign false positives** on the ATLAS paired-test set.
-- The larger 200-prompt benign corpus reveals a **7.5% overall FPR**, concentrated heavily in the `security_pentest_research` category (44% FP). Most other categories are at or near 0%.
-- Evasion resistance is strong overall (84%) but **weak against character substitution and whitespace injection** (48% each), which are the two most common low-effort obfuscation techniques.
+- The runtime detection layer correctly blocks the majority of ATLAS-pattern adversarial prompts with **zero benign false positives** on the ATLAS paired-test set. *(VOID 2026-11-23 — ML withdrawn; do not cite.)*
+- The larger 200-prompt benign corpus reveals a **7.5% overall FPR**, concentrated heavily in the `security_pentest_research` category (44% FP). Most other categories are at or near 0%. *(VOID 2026-11-23 — ML withdrawn; do not cite.)*
+- Evasion resistance is strong overall (84%) but **weak against character substitution and whitespace injection** (48% each), which are the two most common low-effort obfuscation techniques. *(VOID 2026-11-23 — ML withdrawn; do not cite.)*
 - These tests evaluate Platform/Rampart **runtime** detection, not Scanner static analysis. The Scanner ports a subset of these patterns and operates on source-code artifacts rather than live prompts. Results should be interpreted as an upper-bound indicator, not a direct Scanner measurement.
 
 ---
@@ -42,6 +44,8 @@ The adversarial corpus consists of **197 filtered harmful prompts** sourced from
 This corpus was used as input to the Platform/Rampart runtime detection evaluation. The corpus itself does not contain per-prompt detection results; it served as the adversarial input for downstream tests (evasion resistance, ATLAS coverage).
 
 ### 2.2 MITRE ATLAS Technique Coverage
+
+> **VOID 2026-11-23** — detection-rate/TPR/FPR figures in this section derive from withdrawn neural ML detection and are not valid. Historical record preserved. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md).
 
 The ATLAS coverage audit evaluates detection against **52 MITRE ATLAS technique patterns**, each tested with a paired adversarial prompt and a benign counterpart.
 
@@ -82,6 +86,8 @@ A benign corpus of **200 prompts** across 8 categories (25 per category) was sub
 
 ### 3.2 Results by Category
 
+> **VOID 2026-11-23** — FPR figures in this section derive from withdrawn neural ML detection and are not valid. Historical record preserved. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md).
+
 | Category | Blocked | Total | FPR |
 |----------|---------|-------|-----|
 | academic_research | 0 | 25 | 0.0% |
@@ -96,11 +102,15 @@ A benign corpus of **200 prompts** across 8 categories (25 per category) was sub
 
 ### 3.3 Analysis
 
+> **VOID 2026-11-23** — FPR analysis below derives from withdrawn neural ML detection; not valid. Historical record preserved.
+
 The 7.5% overall FPR is **dominated by a single category**: `security_pentest_research` at 44% (11 of 15 false positives). This category contains legitimate penetration-testing and security research queries that trigger security-related detection patterns. Excluding this category, the FPR drops to **2.3%** (4/175).
 
 The remaining false positives are spread thinly across `cybersecurity_research` (2), `business_finance` (1), and `legal_compliance` (1) — categories where legitimate queries may overlap with detection signatures.
 
 ### 3.4 Confusion Matrix (200 Benign Prompts)
+
+> **VOID 2026-11-23** — see note above §3.2. Historical record preserved.
 
 | | Predicted Benign | Predicted Harmful |
 |--|------------------|-------------------|
@@ -119,6 +129,8 @@ The remaining false positives are spread thinly across `cybersecurity_research` 
 
 ### 4.2 Results by Obfuscation Method
 
+> **VOID 2026-11-23** — evasion-resistance detection rates derive from withdrawn neural ML detection and are not valid. Historical record preserved. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md).
+
 | Method | Total | Blocked | Passed | Detection Rate |
 |--------|-------|---------|--------|----------------|
 | char_substitution | 50 | 24 | 76 | 48.0% |
@@ -131,6 +143,8 @@ The remaining false positives are spread thinly across `cybersecurity_research` 
 > *\*The unicode_homoglyph method shows a detection rate exceeding 100% because each obfuscated prompt triggered multiple overlapping detections, producing more blocks than individual test cases. All 50 unicode_homoglyph prompts were successfully blocked.*
 
 ### 4.3 Analysis
+
+> **VOID 2026-11-23** — analysis below derives from withdrawn neural ML detection; not valid. Historical record preserved.
 
 - **Strongest resistance**: Unicode homoglyph (100% blocked) and mixed_language (72%).
 - **Weakest resistance**: Character substitution (48%) and whitespace injection (48%) — both fail on roughly half of obfuscated inputs.
