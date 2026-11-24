@@ -1,3 +1,5 @@
+> **⚠ 2026-11-23 — METRICS VOID / ML WITHDRAWN.** The neural (CharCNN-BiLSTM) ML detector was trained on a corpus whose attack-side labels failed audit (~71% flip rate). All ML-based detection-rate, false-positive, evasion, and ML benchmark figures in this report are **void as of 2026-11-23** and must not be cited. ML detection is withdrawn and hard-disabled; see [ML-WITHDRAWN.md](ML-WITHDRAWN.md). Deterministic regex detection results are unaffected. Historical numbers are preserved unchanged below; ML-derived rows are annotated inline.
+
 # AegisGate Scanner — Comprehensive Test & Metrics Report
 
 **Date:** October 12, 2026  
@@ -162,7 +164,7 @@ The AegisGate Scanner was subjected to a comprehensive testing program covering 
 | Attack | Variants | Detected? |
 |--------|----------|-----------|
 | Case variation | 5 | ✅ All detected (regex uses `(?i)`) |
-| Unicode homoglyphs | 5 | ⚠️ Bypasses regex (ML may catch) |
+| Unicode homoglyphs | 5 | ⚠️ Bypasses regex (ML may catch) — **ML withdrawn 2026-11-23; no ML fallback available; figure void** |
 | Whitespace injection | 8 | Tested (zero-width, NBSP, ideographic) |
 
 ### Resource Exhaustion
@@ -195,11 +197,15 @@ The AegisGate Scanner was subjected to a comprehensive testing program covering 
 | ScanRegex SmallFile | ~1KB | 19.4ms | 29 KB | 101 |
 | ScanRegex MediumFile | ~100KB | 1.30s | 1.5 MB | 1,428 |
 | ScanRegex LargeFile | ~1MB | 13.2s | 2.9 MB | 5,892 |
-| ScanML Segments | ~10KB | 7.0ms | 210 KB | 3,829 |
-| Full Pipeline | ~50KB | 697ms | 2.5 MB | 19,606 |
+| ScanML Segments † | ~10KB | 7.0ms | 210 KB | 3,829 |
+| Full Pipeline †† | ~50KB | 697ms | 2.5 MB | 19,606 |
 | SplitSegments | ~100KB | 378µs | 250 KB | 837 |
 | Truncate | 1000 chars | 1.0µs | 896 B | 4 |
 | ByteOffsetToLineCol | ~10KB | 8.6µs | 0 B | 0 |
+
+† **ScanML Segments** is an ML-path benchmark. ML detection was withdrawn 2026-11-23 and the figure is **void** — do not cite. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md). The SplitSegments and Truncate rows are shared text-processing helpers; the ML-specific figure is void.
+
+†† **Full Pipeline** was measured while the ML path was present and may include ML inference; treat as historical only. ML detection was withdrawn 2026-11-23 — see [ML-WITHDRAWN.md](ML-WITHDRAWN.md).
 
 ---
 
@@ -226,7 +232,7 @@ The AegisGate Scanner was subjected to a comprehensive testing program covering 
 
 1. **Large file performance**: A 10MB file takes ~18.8s due to 268 regex patterns each scanning the full content. The scanner is optimized for many-file scanning, not single huge files. The walker's 10MB default file size limit mitigates this.
 
-2. **Unicode homoglyph bypass**: Cyrillic lookalikes (І, о, е, і) bypass regex detection. This is a known limitation of regex-based detection. The ML layer (CharCNN-BiLSTM with unicode normalization) is designed to catch these when enabled.
+2. **Unicode homoglyph bypass**: Cyrillic lookalikes (І, о, е, і) bypass regex detection. This is a known limitation of regex-based detection. ~~The ML layer (CharCNN-BiLSTM with unicode normalization) is designed to catch these when enabled.~~ The ML layer referenced here was withdrawn 2026-11-23 and is not available; homoglyph bypass currently has no ML fallback. See [ML-WITHDRAWN.md](ML-WITHDRAWN.md).
 
 3. **Concurrency=1 is slow**: 25 fps vs 439 fps at 64 workers. This is expected — the regex engine is CPU-bound and benefits from parallelism.
 

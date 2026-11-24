@@ -79,7 +79,7 @@ We've optimized Scanner's performance significantly (12x speedup in v0.3.0), but
 **Repo size:** e.g., 50 MB, 1,200 files
 **File types:** e.g., .py, .json, .md
 **Concurrency:** e.g., 4
-**ML enabled:** yes / no
+**ML enabled:** yes / no (note: ML detection withdrawn 2026-11-23 — answers should be "no / N/A")
 **Scan time:** e.g., 12.3 seconds
 **Findings:** e.g., 45 (5 high, 20 medium, 20 low)
 **Hardware:** e.g., GitHub Actions ubuntu-latest, M2 MacBook Pro

@@ -8,7 +8,7 @@ features.
 
 - Go 1.26+
 - Git
-- For ML features: ONNX Runtime (vendored for Linux amd64)
+- For ML features: ONNX Runtime (vendored for Linux amd64) — note: ML detection withdrawn 2026-11-23, see docs/ML-WITHDRAWN.md
 
 ## Getting Started
 
@@ -51,7 +51,7 @@ CGO_ENABLED=0 go test ./...
 go test -coverprofile=coverage.out ./...
 go tool cover -func=coverage.out
 
-# ML tests (slower, requires CGO)
+# ML tests (slower, requires CGO) — ML detection withdrawn 2026-11-23; tests exercise the inert path, see docs/ML-WITHDRAWN.md
 CGO_ENABLED=1 go test -timeout 180s ./...
 
 # Race detector

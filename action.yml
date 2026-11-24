@@ -34,7 +34,7 @@
 #
 # ---
 #
-# Advanced options (no-ml, diff, baseline, disable-rule, concurrency,
+# Advanced options (no-ml [inert - ML withdrawn 2026-11-23], diff, baseline, disable-rule, concurrency,
 # no-extract-archives, quiet) are supported via the entrypoint script.
 # See the README for full CLI documentation.
 
@@ -58,7 +58,7 @@ inputs:
     required: false
     default: 'medium'
   no-ml:
-    description: 'Disable ML detection (heuristic-only)'
+    description: 'Disable ML detection (inert - ML withdrawn 2026-11-23)'
     required: false
     default: 'false'
   diff:

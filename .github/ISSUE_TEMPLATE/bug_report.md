@@ -22,7 +22,7 @@ A clear and concise description of what you expected to happen.
 **Environment**
 - OS: [e.g., Ubuntu 22.04, macOS 15.0]
 - Go version: [e.g., 1.26.9]
-- Build mode: [CGO_ENABLED=1 (ML-enabled) or CGO_ENABLED=0 (heuristic-only)]
+- Build mode: [CGO_ENABLED=1 (CGO build — ML withdrawn 2026-11-23, inert) or CGO_ENABLED=0 (heuristic-only)]
 - Docker: [yes/no]
 - Version: [e.g., 0.1.0]
 
