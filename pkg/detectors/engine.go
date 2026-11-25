@@ -261,10 +261,25 @@ func detectWithMerged(text string, mc *mergedCategory) []Match {
 			severity = mc.patterns[groupIdx].Severity
 			confidence = mc.patterns[groupIdx].Confidence
 		} else {
-			// Fallback: use the merged match without group identification.
+			// Fallback: the named group could not be identified (e.g. an
+			// unnamed group exists in the merged regex). Re-scan the matched
+			// value sequentially against the category's patterns to recover
+			// the true pattern name rather than reporting the generic
+			// category name.
+			// NOTE: divergence from upstream scanner-repo engine (upstream
+			// falls back to the category name with generic severity).
+			raw := text[matchStart:matchEnd]
 			patternName = mc.name
 			severity = SeverityMedium
 			confidence = 0.8
+			for _, p := range mc.patterns {
+				if p.Compiled.MatchString(raw) {
+					patternName = p.Name
+					severity = p.Severity
+					confidence = p.Confidence
+					break
+				}
+			}
 		}
 
 		matches = append(matches, Match{
