@@ -2,6 +2,7 @@
 package detectors
 
 import (
+	"regexp"
 	"testing"
 )
 
@@ -163,5 +164,46 @@ func TestDetectWithMerged(t *testing.T) {
 		if mergedMatches[i].Index != seqMatches[i].Index {
 			t.Errorf("match %d index: merged=%d, sequential=%d", i, mergedMatches[i].Index, seqMatches[i].Index)
 		}
+	}
+}
+
+func TestDetectWithMergedFallbackRecoversPatternName(t *testing.T) {
+	// Simulate the fallback path where group identification fails:
+	// craft a merged category whose combined regex is built manually with
+	// an unnamed wrapping group so NumSubexp misaligns with patterns,
+	// forcing the groupIdx lookup to miss. The fallback must re-scan the
+	// matched value against the category's patterns and recover the true
+	// pattern name, severity, and confidence instead of the generic
+	// category name.
+	patA := compiledPattern{Name: "pat-a", Severity: SeverityHigh, Confidence: 0.95,
+		Compiled: regexp.MustCompile(`(?i)alpha-token-123`)}
+	patB := compiledPattern{Name: "pat-b", Severity: SeverityLow, Confidence: 0.5,
+		Compiled: regexp.MustCompile(`(?i)beta-token-456`)}
+	patterns := []compiledPattern{patA, patB}
+
+	mc := mergedCategory{
+		name:     "test-category",
+		combined: regexp.MustCompile(`(?i)alpha-token-123|beta-token-456`), // no named groups: forces fallback
+		patterns: patterns,
+	}
+
+	text := "prefix beta-token-456 suffix"
+
+	matches := detectWithMerged(text, &mc)
+	if len(matches) != 1 {
+		t.Fatalf("expected 1 match, got %d", len(matches))
+	}
+	m := matches[0]
+	if m.Category != "pat-b" {
+		t.Errorf("fallback failed to recover pattern name: got %q, want %q", m.Category, "pat-b")
+	}
+	if m.Severity != SeverityLow {
+		t.Errorf("fallback failed to recover severity: got %v, want %v", m.Severity, SeverityLow)
+	}
+	if m.Confidence != 0.5 {
+		t.Errorf("fallback failed to recover confidence: got %v, want 0.5", m.Confidence)
+	}
+	if m.Value != "beta-token-456" {
+		t.Errorf("unexpected matched value: %q", m.Value)
 	}
 }
