@@ -743,9 +743,10 @@ func TestScanRegex_MultiplePatternsSameLine(t *testing.T) {
 // ---------------------------------------------------------------------
 
 func TestScanML_NoModel(t *testing.T) {
-	// ML is enabled in config but no model is loaded.
-	// IsEnabled() returns true but Detect() returns IsThreat=false.
-	// So scanML should produce no findings.
+	// ML is withdrawn and hard-disabled at construction time
+	// (docs/ML-WITHDRAWN.md): New() ignores EnableML, so mlDetector
+	// stays nil. scanML must return no findings (not panic) when the
+	// detector is absent.
 	s, _ := New(ScanOptions{EnableML: true})
 	defer s.Close()
 

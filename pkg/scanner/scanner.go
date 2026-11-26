@@ -632,6 +632,14 @@ func (s *Scanner) applyMLGatekeeper(art artifacts.Artifact, findings []Finding) 
 }
 
 func (s *Scanner) scanML(art artifacts.Artifact, regexLines map[int]bool) []Finding {
+	// Guard: ML is withdrawn and hard-disabled (see docs/ML-WITHDRAWN.md),
+	// so the detector may never have been constructed. Callers in
+	// ScanArtifact check mlDetector != nil, but scanML can be reached
+	// directly (e.g. tests); return no findings rather than panicking.
+	if s.mlDetector == nil {
+		return nil
+	}
+
 	var findings []Finding
 
 	// Scan content in segments (paragraphs or significant chunks).
