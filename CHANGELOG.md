@@ -1,3 +1,8 @@
+## [0.6.3] - 2026-11-27 — Pattern-Name Recovery, Test-Drift Fix
+
+- **Pattern-name recovery** — `detectWithMerged` fallback now reports the true pattern name instead of the merged-pattern alias, so detections map back to the canonical pattern table.
+- **Test drift repaired; `scanML` hardened against a nil detector** (no panic when the ML stub is absent — consistent with the ML withdrawal).
+
 ## [0.6.2] - 2026-11-23 — ML Withdrawn
 
 - `models/threat_cnn_bilstm.onnx` removed; ML detector hard-disabled (`EnableML` ignored); all detection-rate claims void. Deterministic detection unaffected. See docs/ML-WITHDRAWN.md.
